@@ -45,6 +45,7 @@ dependencies:
   stroke_text: ^0.0.3
   google_generative_ai: ^0.4.6
   flutter_markdown: ^0.7.5
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:

@@ -42,7 +42,7 @@ class _GeminiServicesWidgetState extends State<GeminiService> {
   @override
   void initState() {
     super.initState();
-    const apiKey = 'AIzaSyAIFrEeLnBGI_TCP5XQ-x8AZ4htNr_jydc';
+    final apiKey =  dotenv.env['API_KEY'];
     _model = GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: apiKey);
   }
 
