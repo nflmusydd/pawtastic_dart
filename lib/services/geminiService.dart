@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:lottie/lottie.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 class GeminiService extends StatefulWidget {
   const GeminiService({super.key});
 
@@ -42,7 +42,10 @@ class _GeminiServicesWidgetState extends State<GeminiService> {
   @override
   void initState() {
     super.initState();
-    final apiKey =  dotenv.env['API_KEY'];
+    final apiKey =  dotenv.env['GEMINI_API_KEY'];
+    if (apiKey == null) {
+      throw Exception('GEMINI_API_KEY not found in .env');
+    }
     _model = GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: apiKey);
   }
 

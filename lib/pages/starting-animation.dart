@@ -18,8 +18,9 @@ class _StartingAnimationState extends State<StartingAnimation> {
 
   // Navigate to the next screen (Welcome) after a delay
   Future<void> _navigateToWelcomeScreen() async {
-    await Future.delayed(Duration(seconds: 3)); // Show splash for 3 seconds
-    Navigator.pushReplacementNamed(context, '/welcome'); // Use route to navigate
+    await Future.delayed(Duration(seconds: 3)); 
+    if (!mounted) return;
+    Navigator.pushReplacementNamed(context, '/welcome'); 
   }
 
   @override

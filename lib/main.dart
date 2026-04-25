@@ -28,10 +28,21 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await dotenv.load(fileName: ".env");
+  
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    debugPrint("Firebase initialization failed: $e");
+  }
+  
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    debugPrint("Dotenv load failed: $e");
+  }
+  
   runApp(const MyApp());
 }
 
