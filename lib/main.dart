@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/firebase%20CRUD/addProduct.dart';
-import 'package:untitled/pages/Cart_n_Checkoute/cart.dart';
-import 'package:untitled/pages/Home/most_popular.dart';
-import 'package:untitled/pages/HomeSeller/cashier.dart';
-import 'package:untitled/pages/HomeSeller/home-seller.dart';
-import 'package:untitled/pages/HomeSeller/manageorder.dart';
-import 'package:untitled/pages/HomeSeller/manageproduct.dart';
-import 'package:untitled/pages/aboutus.dart';
-import 'package:untitled/pages/cart.dart';
-import 'package:untitled/pages/Orders/myOrders.dart';
-import 'package:untitled/pages/search.dart';
-import 'package:untitled/pages/settings.dart';
-import 'package:untitled/pages/starting/forgotPassword.dart';
-import 'package:untitled/pages/Home/home.dart';
-import 'package:untitled/pages/starting/loginPage.dart';
-import 'package:untitled/pages/starting/loginPageSeller.dart';
-import 'package:untitled/pages/starting/onboarding.dart';
-import 'package:untitled/pages/starting/signupPage.dart';
-import 'package:untitled/pages/starting-animation.dart';
-import 'package:untitled/pages/starting-animation-shop.dart';
-import 'package:untitled/pages/starting/signupPageSeller.dart';
-import 'package:untitled/pages/test-page.dart';
-import 'package:untitled/services/geminiService.dart';
+import 'package:pawtastic/services/firebase/add_product.dart';
+import 'package:pawtastic/pages/buyer/cart/cart.dart';
+import 'package:pawtastic/pages/buyer/home/most_popular.dart';
+import 'package:pawtastic/pages/seller/cashier.dart';
+import 'package:pawtastic/pages/seller/home_seller.dart';
+import 'package:pawtastic/pages/seller/manage_order.dart';
+import 'package:pawtastic/pages/seller/manage_product.dart';
+import 'package:pawtastic/pages/common/about_us_page.dart';
+import 'package:pawtastic/pages/buyer/orders/my_orders.dart';
+import 'package:pawtastic/pages/buyer/search_page.dart';
+import 'package:pawtastic/pages/common/settings_page.dart';
+import 'package:pawtastic/pages/auth/forgot_password.dart';
+import 'package:pawtastic/pages/buyer/home/home.dart';
+import 'package:pawtastic/pages/auth/login_page.dart';
+import 'package:pawtastic/pages/auth/login_page_seller.dart';
+import 'package:pawtastic/pages/auth/onboarding.dart';
+import 'package:pawtastic/pages/auth/signup_page.dart';
+import 'package:pawtastic/pages/auth/splash_screen.dart';
+import 'package:pawtastic/pages/auth/splash_screen_shop.dart';
+import 'package:pawtastic/pages/auth/signup_page_seller.dart';
+import 'package:pawtastic/pages/test_page.dart';
+import 'package:pawtastic/services/gemini_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:pawtastic/services/user_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +45,12 @@ void main() async {
     debugPrint("Dotenv load failed: $e");
   }
   
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -67,9 +74,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/test': (context) => TestPage(),
-        '/': (context) => const StartingAnimation(),
         '/shop': (context) => const StartingAnimationShop(),
-        '/welcome': (context) => const Onboarding(),
         '/login': (context) => const Loginpage(),
         '/login-seller': (context) => const LoginpageSeller(),
         '/signup': (context) => const Signuppage(),
@@ -92,8 +97,36 @@ class MyApp extends StatelessWidget {
         '/chatbot': (context) => GeminiService(),
 
       },
-      initialRoute: '/',
-      // initialRoute: '/home',   // jangan dihapus
+      home: const AuthWrapper(),
     );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    
+    debugPrint("AUTH_DEBUG: Role=${userProvider.role}, User=${userProvider.user}, Loading=${userProvider.isLoading}");
+
+    // 1. Jika masih loading, tampilkan Splash
+    if (userProvider.isLoading) {
+      return const StartingAnimation();
+    }
+
+    // 2. Jika belum login (dan tidak sedang simulasi), tampilkan Onboarding
+    if (userProvider.user == null && userProvider.role == UserRole.none) {
+      return const Onboarding();
+    }
+
+    // 3. Jika Role Seller, ke Home Seller
+    if (userProvider.role == UserRole.seller) {
+      return HomeSeller();
+    }
+
+    // 4. Default: Ke Home Buyer
+    return toHomePage();
   }
 }
