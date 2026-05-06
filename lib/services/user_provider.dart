@@ -18,7 +18,9 @@ class UserProvider extends ChangeNotifier {
   }
 
   void _init() {
-    // --- MODE SIMULASI (ubah _role)---
+    // --- MODE SIMULASI ---
+    // Atur _role = UserRole.none untuk simulasi BELUM LOGIN
+    // Atur _role = UserRole.buyer untuk simulasi SUDAH LOGIN
     _role = UserRole.none; 
     _user = null; 
     _isLoading = false;

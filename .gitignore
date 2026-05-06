@@ -42,7 +42,12 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-.env
+# env
+/.env
+/.env.prod
+/.env.bak*
+/.env.old*
+/.env.copy*
 
 # temporary solution
 /images/

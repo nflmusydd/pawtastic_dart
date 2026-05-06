@@ -47,6 +47,7 @@ dependencies:
   flutter_markdown: ^0.7.5
   flutter_dotenv: ^5.0.2
   provider: ^6.1.2
+  supabase_flutter: ^2.6.0
 
 dev_dependencies:
   flutter_test:
@@ -76,18 +77,17 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # Menambahkan aset seperti gambar, dengan membuat folder terlebih dahulu (cthnya images), cukup panggil directory:
+  # Aset custom
   assets:
-    - .env
+    - .env    
+    - .env.prod
     - images/
     - images/products/
     - assets/fonts/
     - assets/animation/
     - assets/icon/
 
-  # Menambahkan font
   fonts:
-  # Montserrat fonts
   - family: Montserrat
     fonts:
       - asset: assets/fonts/Montserrat/Montserrat-Regular.ttf
@@ -108,7 +108,6 @@ flutter:
       - asset: assets/fonts/Montserrat/Montserrat-Thin.ttf
         weight: 100
 
-  # Poppins fonts
   - family: Poppins
     fonts:
       - asset: assets/fonts/Poppins/Poppins-Regular.ttf
@@ -128,29 +127,3 @@ flutter:
         weight: 900
       - asset: assets/fonts/Poppins/Poppins-Thin.ttf
         weight: 100
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/to/resolution-aware-images
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/to/asset-from-package
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package

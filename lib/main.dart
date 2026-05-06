@@ -22,14 +22,24 @@ import 'package:pawtastic/pages/auth/signup_page_seller.dart';
 import 'package:pawtastic/pages/test_page.dart';
 import 'package:pawtastic/services/gemini_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:pawtastic/services/user_provider.dart';
 import 'package:provider/provider.dart';
 
+const String environment = 'local';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    String envFile = environment == 'prod' ? '.env.prod' : '.env';
+    await dotenv.load(fileName: envFile);
+  } catch (e) {
+    debugPrint("Dotenv load failed: $e");
+  }
   
   try {
     await Firebase.initializeApp(
@@ -38,11 +48,14 @@ void main() async {
   } catch (e) {
     debugPrint("Firebase initialization failed: $e");
   }
-  
+
   try {
-    await dotenv.load(fileName: ".env");
+    await Supabase.initialize(
+      url: dotenv.env['SUPABASE_URL']!,
+      anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    );
   } catch (e) {
-    debugPrint("Dotenv load failed: $e");
+    debugPrint("Supabase initialization failed: $e");
   }
   
   runApp(
