@@ -83,7 +83,7 @@ BEGIN
 
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = public;
 
 CREATE TRIGGER set_profiles_audit
 BEFORE INSERT OR UPDATE ON public.profiles
@@ -97,23 +97,23 @@ FOR EACH ROW EXECUTE FUNCTION public.set_audit_fields();
 -- ================================
 -- Function Auto Generate Username
 -- ================================
-CREATE OR REPLACE FUNCTION sanitize_username(input TEXT)
+CREATE OR REPLACE FUNCTION public.sanitize_username(input TEXT)
 RETURNS TEXT AS $$
 BEGIN
     RETURN LOWER(
         REGEXP_REPLACE(input, '[^a-zA-Z0-9_]', '', 'g')
     );
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = public;
 
-CREATE OR REPLACE FUNCTION sanitize_full_name(input TEXT)
+CREATE OR REPLACE FUNCTION public.sanitize_full_name(input TEXT)
 RETURNS TEXT AS $$
 BEGIN
     RETURN REGEXP_REPLACE(input, '[^a-zA-Z0-9 \''\.\-]', '', 'g');
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = public;
 
-CREATE OR REPLACE FUNCTION generate_username(base_name TEXT)
+CREATE OR REPLACE FUNCTION public.generate_username(base_name TEXT)
 RETURNS TEXT AS $$
 DECLARE
     candidate TEXT;
@@ -143,7 +143,7 @@ BEGIN
 
     RETURN candidate;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = public;
 
 
 -- ===================================
@@ -187,7 +187,7 @@ BEGIN
     NEW.owner_id := COALESCE(NEW.owner_id, auth.uid());
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = public;
 
 CREATE TRIGGER set_shops_owner
 BEFORE INSERT ON public.shops

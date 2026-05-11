@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:pawtastic/pages/buyer/bottom_bar.dart';
+import 'package:pawtastic/services/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             // Profile Section
-            Column(
+            const Column(
               children: [
                 // Profile Picture
                 CircleAvatar(
@@ -32,11 +36,11 @@ class Settings extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             // Menu List
             Expanded(
               child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 children: [
                   MenuItem(
                     icon: Icons.person,
@@ -75,10 +79,14 @@ class Settings extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 150),
               child: TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/'); // Handle sign out
+                onPressed: () async {
+                  await userProvider.logout();
+                  if (context.mounted) {
+                    // Navigate to login and remove all previous routes
+                    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                  }
                 },
-                child: Text(
+                child: const Text(
                   'Sign Out',
                   style: TextStyle(
                     fontSize: 16,

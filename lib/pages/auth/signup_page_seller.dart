@@ -1,8 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pawtastic/core/utils/snackbar_utils.dart';
+import 'package:pawtastic/services/supabase_auth_service.dart';
 import 'package:pawtastic/widget/text_button.dart';
 import 'package:pawtastic/widget/text_field1.dart';
-import 'package:pawtastic/services/firebase/create_user.dart';
 
 class SignuppageSeller extends StatefulWidget {
   const SignuppageSeller({super.key});
@@ -13,70 +14,64 @@ class SignuppageSeller extends StatefulWidget {
 
 class _SignuppageSellerState extends State<SignuppageSeller> {
   bool _isPasswordVisible = false;
-  bool _isConfirmPasswordVisible = false;
+  bool _isLoading = false;
 
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _shopNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  final CreateUser _createUser = CreateUser();
+  final SupabaseAuthService _authService = SupabaseAuthService();
 
-  Future<void> _submitData() async {
-    // Attempt to create user through CreateUser service
-    final String? result = await _createUser.createUser(
-      username: _usernameController.text.trim(),
-      email: _emailController.text.trim(),
-      address: _addressController.text.trim(),
-      password: _passwordController.text.trim(),
-      // description: _descriptionController.text.trim(),
-    );
-
-    if (result != null) {
-      // Show error message if user creation failed
-      _showSnackBar(result, Colors.red);
-    } else {
-      // Show success message and navigate to home if successful
-      _showSnackBar("Account created successfully!",
-          const Color.fromRGBO(0, 128, 0, 1.0));
-      Navigator.pushNamed(context, '/home');
-    }
+  String _generateSlug(String name) {
+    return name
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^a-z0-9\s-]'), '')
+        .replaceAll(RegExp(r'\s+'), '-');
   }
 
-  void _showSnackBar(String message, Color backgroundColor) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              backgroundColor == Colors.red
-                  ? Icons.error_outline
-                  : Icons.check_circle_outline,
-              color: Colors.white,
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                message,
-                style: const TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: backgroundColor,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      ),
-    );
+  Future<void> _submitData() async {
+    if (_emailController.text.isEmpty ||
+        _passwordController.text.isEmpty ||
+        _shopNameController.text.isEmpty) {
+      SnackBarUtils.show(context, "Please fill in all required fields");
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      // 1. Sign up user
+      await _authService.signUp(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+        username: '', // Let trigger generate
+        fullName: _shopNameController.text.trim(),
+      );
+
+      // 2. Create Shop
+      final String slug = _generateSlug(_shopNameController.text.trim());
+      
+      await _authService.createShop(
+        shopName: _shopNameController.text.trim(),
+        description: _descriptionController.text.trim(),
+        storeSlug: slug,
+      );
+
+      if (mounted) {
+        SnackBarUtils.show(context, "Shop account created successfully!", isError: false);
+        Navigator.pushReplacementNamed(context, '/home-seller');
+      }
+    } catch (e) {
+      if (mounted) {
+        SnackBarUtils.show(context, e.toString());
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   @override
@@ -154,10 +149,10 @@ class _SignuppageSellerState extends State<SignuppageSeller> {
                   SizedBox(
                     width: 350,
                     child: TextFormField(
-                      controller: _usernameController,
+                      controller: _shopNameController,
                       decoration: Textfield1(
                         hintText: 'Shop Name',
-                        prefixIcon: Icons.person,
+                        prefixIcon: Icons.store_rounded,
                       ).decoration,
                       keyboardType: TextInputType.name,
                     ),
@@ -263,16 +258,13 @@ class _SignuppageSellerState extends State<SignuppageSeller> {
                           borderRadius: BorderRadius.circular(50.0),
                         ),
                       ),
-                      onPressed: ()
-                          //async
-                          {
-                        // await _submitData(); // Call the submit function
-                        Navigator.pushNamed(context, '/home-seller');
-                      },
-                      child: const Text(
-                        "Create Shop",
-                        style: TextStyle(color: Colors.white, fontSize: 20.0),
-                      ),
+                      onPressed: _isLoading ? null : _submitData,
+                      child: _isLoading 
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            "Create Shop",
+                            style: TextStyle(color: Colors.white, fontSize: 20.0),
+                          ),
                     ),
                   ),
                   const SizedBox(height: 40),
@@ -317,4 +309,3 @@ class _SignuppageSellerState extends State<SignuppageSeller> {
     );
   }
 }
-

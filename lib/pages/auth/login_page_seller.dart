@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pawtastic/services/supabase_auth_service.dart';
 import 'package:pawtastic/widget/text_button.dart';
 import 'package:pawtastic/widget/text_field1.dart';
-import 'package:pawtastic/services/firebase/login_user.dart'; // Updated import to reflect the new name
 
 class LoginpageSeller extends StatefulWidget {
   const LoginpageSeller({super.key});
@@ -12,28 +12,39 @@ class LoginpageSeller extends StatefulWidget {
 
 class _LoginpageSellerState extends State<LoginpageSeller> {
   bool _isPasswordVisible = false;
+  bool _isLoading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  final SupabaseAuthService _authService = SupabaseAuthService();
+
   // Function to handle login
   Future<void> _login() async {
-    // String email = _emailController.text.trim();
-    // String password = _passwordController.text.trim();
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      _showSnackBar("Please enter shop email and password.", Colors.red);
+      return;
+    }
 
-    // if (email.isEmpty || password.isEmpty) {
-    //   _showSnackBar("Please enter both email and password.", Colors.red);
-    //   return;
-    // }
+    setState(() => _isLoading = true);
 
-    // String? loginResult = await LoginUser().login(email, password);
+    try {
+      await _authService.signIn(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
 
-    // if (loginResult == null) {
-    Navigator.pushNamed(
-        context, '/home-seller'); // Navigate to home page if successful
-    // } else {
-    //  _showSnackBar(
-    //       loginResult, Colors.red); // Show error message if login failed
-    // }
+      // Successfully logged in.
+      // UserProvider will handle routing based on role (Seller)
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      _showSnackBar(e.toString(), Colors.red);
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   // Function to show SnackBar with custom message and color
@@ -47,7 +58,7 @@ class _LoginpageSellerState extends State<LoginpageSeller> {
             Expanded(
               child: Text(
                 message,
-                style: TextStyle(
+                style: const TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 16.0,
                     fontWeight: FontWeight.w500,
@@ -76,13 +87,13 @@ class _LoginpageSellerState extends State<LoginpageSeller> {
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
-              margin: EdgeInsets.only(top: 50),
+              margin: const EdgeInsets.only(top: 50),
               alignment: Alignment.topCenter,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     "Pawsitively\nProfitable",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -138,24 +149,6 @@ class _LoginpageSellerState extends State<LoginpageSeller> {
                   ),
                   const SizedBox(height: 5),
 
-                  // Forgot password link
-                  // SizedBox(
-                  //   width: 340,
-                  //   child: Align(
-                  //     alignment: Alignment.centerRight,
-                  //     child: TextbuttonNavigation(
-                  //       text: 'Forgot your password?',
-                  //       route: '/forgot-password',
-                  //       textStyle: TextStyle(
-                  //         fontFamily: 'Montserrat',
-                  //         color: Color.fromRGBO(252, 147, 3, 1.0),
-                  //         fontSize: 14.0,
-                  //         fontWeight: FontWeight.w500,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-
                   const SizedBox(height: 50),
 
                   // Login button
@@ -164,25 +157,27 @@ class _LoginpageSellerState extends State<LoginpageSeller> {
                     height: 55,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(252, 147, 3, 1.0),
+                        backgroundColor: const Color.fromRGBO(252, 147, 3, 1.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50.0),
                         ),
                       ),
-                      onPressed: _login, // Call the login function
-                      child: const Text(
-                        "Login",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                        ),
-                      ),
+                      onPressed: _isLoading ? null : _login,
+                      child: _isLoading 
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            "Login",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                            ),
+                          ),
                     ),
                   ),
                   const SizedBox(height: 40),
 
                   // Navigate to Sign Up page
-                  SizedBox(
+                  const SizedBox(
                     height: 50.0,
                     child: Align(
                       alignment: Alignment.center,
@@ -200,7 +195,7 @@ class _LoginpageSellerState extends State<LoginpageSeller> {
                           ),
                           TextbuttonNavigation(
                             text: 'Register!',
-                            route: '/signup',
+                            route: '/signup-seller',
                             textStyle: TextStyle(
                               fontFamily: 'Montserrat',
                               color: Color.fromRGBO(252, 147, 3, 1.0),
@@ -221,4 +216,5 @@ class _LoginpageSellerState extends State<LoginpageSeller> {
     );
   }
 }
+
 

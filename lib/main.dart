@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pawtastic/core/config/env_config.dart';
 import 'package:pawtastic/services/firebase/add_product.dart';
 import 'package:pawtastic/pages/buyer/cart/cart.dart';
 import 'package:pawtastic/pages/buyer/home/most_popular.dart';
@@ -29,18 +30,22 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pawtastic/services/user_provider.dart';
 import 'package:provider/provider.dart';
 
-const String environment = 'local';
+// Best practice: Use --dart-define=ENVIRONMENT=prod during build/run
+const String env = String.fromEnvironment('ENVIRONMENT', defaultValue: 'local');
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize Environment Configuration
+  EnvConfig.initialize(env);
+
   try {
-    String envFile = environment == 'prod' ? '.env.prod' : '.env';
-    await dotenv.load(fileName: envFile);
+    await dotenv.load(fileName: EnvConfig.envFile);
   } catch (e) {
     debugPrint("Dotenv load failed: $e");
   }
   
+  // Initialize Firebase (if still used during migration)
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -49,10 +54,11 @@ void main() async {
     debugPrint("Firebase initialization failed: $e");
   }
 
+  // Initialize Supabase
   try {
     await Supabase.initialize(
-      url: dotenv.env['SUPABASE_URL']!,
-      anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+      url: EnvConfig.supabaseUrl,
+      anonKey: EnvConfig.supabaseAnonKey,
     );
   } catch (e) {
     debugPrint("Supabase initialization failed: $e");

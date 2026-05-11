@@ -33,7 +33,7 @@ BEGIN
     NEW.owner_id := COALESCE(NEW.owner_id, auth.uid());
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = public;
 
 CREATE TRIGGER set_shops_owner
 BEFORE INSERT ON public.shops

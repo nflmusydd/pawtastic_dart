@@ -1,8 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pawtastic/core/utils/snackbar_utils.dart';
+import 'package:pawtastic/services/supabase_auth_service.dart';
 import 'package:pawtastic/widget/text_button.dart';
 import 'package:pawtastic/widget/text_field1.dart';
-import 'package:pawtastic/services/firebase/create_user.dart';
 
 class Signuppage extends StatefulWidget {
   const Signuppage({super.key});
@@ -14,71 +15,56 @@ class Signuppage extends StatefulWidget {
 class _SignuppageState extends State<Signuppage> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+  bool _isLoading = false;
 
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
-  final CreateUser _createUser = CreateUser();
+  final SupabaseAuthService _authService = SupabaseAuthService();
 
   Future<void> _submitData() async {
-    // Validate password and confirm password
-    if (_passwordController.text != _confirmPasswordController.text) {
-      _showSnackBar("Passwords do not match!",  Colors.red);
+    // Basic validation
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty || _fullNameController.text.isEmpty) {
+      SnackBarUtils.show(context, "Please fill in all required fields");
       return;
     }
 
-    // Attempt to create user through CreateUser service
-    final String? result = await _createUser.createUser(
-      username: _usernameController.text.trim(),
-      email: _emailController.text.trim(),
-      address: _addressController.text.trim(),
-      password: _passwordController.text.trim(),
-    );
-
-    if (result != null) {
-      // Show error message if user creation failed
-      _showSnackBar(result,  Colors.red);
-    } else {
-      // Show success message and navigate to home if successful
-      _showSnackBar("Account created successfully!", const Color.fromRGBO(0, 128, 0, 1.0));
-      Navigator.pushNamed(context, '/home');
+    if (_passwordController.text != _confirmPasswordController.text) {
+      SnackBarUtils.show(context, "Passwords do not match!");
+      return;
     }
-  }
 
-  void _showSnackBar(String message, Color backgroundColor) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              backgroundColor == Colors.red ? Icons.error_outline : Icons.check_circle_outline,
-              color: Colors.white,
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                message,
-                style: const TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: backgroundColor,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      ),
-    );
+    if (_passwordController.text.length < 6) {
+      SnackBarUtils.show(context, "Password must be at least 6 characters");
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      await _authService.signUp(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+        username: '',                               // di-generate TRIGGER kalo kosong
+        fullName: _fullNameController.text.trim(),
+      );
+
+      if (mounted) {
+        SnackBarUtils.show(context, "Account created successfully! Please check your email for verification.", isError: false);
+        Navigator.pushReplacementNamed(context, '/login');
+      }
+    } catch (e) {
+      if (mounted) {
+        SnackBarUtils.show(context, e.toString());
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   @override
@@ -108,14 +94,14 @@ class _SignuppageState extends State<Signuppage> {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  
-                  // Username
+
+                  // Full Name
                   SizedBox(
                     width: 350,
                     child: TextFormField(
-                      controller: _usernameController,
+                      controller: _fullNameController,
                       decoration: Textfield1(
-                        hintText: 'John Doe',
+                        hintText: 'Full Name',
                         prefixIcon: Icons.person,
                       ).decoration,
                       keyboardType: TextInputType.name,
@@ -129,7 +115,7 @@ class _SignuppageState extends State<Signuppage> {
                     child: TextFormField(
                       controller: _emailController,
                       decoration: Textfield1(
-                        hintText: 'johndoe@gmail.com',
+                        hintText: 'youremail@email.com',
                         prefixIcon: Icons.email_rounded,
                       ).decoration,
                       keyboardType: TextInputType.emailAddress,
@@ -137,13 +123,13 @@ class _SignuppageState extends State<Signuppage> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Address
+                  // Address (sementara data belum ada proses)
                   SizedBox(
                     width: 350,
                     child: TextFormField(
                       controller: _addressController,
                       decoration: Textfield1(
-                        hintText: 'Jl. Lorem no 1, Malang, Jawa Timur, Indonesia, 65146',
+                        hintText: 'Jl. Lorem no 1, Malang, Jawa Timur',
                         prefixIcon: Icons.house_rounded,
                       ).decoration,
                       keyboardType: TextInputType.streetAddress,
@@ -272,13 +258,13 @@ class _SignuppageState extends State<Signuppage> {
                           borderRadius: BorderRadius.circular(50.0),
                         ),
                       ),
-                      onPressed: () async {
-                        await _submitData(); // Call the submit function
-                      },
-                      child: const Text(
-                        "Create Account",
-                        style: TextStyle(color: Colors.white, fontSize: 20.0),
-                      ),
+                      onPressed: _isLoading ? null : _submitData,
+                      child: _isLoading 
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            "Create Account",
+                            style: TextStyle(color: Colors.white, fontSize: 20.0),
+                          ),
                     ),
                   ),
                   const SizedBox(height: 40),
@@ -323,4 +309,3 @@ class _SignuppageState extends State<Signuppage> {
     );
   }
 }
-

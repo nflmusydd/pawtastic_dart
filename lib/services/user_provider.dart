@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum UserRole { buyer, seller, none }
 
@@ -13,16 +13,73 @@ class UserProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   User? get user => _user;
 
+  final _supabase = Supabase.instance.client;
+
   UserProvider() {
     _init();
   }
 
   void _init() {
-    // --- MODE SIMULASI ---
-    // Atur _role = UserRole.none untuk simulasi BELUM LOGIN
-    // Atur _role = UserRole.buyer untuk simulasi SUDAH LOGIN
-    _role = UserRole.none; 
-    _user = null; 
+    // Listen to Auth state changes
+    _supabase.auth.onAuthStateChange.listen((data) async {
+      final AuthChangeEvent event = data.event;
+      final Session? session = data.session;
+
+      _user = session?.user;
+
+      if (_user != null) {
+        await _fetchUserRole(_user!.id);
+      } else {
+        _role = UserRole.none;
+        _isLoading = false;
+        notifyListeners();
+      }
+    });
+
+    // Check current session on startup
+    final session = _supabase.auth.currentSession;
+    _user = session?.user;
+    if (_user != null) {
+      _fetchUserRole(_user!.id);
+    } else {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> _fetchUserRole(String uid) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      // Check if user has a shop (is a seller)
+      final shopData = await _supabase
+          .from('shops')
+          .select('id')
+          .eq('owner_id', uid)
+          .maybeSingle();
+
+      if (shopData != null) {
+        _role = UserRole.seller;
+      } else {
+        // If profile exists but no shop, they are a buyer
+        final profileData = await _supabase
+            .from('profiles')
+            .select('id')
+            .eq('id', uid)
+            .maybeSingle();
+        
+        if (profileData != null) {
+          _role = UserRole.buyer;
+        } else {
+          _role = UserRole.none;
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) debugPrint("Error fetching role: $e");
+      _role = UserRole.none;
+    }
+
     _isLoading = false;
     notifyListeners();
   }
@@ -32,35 +89,11 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _fetchUserRole(String uid) async {
-    _isLoading = true;
-    notifyListeners();
-
-    try {
-      var buyerDoc = await FirebaseFirestore.instance.collection('Users').doc(uid).get();
-      if (buyerDoc.exists) {
-        _role = UserRole.buyer;
-      } else {
-        var sellerDoc = await FirebaseFirestore.instance.collection('Sellers').doc(uid).get();
-        if (sellerDoc.exists) {
-          _role = UserRole.seller;
-        } else {
-          _role = UserRole.none;
-        }
-      }
-    } catch (e) {
-      debugPrint("Error fetching role: $e");
-      _role = UserRole.none;
-    }
-
-    _isLoading = false;
-    notifyListeners();
-  }
-
-  void logout() async {
+  Future<void> logout() async {
+    await _supabase.auth.signOut();
     _role = UserRole.none;
     _user = null;
     notifyListeners();
-    await FirebaseAuth.instance.signOut();
   }
 }
+

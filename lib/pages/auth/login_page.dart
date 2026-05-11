@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pawtastic/core/utils/snackbar_utils.dart';
+import 'package:pawtastic/services/supabase_auth_service.dart';
 import 'package:pawtastic/widget/text_button.dart';
 import 'package:pawtastic/widget/text_field1.dart';
-import 'package:pawtastic/services/user_provider.dart';
-import 'package:provider/provider.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -13,47 +13,42 @@ class Loginpage extends StatefulWidget {
 
 class _LoginpageState extends State<Loginpage> {
   bool _isPasswordVisible = false;
+  bool _isLoading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  final SupabaseAuthService _authService = SupabaseAuthService();
+
   // Function to handle login
   Future<void> _login() async {
-    // 1. Beritahu Provider bahwa login berhasil (Simulasi)
-    Provider.of<UserProvider>(context, listen: false).setRole(UserRole.buyer);
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      SnackBarUtils.show(context, "Please enter email and password");
+      return;
+    }
 
-    // 2. Kembali ke AuthWrapper (Halaman Login ditutup)
-    // AuthWrapper akan otomatis membangun ulang tampilan menjadi Home
-    Navigator.pop(context);
-  }
+    setState(() => _isLoading = true);
 
-  // Function to show SnackBar with custom message and color
-  void _showSnackBar(String message, Color backgroundColor) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(Icons.error_outline, color: Colors.white),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                message,
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: backgroundColor,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      ),
-    );
+    try {
+      await _authService.signIn(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      // Successfully logged in. 
+      // UserProvider (ChangeNotifier) is listening to auth state changes,
+      // so the UI will automatically update via AuthWrapper.
+      if (mounted) {
+        Navigator.of(context).pop(); // Go back to AuthWrapper
+      }
+    } catch (e) {
+      if (mounted) {
+        SnackBarUtils.show(context, e.toString());
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   @override
@@ -66,13 +61,13 @@ class _LoginpageState extends State<Loginpage> {
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
-              margin: EdgeInsets.only(top: 50),
+              margin: const EdgeInsets.only(top: 50),
               alignment: Alignment.topCenter,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     "Welcome\nBack!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -129,7 +124,7 @@ class _LoginpageState extends State<Loginpage> {
                   const SizedBox(height: 5),
 
                   // Forgot password link
-                  SizedBox(
+                  const SizedBox(
                     width: 340,
                     child: Align(
                       alignment: Alignment.centerRight,
@@ -154,25 +149,27 @@ class _LoginpageState extends State<Loginpage> {
                     height: 55,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(252, 147, 3, 1.0),
+                        backgroundColor: const Color.fromRGBO(252, 147, 3, 1.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50.0),
                         ),
                       ),
-                      onPressed: _login, // Call the login function
-                      child: const Text(
-                        "Login",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                        ),
-                      ),
+                      onPressed: _isLoading ? null : _login,
+                      child: _isLoading 
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            "Login",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                            ),
+                          ),
                     ),
                   ),
                   const SizedBox(height: 40),
 
                   // Navigate to Sign Up page
-                  SizedBox(
+                  const SizedBox(
                     height: 50.0,
                     child: Align(
                       alignment: Alignment.center,
@@ -211,4 +208,3 @@ class _LoginpageState extends State<Loginpage> {
     );
   }
 }
-
