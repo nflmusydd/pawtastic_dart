@@ -253,3 +253,23 @@ CREATE POLICY "Anyone can read active shops"
 ON public.shops
 FOR SELECT
 USING (deleted_at IS NULL AND status = 'active');
+
+
+--                                      ===============================================================================
+--                                      ==================================== CRON ====================================
+--                                      ===============================================================================
+
+-- ======================================
+-- CREATE CLEANUP UNCONFIRMED USERS CRON
+-- =====================================
+CREATE EXTENSION IF NOT EXISTS pg_cron;
+GRANT USAGE ON SCHEMA cron TO postgres;
+SELECT cron.schedule(
+    'cleanup-unconfirmed-users', -- task name
+    '0 1 * * *',                 -- Cron expression (01:00 AM)
+    $$
+    DELETE FROM auth.users 
+    WHERE email_confirmed_at IS NULL 
+      AND created_at < NOW() - INTERVAL '24 hours';
+    $$
+);

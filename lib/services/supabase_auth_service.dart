@@ -57,9 +57,12 @@ class SupabaseAuthService {
     } on AuthException catch (e) {
       if (kDebugMode) debugPrint("SUPABASE_AUTH_ERROR [SignIn]: ${e.message}");
       
-      // "Invalid login credentials" is safe as it's ambiguous
-      if (e.message.toLowerCase().contains("invalid login credentials")) {
+      final message = e.message.toLowerCase();
+      if (message.contains("invalid login credentials")) {
         throw "Email atau password salah.";
+      }
+      if (message.contains("email not confirmed")) {
+        throw "Email kamu belum dikonfirmasi. Silakan cek inbox email kamu.";
       }
       throw "Gagal login. Silakan coba lagi.";
     } catch (e) {

@@ -45,7 +45,7 @@ void main() async {
     debugPrint("Dotenv load failed: $e");
   }
   
-  // Initialize Firebase (if still used during migration)
+  // belum di migrate semua
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -54,7 +54,6 @@ void main() async {
     debugPrint("Firebase initialization failed: $e");
   }
 
-  // Initialize Supabase
   try {
     await Supabase.initialize(
       url: EnvConfig.supabaseUrl,
@@ -130,22 +129,22 @@ class AuthWrapper extends StatelessWidget {
     
     debugPrint("AUTH_DEBUG: Role=${userProvider.role}, User=${userProvider.user}, Loading=${userProvider.isLoading}");
 
-    // 1. Jika masih loading, tampilkan Splash
+    // Jika masih loading, tampilkan Splash
     if (userProvider.isLoading) {
       return const StartingAnimation();
     }
 
-    // 2. Jika belum login (dan tidak sedang simulasi), tampilkan Onboarding
+    // Jika belum login (dan tidak sedang simulasi), tampilkan Onboarding
     if (userProvider.user == null && userProvider.role == UserRole.none) {
       return const Onboarding();
     }
 
-    // 3. Jika Role Seller, ke Home Seller
+    // Jika Role Seller, ke Home Seller
     if (userProvider.role == UserRole.seller) {
       return HomeSeller();
     }
 
-    // 4. Default: Ke Home Buyer
+    // Default: Ke Home Buyer
     return toHomePage();
   }
 }

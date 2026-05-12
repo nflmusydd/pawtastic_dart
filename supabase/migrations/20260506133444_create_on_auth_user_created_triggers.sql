@@ -1,3 +1,10 @@
+-- ==========================================================
+-- CREATE AUTH USER CREATED TRIGGERS
+-- 
+-- Deskripsi: Membuat fungsi handler dan trigger untuk otomatis membuat 
+--            entry di tabel profiles saat user baru mendaftar (sign up).
+-- ==========================================================
+
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN

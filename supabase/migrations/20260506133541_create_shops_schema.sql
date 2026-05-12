@@ -1,3 +1,10 @@
+-- ==========================================================
+-- CREATE SHOPS SCHEMA
+
+-- Deskripsi: Membuat tabel shops untuk data toko penjual (seller), 
+--            termasuk slug, trigger audit, dan kebijakan RLS.
+-- ==========================================================
+
 CREATE TABLE public.shops (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 

@@ -1,3 +1,10 @@
+-- ==========================================================
+-- CREATE BASE FUNCTIONS
+-- 
+-- Deskripsi: Mendefinisikan fungsi utilitas dasar untuk audit fields, 
+--            sanitasi input, dan auto-generate username.
+-- ==========================================================
+
 CREATE OR REPLACE FUNCTION public.set_audit_fields()
 RETURNS TRIGGER AS $$
 BEGIN

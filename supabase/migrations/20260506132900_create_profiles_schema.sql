@@ -1,3 +1,10 @@
+-- ==========================================================
+-- CREATE PROFILES SCHEMA
+-- 
+-- Deskripsi: Membuat tabel profiles untuk menyimpan data user tambahan
+--            beserta index, trigger audit, dan Row Level Security (RLS).
+-- ==========================================================
+
 CREATE TABLE public.profiles (
     id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
 

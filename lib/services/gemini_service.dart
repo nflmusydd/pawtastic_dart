@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:lottie/lottie.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 class GeminiService extends StatefulWidget {
   const GeminiService({super.key});
 
@@ -10,12 +10,11 @@ class GeminiService extends StatefulWidget {
 }
 
 class _GeminiServicesWidgetState extends State<GeminiService> {
-  late final GenerativeModel _model;
   final TextEditingController _searchController = TextEditingController();
   final List<_ChatMessage> _messages = []; // To store chat messages
   bool _isLoading = false;
 
-  // Function to generate text
+  // Function to generate text using Supabase Edge Function
   Future<void> _generateText(String userMessage) async {
     setState(() {
       _isLoading = true;
@@ -23,30 +22,25 @@ class _GeminiServicesWidgetState extends State<GeminiService> {
     });
 
     final prompt = 'Check the product and briefly give info about it - $userMessage';
-    final content = [Content.text(prompt)];
 
     try {
-      final response = await _model.generateContent(content);
+      final response = await Supabase.instance.client.functions.invoke(
+        'gemini-chat',
+        body: {'prompt': prompt},
+      );
+
       setState(() {
-        _messages.add(_ChatMessage(message: response.text ?? "No response from bot.", isUser: false)); // Add bot's response
+        final botMessage = response.data['text'] ?? "No response from bot.";
+        _messages.add(_ChatMessage(message: botMessage, isUser: false)); 
         _isLoading = false;
       });
     } catch (e) {
+      debugPrint("Edge Function Error: $e");
       setState(() {
-        _messages.add(_ChatMessage(message: "Error: $e", isUser: false)); // Handle error
+        _messages.add(_ChatMessage(message: "Error: Gagal menghubungi asisten AI.", isUser: false)); 
         _isLoading = false;
       });
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    final apiKey =  dotenv.env['GEMINI_API_KEY'];
-    if (apiKey == null) {
-      throw Exception('GEMINI_API_KEY not found in .env');
-    }
-    _model = GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: apiKey);
   }
 
   @override
@@ -70,7 +64,7 @@ class _GeminiServicesWidgetState extends State<GeminiService> {
                     margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                     padding: const EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
-                      color: message.isUser ? Color.fromRGBO(252, 147, 3, 1.0) : Color.fromRGBO(0, 220, 250, 1),
+                      color: message.isUser ? const Color.fromRGBO(252, 147, 3, 1.0) : const Color.fromRGBO(0, 220, 250, 1),
                       borderRadius: BorderRadius.only(
                         topLeft: const Radius.circular(12),
                         topRight: const Radius.circular(12),
@@ -80,7 +74,7 @@ class _GeminiServicesWidgetState extends State<GeminiService> {
                     ),
                     child: Text(
                       message.message,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14.0,
                         fontFamily: "Montserrat",
                         fontWeight: FontWeight.w400,
@@ -105,7 +99,7 @@ class _GeminiServicesWidgetState extends State<GeminiService> {
                       controller: _searchController,
                       decoration: InputDecoration(
                         hintText: "Search",
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                           color: Color.fromRGBO(152, 152, 152, 1), // Color of the hint text
                           fontSize: 16.0, // Font size
                         ),
