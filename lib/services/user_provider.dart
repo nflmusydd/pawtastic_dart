@@ -7,11 +7,15 @@ enum UserRole { buyer, seller, none }
 class UserProvider extends ChangeNotifier {
   UserRole _role = UserRole.none;
   bool _isLoading = true;
+  bool _hasConnectionError = false;
   User? _user;
+  String? _fullName;
 
   UserRole get role => _role;
   bool get isLoading => _isLoading;
+  bool get hasConnectionError => _hasConnectionError;
   User? get user => _user;
+  String get fullName => _fullName ?? "User";
 
   final _supabase = Supabase.instance.client;
 
@@ -22,7 +26,7 @@ class UserProvider extends ChangeNotifier {
   void _init() {
     // Listen to Auth state changes
     _supabase.auth.onAuthStateChange.listen((data) async {
-      final AuthChangeEvent event = data.event;
+      // final AuthChangeEvent event = data.event;
       final Session? session = data.session;
 
       _user = session?.user;
@@ -34,21 +38,54 @@ class UserProvider extends ChangeNotifier {
         _isLoading = false;
         notifyListeners();
       }
+    }, onError: (error) {
+      if (kDebugMode) {
+        debugPrint("AUTH_ERROR: $error");
+      }
+      if (error.toString().contains("SocketException") || error.toString().contains("Connection refused")) {
+        _hasConnectionError = true;
+        _isLoading = false;
+        notifyListeners();
+      }
     });
 
     // Check current session on startup
-    final session = _supabase.auth.currentSession;
-    _user = session?.user;
-    if (_user != null) {
-      _fetchUserRole(_user!.id);
-    } else {
+    _checkInitialSession();
+  }
+
+  Future<void> _checkInitialSession() async {
+    _isLoading = true;
+    _hasConnectionError = false;
+    notifyListeners();
+
+    try {
+      final session = _supabase.auth.currentSession;
+      _user = session?.user;
+      if (_user != null) {
+        await _fetchUserRole(_user!.id);
+      } else {
+        _isLoading = false;
+        notifyListeners();
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint("INITIAL_SESSION_ERROR: $e");
+      }
+      if (e.toString().contains("SocketException") || e.toString().contains("Connection refused")) {
+        _hasConnectionError = true;
+      }
       _isLoading = false;
       notifyListeners();
     }
   }
 
+  Future<void> retry() async {
+    await _checkInitialSession();
+  }
+
   Future<void> _fetchUserRole(String uid) async {
     _isLoading = true;
+    _hasConnectionError = false;
     notifyListeners();
 
     try {
@@ -65,19 +102,38 @@ class UserProvider extends ChangeNotifier {
         // If profile exists but no shop, they are a buyer
         final profileData = await _supabase
             .from('profiles')
-            .select('id')
+            .select('id, full_name')
             .eq('id', uid)
             .maybeSingle();
         
         if (profileData != null) {
           _role = UserRole.buyer;
+          _fullName = profileData['full_name'];
         } else {
           _role = UserRole.none;
         }
       }
+      
+      // If it's a seller, we might still want their full_name from profiles
+      if (_role == UserRole.seller) {
+        final profileData = await _supabase
+            .from('profiles')
+            .select('full_name')
+            .eq('id', uid)
+            .maybeSingle();
+        if (profileData != null) {
+          _fullName = profileData['full_name'];
+        }
+      }
+      _hasConnectionError = false;
     } catch (e) {
       if (kDebugMode) debugPrint("Error fetching role: $e");
-      _role = UserRole.none;
+      
+      if (e.toString().contains("SocketException") || e.toString().contains("Connection refused")) {
+        _hasConnectionError = true;
+      } else {
+        _role = UserRole.none;
+      }
     }
 
     _isLoading = false;
@@ -90,7 +146,11 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> logout() async {
-    await _supabase.auth.signOut();
+    try {
+      await _supabase.auth.signOut();
+    } catch (e) {
+      if (kDebugMode) debugPrint("Logout error: $e");
+    }
     _role = UserRole.none;
     _user = null;
     notifyListeners();

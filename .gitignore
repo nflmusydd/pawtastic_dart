@@ -48,6 +48,7 @@ app.*.map.json
 /.env.bak*
 /.env.old*
 /.env.copy*
+supabase/functions/.env*
 
 # temporary solution
 /images/

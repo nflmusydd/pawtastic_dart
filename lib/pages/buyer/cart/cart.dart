@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pawtastic/pages/buyer/cart/cart_detail_page.dart';
-import 'package:pawtastic/pages/buyer/cart/order_page.dart';
+// import 'package:pawtastic/pages/buyer/cart/order_page.dart';
 import 'package:pawtastic/pages/buyer/bottom_bar.dart';
 
 class CartPage extends StatefulWidget {

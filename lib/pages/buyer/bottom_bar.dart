@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pawtastic/pages/buyer/cart/cart.dart';
-import 'package:pawtastic/pages/buyer/cart/cart.dart';
 import 'package:pawtastic/pages/buyer/home/home.dart';
 import 'package:pawtastic/pages/buyer/orders/my_orders.dart';
 import 'package:pawtastic/pages/buyer/search_page.dart';
 import 'package:pawtastic/pages/common/settings_page.dart';
 
 class Bottombar extends StatefulWidget {
-  final int initialIndex;  // Add a parameter for initial index
+  final int initialIndex; 
   const Bottombar({super.key, this.initialIndex = 0});  // Default to Home page
 
   @override
@@ -38,7 +37,6 @@ class _BottombarState extends State<Bottombar> {
       backgroundColor: Colors.white.withAlpha(55),
       body: Stack(
         children: [
-          // The main content of the body based on the currentIndex
           IndexedStack(
             index: currentIndex, // Change this based on the selected index
             children: [
@@ -80,9 +78,9 @@ class _BottombarState extends State<Bottombar> {
                       },
                       // child: Icon(Icons.search_rounded),
                       child: SvgPicture.asset(
-                        'assets/icon/search-svgrepo-bold-com.svg',  // Path to your SVG file
-                        height: 26.0,  // Adjust size
-                        width: 26.0,  // Adjust size
+                        'assets/icon/search-svgrepo-bold-com.svg',
+                        height: 26.0, 
+                        width: 26.0,  
                       ),
                     ),
                   ),

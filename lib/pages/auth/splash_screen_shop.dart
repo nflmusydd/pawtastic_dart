@@ -18,9 +18,9 @@ class _StartingAnimationShopState extends State<StartingAnimationShop> {
 
   // Navigate to the next screen (Welcome) after a delay
   Future<void> _navigateToWelcomeScreen() async {
-    await Future.delayed(Duration(seconds: 5)); // Show splash for 3 seconds
+    await Future.delayed(Duration(seconds: 5)); 
     Navigator.pushReplacementNamed(
-        context, '/signup-seller'); // Use route to navigate
+        context, '/signup-seller');
   }
 
   @override
@@ -32,13 +32,12 @@ class _StartingAnimationShopState extends State<StartingAnimationShop> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Display your image
             Image.asset('images/logo_pawtastic-removebg-preview.png',
                 width: 314, height: 385),
 
             StrokeText(
               text: "SHOP",
-              textAlign: TextAlign.center, // menengahkan teks bergantung widget
+              textAlign: TextAlign.center,
               textStyle: const TextStyle(
                 fontFamily: 'Poppins', // font custom, tidak menggunakan global
                 color: Colors.white,
@@ -49,10 +48,8 @@ class _StartingAnimationShopState extends State<StartingAnimationShop> {
               strokeWidth: 20,
             ),
 
-            // Add some space between the image and animation
             SizedBox(height: 20),
 
-            // Display the Lottie animation
             Lottie.asset('assets/animation/loadingwhite.json',
                 width: 200, height: 200),
           ],

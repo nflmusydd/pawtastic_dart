@@ -33,13 +33,10 @@ class _StartingAnimationState extends State<StartingAnimation> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Display your image
             Image.asset('images/logo_pawtastic-removebg-preview.png', width: 314, height: 385),
 
-            // Add some space between the image and animation
             SizedBox(height: 20),
 
-            // Display the Lottie animation
             Lottie.asset('assets/animation/loadingwhite.json', width: 200, height: 200),
           ],
         ),

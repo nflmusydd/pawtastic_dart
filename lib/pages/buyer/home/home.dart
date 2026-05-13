@@ -1,5 +1,6 @@
+import 'package:pawtastic/services/user_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pawtastic/pages/buyer/product/product_details.dart';
 import 'package:pawtastic/pages/buyer/bottom_bar.dart';
@@ -25,26 +26,26 @@ class _HomeState extends State<Home> {
 
   List categoryName = ["Cats", "Dogs", "Hamster", "Fish"];
 
-  // Fetch user name from Firestore
-  Future<String> getUserName() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
-      if (userDoc.exists) {
-        String username =
-            userDoc['username']; // Assuming the username field is "username"
-        return username;
-      }
+  // Helper function to limit characters in name
+  String _formatDisplayName(String fullName, {int maxChars = 23,}) {
+    if (fullName.trim().isEmpty) return "User";
+    final words = fullName.trim().split(RegExp(r'\s+'));
+    if (words.first.length > maxChars) {
+      return "${words.first.substring(0, maxChars - 3)}...";
     }
-    return "User"; // Default value if the username is not found
+    String result = words.first;
+    for (int i = 1; i < words.length; i++) {
+      final next = "$result ${words[i]}";
+      if (next.length > maxChars) {
+        break;
+      }
+      result = next;
+    }
+    return result;
   }
 
   @override
   Widget build(BuildContext context) {
-    final FocusNode _focusNode = FocusNode();
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 250, 250),
@@ -59,64 +60,46 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   // Header: User Profile and App Logo
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(width: 10),
-
-                          // ClipRRect(
-                          //   borderRadius: BorderRadius.circular(50),
-                          //   child: Image.asset(
-                          //     "images/photoprofile.jpg",
-                          //     height: 48,
-                          //     width: 48,
-                          //     fit: BoxFit.cover,
-                          //   ),
-                          // ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => toSettingsPage()),
-                              );
-                            },
-                            child: Icon(
-                              Icons.person,
-                              size: 48,
-                              color: Colors.black,
-                            ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => toSettingsPage()),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.person,
+                            size: 48,
+                            color: Colors.black,
                           ),
-                          SizedBox(width: 12.0),
-                          Column(
+                        ),
+                        const SizedBox(width: 12.0),
+                        // Expanded sekarang langsung di bawah Row utama, 
+                        // ini akan mencegah blank screen dan menghapus garis kuning-hitam.
+                        Expanded(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              FutureBuilder<String>(
-                                future: getUserName(), // Fetch the user's name
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Text("Hello...");
-                                  }
-                                  if (snapshot.hasError) {
-                                    return Text("Error loading name");
-                                  }
-
+                              Consumer<UserProvider>(
+                                builder: (context, userProvider, child) {
                                   return Text.rich(
                                     TextSpan(
                                       text: "Hello\n",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w400,
                                         height: 1.3,
                                       ),
                                       children: <TextSpan>[
                                         TextSpan(
-                                          text: snapshot.data ?? "User",
-                                          style: TextStyle(
+                                          text: _formatDisplayName(userProvider.fullName),
+                                          style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w600,
                                             height: 1.3,
@@ -124,22 +107,25 @@ class _HomeState extends State<Home> {
                                         ),
                                       ],
                                     ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   );
                                 },
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                      ClipRRect(
-                        child: Image.asset(
-                          "images/pawlogo.png",
-                          height: 50,
-                          width: 50,
-                          fit: BoxFit.cover,
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 10),
+                        ClipRRect(
+                          child: Image.asset(
+                            "images/pawlogo.png",
+                            height: 50,
+                            width: 50,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: 30.0),
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pawtastic/core/config/env_config.dart';
 import 'package:pawtastic/services/firebase/add_product.dart';
 import 'package:pawtastic/pages/buyer/cart/cart.dart';
@@ -20,6 +21,7 @@ import 'package:pawtastic/pages/auth/signup_page.dart';
 import 'package:pawtastic/pages/auth/splash_screen.dart';
 import 'package:pawtastic/pages/auth/splash_screen_shop.dart';
 import 'package:pawtastic/pages/auth/signup_page_seller.dart';
+import 'package:pawtastic/pages/common/no_connection_page.dart';
 import 'package:pawtastic/pages/test_page.dart';
 import 'package:pawtastic/services/gemini_service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,19 +32,18 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pawtastic/services/user_provider.dart';
 import 'package:provider/provider.dart';
 
-// Best practice: Use --dart-define=ENVIRONMENT=prod during build/run
+// Use --dart-define=ENVIRONMENT=prod during build/run
 const String env = String.fromEnvironment('ENVIRONMENT', defaultValue: 'local');
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Environment Configuration
   EnvConfig.initialize(env);
 
   try {
     await dotenv.load(fileName: EnvConfig.envFile);
   } catch (e) {
-    debugPrint("Dotenv load failed: $e");
+    if (kDebugMode) debugPrint("Dotenv load failed: $e");
   }
   
   // belum di migrate semua
@@ -51,7 +52,7 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   } catch (e) {
-    debugPrint("Firebase initialization failed: $e");
+    if (kDebugMode) debugPrint("Firebase initialization failed: $e");
   }
 
   try {
@@ -60,7 +61,7 @@ void main() async {
       anonKey: EnvConfig.supabaseAnonKey,
     );
   } catch (e) {
-    debugPrint("Supabase initialization failed: $e");
+    if (kDebugMode) debugPrint("Supabase initialization failed: $e");
   }
   
   runApp(
@@ -74,16 +75,22 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // root widget
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Pawtastic',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'Poppins', // membuat font Poppins untuk keseluruhan file
+        fontFamily: 'Poppins',
         colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 93, 0, 255)),
+            seedColor: const Color.fromRGBO(252, 147, 3, 1.0)),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 255, 250, 250),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Color.fromRGBO(252, 147, 3, 1.0),
+          selectionColor: Color.fromRGBO(252, 147, 3, 0.3),
+          selectionHandleColor: Color.fromRGBO(252, 147, 3, 1.0),
+        ),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(fontSize: 16.0),
           displayLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
@@ -127,7 +134,12 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     
-    debugPrint("AUTH_DEBUG: Role=${userProvider.role}, User=${userProvider.user}, Loading=${userProvider.isLoading}");
+    if (kDebugMode) {
+      debugPrint("AUTH_DEBUG: Role=${userProvider.role}, User=${userProvider.user}, Loading=${userProvider.isLoading}, Error=${userProvider.hasConnectionError}");
+    }
+    if (userProvider.hasConnectionError) {
+      return const NoConnectionPage();
+    }
 
     // Jika masih loading, tampilkan Splash
     if (userProvider.isLoading) {
