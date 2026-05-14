@@ -46,7 +46,6 @@ class _GeminiServicesWidgetState extends State<GeminiService> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       appBar: AppBar(
         title: const Text("Gemini Chat"),
       ),

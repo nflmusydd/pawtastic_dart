@@ -152,7 +152,6 @@ class _AddProductState extends State<AddProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Add Product")),
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

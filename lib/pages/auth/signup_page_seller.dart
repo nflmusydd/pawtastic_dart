@@ -35,7 +35,7 @@ class _SignuppageSellerState extends State<SignuppageSeller> {
     if (_emailController.text.isEmpty ||
         _passwordController.text.isEmpty ||
         _shopNameController.text.isEmpty) {
-      SnackBarUtils.show(context, "Please fill in all required fields");
+      SnackBarUtils.show(context, "Please fill in all required fields", type: SnackBarType.error);
       return;
     }
 
@@ -60,12 +60,13 @@ class _SignuppageSellerState extends State<SignuppageSeller> {
       );
 
       if (mounted) {
-        SnackBarUtils.show(context, "Shop account created successfully!", isError: false);
+        SnackBarUtils.show(context, "Shop account created successfully!", type: SnackBarType.success);
         Navigator.pushReplacementNamed(context, '/home-seller');
       }
     } catch (e) {
       if (mounted) {
-        SnackBarUtils.show(context, e.toString());
+        final String userMessage = e is String ? e : "An unexpected error occurred. Please try again.";
+        SnackBarUtils.show(context, userMessage, type: SnackBarType.error);
       }
     } finally {
       if (mounted) {
@@ -77,7 +78,6 @@ class _SignuppageSellerState extends State<SignuppageSeller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

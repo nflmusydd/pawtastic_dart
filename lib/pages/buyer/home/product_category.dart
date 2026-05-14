@@ -16,7 +16,6 @@ class ProductCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         elevation: 0,

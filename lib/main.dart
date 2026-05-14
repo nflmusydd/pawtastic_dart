@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pawtastic/core/config/env_config.dart';
@@ -22,6 +23,7 @@ import 'package:pawtastic/pages/auth/splash_screen.dart';
 import 'package:pawtastic/pages/auth/splash_screen_shop.dart';
 import 'package:pawtastic/pages/auth/signup_page_seller.dart';
 import 'package:pawtastic/pages/common/no_connection_page.dart';
+import 'package:pawtastic/pages/auth/reset_password.dart';
 import 'package:pawtastic/pages/test_page.dart';
 import 'package:pawtastic/services/gemini_service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -72,13 +74,41 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // root widget
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  StreamSubscription<AuthState>? _authSubscription;
+  final _navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    // Listener Global untuk menangani Deep Link (seperti Reset Password)
+    _authSubscription = Supabase.instance.client.auth.onAuthStateChange.listen((data) {
+      final AuthChangeEvent event = data.event;
+      if (event == AuthChangeEvent.passwordRecovery) {
+        // Jika user datang dari link reset password di email, 
+        // arahkan otomatis ke halaman Reset Password.
+        _navigatorKey.currentState?.pushNamed('/reset-password');
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _authSubscription?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: _navigatorKey, // Penting agar bisa navigasi dari luar widget tree
       title: 'Pawtastic',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -105,6 +135,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const Signuppage(),
         '/signup-seller': (context) => const SignuppageSeller(),
         '/forgot-password': (context) => const Forgotpassword(),
+        '/reset-password': (context) => const ResetPasswordPage(),
         '/home': (context) => toHomePage(),
         '/home-seller': (context) => HomeSeller(),
         // '/home': (context) => Bottombar(initialIndex: 0),    // jangan dihapus

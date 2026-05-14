@@ -68,9 +68,8 @@ class UserProvider extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      if (kDebugMode) {
-        debugPrint("INITIAL_SESSION_ERROR: $e");
-      }
+      if (kDebugMode) debugPrint("INITIAL_SESSION_ERROR: $e");
+      
       if (e.toString().contains("SocketException") || e.toString().contains("Connection refused")) {
         _hasConnectionError = true;
       }

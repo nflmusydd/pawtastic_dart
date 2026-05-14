@@ -48,7 +48,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());

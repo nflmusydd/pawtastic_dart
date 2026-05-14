@@ -94,7 +94,6 @@ class _CartDetailPageState extends State<CartDetailPage> {
     double price = cartItemData['price'];
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text("Cart Details"),

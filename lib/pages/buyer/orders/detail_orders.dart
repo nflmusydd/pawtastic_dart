@@ -88,8 +88,6 @@ class _DetailordersState extends State<Detailorders> {
           ),
         ),
       ),
-
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [

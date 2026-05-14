@@ -220,7 +220,6 @@ class CompletedOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.only(bottom: 70),
@@ -369,7 +368,6 @@ class ProcessingOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.only(bottom: 70),
@@ -492,7 +490,6 @@ class CancelledOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.only(bottom: 70),

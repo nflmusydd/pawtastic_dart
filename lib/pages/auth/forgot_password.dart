@@ -1,4 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pawtastic/core/utils/snackbar_utils.dart';
+import 'package:pawtastic/services/supabase_auth_service.dart';
 import 'package:pawtastic/widget/text_field1.dart';
 
 class Forgotpassword extends StatefulWidget {
@@ -9,33 +13,123 @@ class Forgotpassword extends StatefulWidget {
 }
 
 class _ForgotpasswordState extends State<Forgotpassword> {
+  final TextEditingController _emailController = TextEditingController();
+  final SupabaseAuthService _authService = SupabaseAuthService();
+  bool _isLoading = false;
+  
+  // Timer variables
+  Timer? _timer;
+  int _secondsRemaining = 0;
+  static const String _cooldownKey = 'last_password_reset_timestamp';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCooldown();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  // Memuat status cooldown dari penyimpanan lokal
+  Future<void> _loadCooldown() async {
+    final prefs = await SharedPreferences.getInstance();
+    final lastTimestamp = prefs.getInt(_cooldownKey) ?? 0;
+    final currentTimestamp = DateTime.now().millisecondsSinceEpoch;
+    
+    final difference = (currentTimestamp - lastTimestamp) ~/ 1000;
+    
+    if (difference < 60) {
+      setState(() {
+        _secondsRemaining = 60 - difference;
+      });
+      _startTimer();
+    }
+  }
+
+  // Menyimpan waktu pengiriman terakhir ke penyimpanan lokal
+  Future<void> _saveCooldown() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_cooldownKey, DateTime.now().millisecondsSinceEpoch);
+  }
+
+  void _startTimer() {
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_secondsRemaining <= 0) {
+        timer.cancel();
+        if (mounted) setState(() => _secondsRemaining = 0);
+      } else {
+        if (mounted) {
+          setState(() {
+            _secondsRemaining--;
+          });
+        }
+      }
+    });
+  }
+
+  Future<void> _handleResetPassword() async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty) {
+      SnackBarUtils.show(context, "Please enter your email address", type: SnackBarType.error);
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      await _authService.sendPasswordResetEmail(email);
+      
+      // Simpan cooldown ke storage
+      await _saveCooldown();
+      
+      if (mounted) {
+        SnackBarUtils.show(context, "Reset link has been sent to your email!", type: SnackBarType.success);
+        
+        // Langsung mulai timer lokal agar UI update sebelum navigasi
+        setState(() => _secondsRemaining = 60);
+        _startTimer();
+
+        // Delay sedikit agar user sempat baca snackbar, lalu kembali ke login
+        // Future.delayed(const Duration(seconds: 5), () {
+        //   if (mounted) Navigator.pop(context);
+        // });
+      }
+    } catch (e) {
+      if (mounted) {
+        final String userMessage = e is String ? e : "An unexpected error occurred. Please try again.";
+        SnackBarUtils.show(context, userMessage, type: SnackBarType.error);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 250, 250),
-        elevation: 0, // Removes shadow under the AppBar
-        // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back_ios),
-        //   onPressed: () {
-        //     Navigator.pop(context); // Go back to the previous screen
-        //   },
-        // ),
+        elevation: 0, 
       ),
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: SafeArea(  
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
-              margin: EdgeInsets.only(top: 20),
-              // Alignment dibawah penting agar bisa di-atas tengah-kan
+              margin: const EdgeInsets.only(top: 20),
               alignment: Alignment.topCenter,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center, // Ensures children are horizontally centered
-                mainAxisSize: MainAxisSize.min, // Avoids unnecessary expansion
+                crossAxisAlignment: CrossAxisAlignment.center, 
+                mainAxisSize: MainAxisSize.min, 
                 children: [
-                  Text(
+                  const Text(
                     "Forgot your Password?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -50,6 +144,7 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                   SizedBox(
                     width: 350,
                     child: TextFormField(
+                      controller: _emailController,
                       decoration: Textfield1(
                         hintText: 'Enter registered email address',
                         prefixIcon: Icons.mail_lock_rounded,
@@ -64,11 +159,11 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: RichText(
-                        text: TextSpan(
-                          text: "*",  // This part is for the '*' character
+                        text: const TextSpan(
+                          text: "*",  
                           style: TextStyle(
                             fontFamily: 'Montserrat',
-                            color: Colors.red, // Make the '*' red
+                            color: Colors.red, 
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,
                           ),
@@ -77,7 +172,7 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                               text: " We will send you a message to set or reset your new password",
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                color: Color.fromRGBO(87, 87, 87, 1.0),  // Rest of the text in the original color
+                                color: Color.fromRGBO(87, 87, 87, 1.0),  
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -95,34 +190,33 @@ class _ForgotpasswordState extends State<Forgotpassword> {
                     height: 55,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(252, 147, 3, 1.0), // Set button background color
+                        backgroundColor: _secondsRemaining > 0 
+                            ? Colors.grey 
+                            : const Color.fromRGBO(252, 147, 3, 1.0), 
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0), // Set border radius
+                          borderRadius: BorderRadius.circular(50.0), 
                         ), 
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text(
-                          "Submit",
-                          style:TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0
-                          )
-                          
-                        ),
+                      onPressed: (_isLoading || _secondsRemaining > 0) ? null : _handleResetPassword,
+                      child: _isLoading 
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : Text(
+                            _secondsRemaining > 0 
+                                ? "Wait ${_secondsRemaining}s" 
+                                : "Submit",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0
+                            )
+                          ),
                     ),
                   ),
-            
-            
                 ],
               ),
             ),
           ),
-        
         ),
       ),
     );
-
   }
 }

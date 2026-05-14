@@ -22,7 +22,7 @@ class _LoginpageState extends State<Loginpage> {
   // Function to handle login
   Future<void> _login() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      SnackBarUtils.show(context, "Please enter email and password");
+      SnackBarUtils.show(context, "Please enter email and password", type: SnackBarType.error);
       return;
     }
 
@@ -42,7 +42,8 @@ class _LoginpageState extends State<Loginpage> {
       }
     } catch (e) {
       if (mounted) {
-        SnackBarUtils.show(context, e.toString());
+        final String userMessage = e is String ? e : "An unexpected error occurred. Please try again.";
+        SnackBarUtils.show(context, userMessage, type: SnackBarType.error);
       }
     } finally {
       if (mounted) {
@@ -54,7 +55,6 @@ class _LoginpageState extends State<Loginpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

@@ -8,7 +8,6 @@ class NoConnectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -33,7 +32,7 @@ class NoConnectionPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                "We couldn't reach the server. Please check your internet connection.",
+                "We couldn't reach the server. Please try again later.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Montserrat',

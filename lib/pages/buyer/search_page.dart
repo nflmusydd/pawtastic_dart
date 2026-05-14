@@ -18,7 +18,6 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();

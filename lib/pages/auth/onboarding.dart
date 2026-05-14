@@ -14,26 +14,25 @@ class _OnboardingState extends State<Onboarding> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Color(0xFFFFC9303), // untuk warna tema Pawtastic
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250), // Warna background putih
-      body: Center( // Menengahkan semua isi layar
+      body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min, // Shrinks the Column to fit its children
           children: [
             // Image Section
             Image.asset(
-              "images/starting_page.png", // nama file tidak boleh ada spasi
+              "images/starting_page.png", 
               // width: double.infinity, // jika lebar gambar dibuat (horizontal) memenuhi layar
               width: 300.0,
               height: 200.0,
               fit: BoxFit.cover, // Adjust how the image fits within the size
             ),
-            const SizedBox(height: 20), // Add space between image and text
+            const SizedBox(height: 20),
             // Main Heading
             Text(
               "RUFF!\nWelcome to Pawtastic!",
-              textAlign: TextAlign.center, // menengahkan teks bergantung widget
+              textAlign: TextAlign.center,
               style: const TextStyle(
-                fontFamily: 'Montserrat', // font custom, tidak menggunakan global
+                fontFamily: 'Montserrat',
                 color: Colors.black,
                 fontSize: 26.0,
                 fontWeight: FontWeight.w800,
@@ -43,9 +42,9 @@ class _OnboardingState extends State<Onboarding> {
             // Subtitle
             Text(
               "One app for all of your\npet equipment!",
-              textAlign: TextAlign.center, // menengahkan teks bergantung widget
+              textAlign: TextAlign.center, 
               style: const TextStyle(
-                fontFamily: 'Montserrat', // font custom, tidak menggunakan global
+                fontFamily: 'Montserrat',
                 color: Colors.black,
                 fontSize: 16.0,
                 fontWeight: FontWeight.w500,

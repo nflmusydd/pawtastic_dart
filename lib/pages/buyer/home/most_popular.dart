@@ -52,7 +52,6 @@ class _MostPopularState extends State<MostPopular> {
           ),
         ),
       ),
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(

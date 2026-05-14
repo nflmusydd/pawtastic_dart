@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 class TextbuttonNavigation extends StatefulWidget {
   final String text;
-  final String route;
+  final String? route;
+  final VoidCallback? onPressed;
   final TextStyle textStyle;
 
   const TextbuttonNavigation({
     super.key,
     required this.text,
-    required this.route,
+    this.route,
+    this.onPressed,
     required this.textStyle,
   });
 
@@ -24,17 +26,20 @@ class _TextbuttonNavigationState extends State<TextbuttonNavigation> {
       _opacity = 0.5; // Set the opacity to 50% when the button is pressed
     });
 
-    // Wait for a short time, then reset opacity and navigate
+    // Wait for a short time, then reset opacity and execute action/navigation
     Future.delayed(Duration(milliseconds: 200), () {
-      setState(() {
-        _opacity = 1.0; // Reset opacity to 100% after the delay
-      });
-
+      if (mounted) {
+        setState(() {
+          _opacity = 1.0; // Reset opacity to 100% after the delay
+        });
+      }
     });
-    // Navigate to the specified route
-    // Future.delayed(Duration(milliseconds: 1000), () {
-      Navigator.pushNamed(context, widget.route);
-    // });
+
+    if (widget.onPressed != null) {
+      widget.onPressed!();
+    } else if (widget.route != null) {
+      Navigator.pushNamed(context, widget.route!);
+    }
   }
 
   @override

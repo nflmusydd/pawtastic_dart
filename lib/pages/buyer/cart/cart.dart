@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pawtastic/core/utils/snackbar_utils.dart';
 import 'package:pawtastic/pages/buyer/cart/cart_detail_page.dart';
 // import 'package:pawtastic/pages/buyer/cart/order_page.dart';
 import 'package:pawtastic/pages/buyer/bottom_bar.dart';
@@ -25,13 +26,13 @@ class _CartPageState extends State<CartPage> {
           .collection('cart')
           .doc(cartItemId)
           .delete();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Item removed from cart')),
-      );
+      if (mounted) {
+        SnackBarUtils.show(context, 'Item removed from cart', type: SnackBarType.success);
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting item: $e')),
-      );
+      if (mounted) {
+        SnackBarUtils.show(context, "Failed to remove item. Please try again.", type: SnackBarType.error);
+      }
     }
   }
 
@@ -52,7 +53,7 @@ class _CartPageState extends State<CartPage> {
     if (user == null) {
       return Scaffold(
         appBar: AppBar(title: const Text("Cart")),
-        body: Center(child: const Text("Please log in to view your cart")),
+        body: const Center(child: Text("Please log in to view your cart")),
       );
     }
 
@@ -60,17 +61,16 @@ class _CartPageState extends State<CartPage> {
         firestore.collection('users').doc(user?.uid).collection('cart');
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       appBar: AppBar(
        automaticallyImplyLeading: false,
        backgroundColor: Colors.white,
-       title: Padding(
-          padding: const EdgeInsets.only(top: 10.0),  // Add margin for the title
+       title: const Padding(
+          padding: EdgeInsets.only(top: 10.0),  // Add margin for the title
           child: Column(
             mainAxisSize: MainAxisSize.min,  // Ensure the column only takes as much space as needed
             children: [
               // Title Widget
-              const Center(
+              Center(
                 child: Text(
                   'My Cart',
                   style: TextStyle(
@@ -94,7 +94,7 @@ class _CartPageState extends State<CartPage> {
           }
 
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return const Center(child: Text('Failed to load cart. Please check your connection.'));
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {

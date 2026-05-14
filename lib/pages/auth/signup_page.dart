@@ -28,17 +28,17 @@ class _SignuppageState extends State<Signuppage> {
   Future<void> _submitData() async {
     // Basic validation
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty || _fullNameController.text.isEmpty) {
-      SnackBarUtils.show(context, "Please fill in all required fields");
+      SnackBarUtils.show(context, "Please fill in all required fields", type: SnackBarType.error);
       return;
     }
 
     if (_passwordController.text != _confirmPasswordController.text) {
-      SnackBarUtils.show(context, "Passwords do not match!");
+      SnackBarUtils.show(context, "Passwords do not match!", type: SnackBarType.error);
       return;
     }
 
     if (_passwordController.text.length < 6) {
-      SnackBarUtils.show(context, "Password must be at least 6 characters");
+      SnackBarUtils.show(context, "Password must be at least 6 characters", type: SnackBarType.error);
       return;
     }
 
@@ -53,12 +53,13 @@ class _SignuppageState extends State<Signuppage> {
       );
 
       if (mounted) {
-        SnackBarUtils.show(context, "Account created successfully! Please check your email for verification.", isError: false);
+        SnackBarUtils.show(context, "Account created successfully! Please check your email for verification.", type: SnackBarType.success);
         Navigator.pushReplacementNamed(context, '/login');
       }
     } catch (e) {
       if (mounted) {
-        SnackBarUtils.show(context, e.toString());
+        final String userMessage = e is String ? e : "An unexpected error occurred. Please try again.";
+        SnackBarUtils.show(context, userMessage, type: SnackBarType.error);
       }
     } finally {
       if (mounted) {
@@ -70,7 +71,6 @@ class _SignuppageState extends State<Signuppage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

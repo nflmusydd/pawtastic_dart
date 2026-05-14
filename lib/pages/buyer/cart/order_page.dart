@@ -134,7 +134,6 @@ class _OrderPageState extends State<OrderPage> {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text("Order Summary"),

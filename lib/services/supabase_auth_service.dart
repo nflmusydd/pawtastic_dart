@@ -86,6 +86,51 @@ class SupabaseAuthService {
   /// Stream of auth state changes.
   Stream<AuthState> get authStateChanges => _supabase.auth.onAuthStateChange;
 
+  /// Send a password reset email to the user.
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _supabase.auth.resetPasswordForEmail(
+        email,
+        redirectTo: kIsWeb ? null : 'io.supabase.pawtastic://reset-password',
+      );
+    } on AuthException catch (e) {
+      if (kDebugMode) debugPrint("SUPABASE_AUTH_ERROR [ResetPassword]: ${e.message}");
+
+      // Saring pesan error Supabase agar tidak terlalu teknis
+      final msg = e.message.toLowerCase();
+      if (msg.contains("user not found")) {
+        throw "Email tidak terdaftar. Silakan cek kembali.";
+      }
+      if (msg.contains("rate limit")) {
+        throw "Terlalu banyak permintaan. Silakan tunggu beberapa saat.";
+      }
+      throw "Gagal mengirim email reset. Pastikan email Anda benar.";
+    } catch (e) {
+      if (kDebugMode) debugPrint("UNEXPECTED_ERROR [ResetPassword]: $e");
+      throw 'Terjadi masalah koneksi. Silakan coba lagi.';
+    }
+  }
+
+  /// Update the current user's password.
+  Future<void> updatePassword(String newPassword) async {
+    try {
+      await _supabase.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+    } on AuthException catch (e) {
+      if (kDebugMode) debugPrint("SUPABASE_AUTH_ERROR [UpdatePassword]: ${e.message}");
+
+      if (e.message.contains("same as old password")) {
+        throw "Password baru tidak boleh sama dengan password lama.";
+      }
+      throw "Gagal memperbarui password. Silakan coba lagi.";
+    } catch (e) {
+      if (kDebugMode) debugPrint("UNEXPECTED_ERROR [UpdatePassword]: $e");
+      throw 'Terjadi kesalahan sistem.';
+    }
+  
+  }
+
   /// Create a shop for the current user.
   Future<void> createShop({
     required String shopName,
@@ -104,7 +149,7 @@ class SupabaseAuthService {
       });
     } on PostgrestException catch (e) {
       if (kDebugMode) debugPrint("SUPABASE_DB_ERROR [CreateShop]: ${e.message} (Code: ${e.code})");
-      
+
       // Very important: don't expose database column/constraint names
       if (e.message.contains("store_slug")) {
         throw "Nama toko sudah digunakan atau mengandung karakter yang tidak diizinkan.";
