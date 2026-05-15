@@ -61,7 +61,7 @@ class Settings extends StatelessWidget {
                     icon: Icons.settings,
                     text: 'Options',
                     onTap: () {
-                      // Handle navigation
+                      Navigator.pushNamed(context, '/options');
                     },
                   ),
                   MenuItem(

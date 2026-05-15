@@ -1,0 +1,27 @@
+{
+  "@@locale": "en",
+  "settings": "Settings",
+  "options": "Options",
+  "language": "Language",
+  "profile": "Profile",
+  "signOut": "Sign Out",
+  "changeLanguage": "Change Language?",
+  "confirmChangeLanguage": "Are you sure you want to change the language to {language}?",
+  "@confirmChangeLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "yesChange": "Yes, Change",
+  "cancel": "Cancel",
+  "successChangeLanguage": "Language changed to {language}",
+  "@successChangeLanguage": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  }
+}
