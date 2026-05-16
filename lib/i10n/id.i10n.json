@@ -1,0 +1,264 @@
+{
+  "common": {
+    "search": "cari",
+    "cancel": "batal",
+    "yes": "ya",
+    "confirm": "konfirmasi",
+    "soon": "segera",
+    "email": "email",
+    "password": "kata sandi",
+    "submit": "kirim",
+    "price": "harga",
+    "quantity": "jumlah",
+    "checkout": "checkout",
+    "hello": "halo",
+    "see_all": "lihat semua",
+    "details": "detail",
+    "status": "status",
+    "order_date": "tanggal pesanan",
+    "shipping_address": "alamat pengiriman",
+    "total_amount": "total belanja",
+    "from": "dari",
+    "buy_now": "beli sekarang",
+    "edit": "ubah"
+  },
+  "account": {
+    "index": {
+      "account": "akun",
+      "profile": "profil",
+      "options": "opsi",
+      "paw_shop": "paw shop",
+      "about_us": "tentang kami",
+      "sign_out": "keluar"
+    },
+    "options": {
+      "options": "opsi",
+      "language": "bahasa",
+      "other_settings": "pengaturan lainnya",
+      "notifications": "notifikasi",
+      "dark_mode": "mode gelap",
+      "change_language": "ganti bahasa",
+      "are_you_sure_you_want_to_change_the_language_to": "apakah anda yakin ingin mengganti bahasa ke $flag $language",
+      "language_changed_to": "bahasa berhasil diubah ke $language",
+      "yes_change": "ya, ganti"
+    }
+  },
+  "no_connection": {
+    "connection_failed": "koneksi gagal",
+    "we_could_not_reach_the_server_please_try_again_later": "kami tidak dapat terhubung ke server. silakan coba lagi nanti.",
+    "try_again": "coba lagi"
+  },
+  "auth": {
+    "onboarding": {
+      "welcome_to_pawtastic": "selamat datang di pawtastic!",
+      "one_app_for_all_of_your_pet_equipment": "satu aplikasi untuk semua kebutuhan hewan peliharaanmu!",
+      "get_started": "mulai sekarang",
+      "login": "masuk"
+    },
+    "login": {
+      "welcome_back": "selamat datang kembali!",
+      "pawtastic_email": "email pawtastic",
+      "password": "kata sandi",
+      "forgot_your_password": "lupa kata sandi?",
+      "login": "masuk",
+      "or": "atau",
+      "create_an_account": "buat akun baru",
+      "please_enter_email_and_password": "harap masukkan email dan kata sandi",
+      "an_unexpected_error_occurred_please_try_again": "terjadi kesalahan tak terduga. silakan coba lagi."
+    },
+    "signup": {
+      "create_account": "buat akun!",
+      "full_name": "nama lengkap",
+      "password": "kata sandi",
+      "confirm_password": "konfirmasi kata sandi",
+      "by_clicking_create_account_i_have_agreed_to_our": "dengan mengklik buat akun, saya menyetujui",
+      "terms_and_conditions": "syarat dan ketentuan",
+      "and_have_read_our": "dan telah membaca",
+      "privacy_statement": "pernyataan privasi",
+      "create_account_button": "buat akun",
+      "i_already_have_an_account": "saya sudah punya akun,",
+      "login": "masuk",
+      "please_fill_in_all_required_fields": "harap isi semua bidang yang diperlukan",
+      "passwords_do_not_match": "kata sandi tidak cocok!",
+      "password_must_be_at_least_6_characters": "kata sandi minimal harus 6 karakter",
+      "account_created_successfully_please_check_your_email_for_verification": "akun berhasil dibuat! silakan periksa email anda untuk verifikasi.",
+      "an_unexpected_error_occurred_please_try_again": "terjadi kesalahan tak terduga. silakan coba lagi."
+    },
+    "forgot_password": {
+      "forgot_your_password": "lupa kata sandi anda?",
+      "enter_registered_email_address": "masukkan alamat email yang terdaftar",
+      "we_will_send_you_a_message_to_set_or_reset_your_new_password": "kami akan mengirimkan pesan untuk mengatur atau mengatur ulang kata sandi baru anda",
+      "please_enter_your_email_address": "harap masukkan alamat email anda",
+      "reset_link_has_been_sent_to_your_email": "tautan atur ulang sandi telah dikirim ke email anda!",
+      "wait": "tunggu $seconds dtk",
+      "submit": "kirim"
+    },
+    "reset_password": {
+      "reset_password": "atur ulang kata sandi",
+      "set_new_password": "atur kata sandi baru",
+      "please_enter_your_new_password_below": "harap masukkan kata sandi baru anda di bawah ini.",
+      "new_password": "kata sandi baru",
+      "confirm_new_password": "konfirmasi kata sandi baru",
+      "update_password": "perbarui kata sandi",
+      "please_fill_in_all_fields": "harap isi semua bidang",
+      "password_updated_successfully": "kata sandi berhasil diperbarui!"
+    },
+    "seller": {
+      "login": {
+        "pawsitively_profitable": "PaWsti untung",
+        "shop_email": "email toko",
+        "login": "masuk",
+        "have_not_registered_paw_shop_yet": "belum mendaftarkan paw shop?",
+        "register": "daftar!",
+        "please_enter_shop_email_and_password": "harap masukkan email toko dan kata sandi."
+      },
+      "signup": {
+        "build_a_paw_shop_business": "bangun bisnis paw shop",
+        "shop_name": "nama toko",
+        "shop_address": "alamat toko",
+        "shop_description": "deskripsi toko",
+        "create_shop": "buat toko",
+        "i_already_have_paw_shop": "saya sudah punya paw shop,",
+        "shop_account_created_successfully": "akun toko berhasil dibuat!"
+      }
+    }
+  },
+  "cart": {
+    "cart":"keranjang",
+    "my_cart": "keranjang saya",
+    "please_log_in_to_view_your_cart": "silakan masuk untuk melihat keranjang anda",
+    "item_removed_from_cart": "item dihapus dari keranjang",
+    "failed_to_remove_item_please_try_again": "gagal menghapus item. silakan coba lagi.",
+    "failed_to_load_cart_please_check_your_connection": "gagal memuat keranjang. silakan periksa koneksi anda.",
+    "your_cart_empty": "keranjang anda kosong.",
+    "cart_details": "detail keranjang",
+    "total_price": "total harga",
+    "proceed_to_checkout": "lanjutkan ke pembayaran",
+    "error_deleting_item": "kesalahan menghapus item: $error",
+    "proceeding_with_checkout": "melanjutkan ke pembayaran...",
+    "address_not_found": "alamat tidak ditemukan",
+    "error_retrieving_address": "kesalahan mengambil alamat",
+    "seller_not_found": "penjual tidak ditemukan",
+    "error_retrieving_seller_name": "kesalahan mengambil nama penjual"
+  },
+  "home": {
+    "index": {
+      "search_here": "cari di sini",
+      "categories": "kategori",
+      "no_products_available": "produk tidak tersedia",
+      "most_popular": "paling populer",
+      "no_popular_products": "tidak ada produk populer",
+      "seller_not_found": "penjual tidak ditemukan"
+    },
+    "most_popular": {
+      "most_popular": "paling populer",
+      "product": "produk"
+    },
+    "product_category": {
+      "product_category": "kategori produk",
+      "no_products_found_for_this_category": "tidak ada produk untuk kategori ini."
+    }
+  },
+  "my_orders": {
+    "index": {
+      "my_orders": "pesanan saya",
+      "delivered": "terkirim",
+      "processing": "diproses",
+      "cancelled": "dibatalkan",
+      "order": "pesanan",
+      "delivered_on": "terkirim $date",
+      "details": "detail"
+    },
+    "details": {
+      "details": "detail",
+      "order": "pesanan",
+      "shop_information": "informasi toko",
+      "shop": "toko",
+      "shop_address": "alamat toko",
+      "products": "produk",
+      "product_subtotal": "subtotal produk",
+      "order_details": "detail pesanan",
+      "status": "status",
+      "order_date": "tanggal pesanan",
+      "delivered_date": "tanggal terkirim",
+      "not_delivered": "belum terkirim",
+      "payment_method": "metode pembayaran",
+      "shipping_cost": "biaya pengiriman",
+      "discount": "diskon",
+      "total_payment": "total pembayaran",
+      "shipping_address": "alamat pengiriman"
+    },
+    "checkout": {
+      "checkout": "pembayaran",
+      "order_summary": "ringkasan pesanan",
+      "order_from": "pesanan dari $name",
+      "order_number": "nomor pesanan",
+      "total_price": "total harga",
+      "shipping_address": "alamat pengiriman",
+      "cart_items": "item keranjang",
+      "qty": "jumlah",
+      "buy_now": "beli sekarang",
+      "please_log_in_to_place_an_order": "silakan masuk untuk melakukan pemesanan.",
+      "please_log_in_to_proceed": "silakan masuk untuk melanjutkan.",
+      "not_enough_stock_available": "stok tidak mencukupi.",
+      "order_placed_successfully": "pesanan berhasil dibuat!",
+      "error_placing_order": "kesalahan saat membuat pesanan: $error"
+    }
+  },
+  "search": {
+    "no_products_available": "produk tidak tersedia",
+    "no_products_match_your_search": "tidak ada produk yang cocok dengan pencarian anda",
+    "seller_not_found": "penjual tidak ditemukan"
+  },
+  "product": {
+    "details": {
+      "details": "detail",
+      "order": "pesanan",
+      "sold": "terjual",
+      "stock": "stok",
+      "for": "untuk",
+      "description": "deskripsi",
+      "seller": "penjual",
+      "please_log_in_to_add_to_cart": "silakan masuk untuk menambah ke keranjang",
+      "added_to_cart_successfully": "berhasil ditambah ke keranjang!",
+      "quantity_updated_in_cart": "jumlah diperbarui di keranjang!"
+    }
+  },
+  "seller_product": {
+    "manage_product": {
+      "product_list": "daftar produk",
+      "current_stock": "stok saat ini: $stock",
+      "edit_product": "ubah produk",
+      "edit_details_for": "ubah detail untuk $name"
+    }
+  },
+  "navigation": {
+    "home": "beranda",
+    "cart": "keranjang",
+    "my_orders": "pesanan saya",
+    "account": "akun"
+  },
+  "errors": {
+    "auth": {
+      "this_email_is_already_registered_please_use_another_email": "email ini sudah terdaftar. silakan gunakan email lain.",
+      "connection_problem_check_your_internet": "masalah koneksi. periksa internet kamu.",
+      "failed_to_register_make_sure_the_data_is_correct_or_try_again_later": "gagal mendaftar. pastikan data benar atau coba lagi nanti.",
+      "system_error_occurred_please_try_again_in_a_few_moments": "terjadi kesalahan sistem. silakan coba beberapa saat lagi.",
+      "incorrect_email_or_password": "email atau kata sandi salah.",
+      "your_email_has_not_been_confirmed_please_check_your_email_inbox": "email kamu belum dikonfirmasi. silakan cek inbox email kamu.",
+      "failed_to_login_please_try_again": "gagal masuk. silakan coba lagi.",
+      "system_error": "kesalahan sistem.",
+      "email_not_registered_please_check_again": "email tidak terdaftar. silakan cek kembali.",
+      "too_many_requests_please_wait_a_few_moments": "terlalu banyak permintaan. silakan tunggu beberapa saat.",
+      "failed_to_send_reset_email_make_sure_your_email_is_correct": "gagal mengirim email atur ulang. pastikan email anda benar.",
+      "connection_problem_please_try_again": "masalah koneksi. silakan coba lagi.",
+      "new_password_cannot_be_the_same_as_the_old_password": "kata sandi baru tidak boleh sama dengan kata sandi lama.",
+      "failed_to_update_password_please_try_again": "gagal memperbarui kata sandi. silakan coba lagi."
+    },
+    "shop": {
+      "shop_name_already_used_or_contains_unauthorized_characters": "nama toko sudah digunakan atau mengandung karakter yang tidak diizinkan.",
+      "failed_to_create_shop_please_try_again": "gagal membuat toko. silakan coba lagi.",
+      "failed_to_create_shop_account": "gagal membuat akun toko."
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pawtastic/widget/text_field1.dart';
+import 'package:pawtastic/shared/widgets/custom_text_field_decoration.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({super.key});
@@ -202,7 +202,7 @@ class _AddProductState extends State<AddProduct> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _productNameController,
-                  decoration: Textfield1(
+                  decoration: CustomTextFieldDecoration(
                     hintText: 'Product Name',
                     prefixIcon: Icons.label,
                   ).decoration,
@@ -210,7 +210,7 @@ class _AddProductState extends State<AddProduct> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _descriptionController,
-                  decoration: Textfield1(
+                  decoration: CustomTextFieldDecoration(
                     hintText: 'Description',
                     prefixIcon: Icons.description,
                   ).decoration,
@@ -219,7 +219,7 @@ class _AddProductState extends State<AddProduct> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _imageUrlController,
-                  decoration: Textfield1(
+                  decoration: CustomTextFieldDecoration(
                     hintText: 'Image URL',
                     prefixIcon: Icons.image,
                   ).decoration,
@@ -227,7 +227,7 @@ class _AddProductState extends State<AddProduct> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _priceController,
-                  decoration: Textfield1(
+                  decoration: CustomTextFieldDecoration(
                     hintText: 'Price',
                     prefixIcon: Icons.attach_money,
                   ).decoration,
@@ -236,7 +236,7 @@ class _AddProductState extends State<AddProduct> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _productSoldController,
-                  decoration: Textfield1(
+                  decoration: CustomTextFieldDecoration(
                     hintText: 'Product Sold',
                     prefixIcon: Icons.shopping_cart,
                   ).decoration,
@@ -245,7 +245,7 @@ class _AddProductState extends State<AddProduct> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _stockController,
-                  decoration: Textfield1(
+                  decoration: CustomTextFieldDecoration(
                     hintText: 'Stock',
                     prefixIcon: Icons.inventory,
                   ).decoration,
@@ -254,7 +254,7 @@ class _AddProductState extends State<AddProduct> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _ratingController,
-                  decoration: Textfield1(
+                  decoration: CustomTextFieldDecoration(
                     hintText: 'Rating',
                     prefixIcon: Icons.star_rate,
                   ).decoration,

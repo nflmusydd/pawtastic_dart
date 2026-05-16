@@ -97,7 +97,7 @@ class _GeminiServicesWidgetState extends State<GeminiService> {
                   child: TextField(
                       controller: _searchController,
                       decoration: InputDecoration(
-                        hintText: "Search",
+                        hintText: "SearchPage",
                         hintStyle: const TextStyle(
                           color: Color.fromRGBO(152, 152, 152, 1), // Color of the hint text
                           fontSize: 16.0, // Font size

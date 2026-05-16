@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocaleProvider extends ChangeNotifier {
@@ -13,6 +14,10 @@ class LocaleProvider extends ChangeNotifier {
   void setLocale(Locale locale) async {
     if (_locale == locale) return;
     _locale = locale;
+    
+    // Sinkronisasi dengan Slang agar reaktif
+    LocaleSettings.setLocaleRaw(locale.languageCode);
+    
     notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
@@ -23,6 +28,10 @@ class LocaleProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final languageCode = prefs.getString('language_code') ?? 'en';
     _locale = Locale(languageCode);
+    
+    // Sinkronisasi dengan Slang saat load pertama
+    LocaleSettings.setLocaleRaw(languageCode);
+    
     notifyListeners();
   }
 }

@@ -1,0 +1,12 @@
+# Slang Configuration
+base_locale: en
+fallback_strategy: base_locale
+input_directory: lib/i10n
+input_file_pattern: .i10n.json
+output_file_name: strings.g.dart
+
+# Disabled namespaces to use a single nested JSON file for simplicity
+namespaces: false 
+
+# Enable flutter_utils for context.t shortcut
+flutter_utils: true

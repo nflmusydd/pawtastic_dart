@@ -1,0 +1,264 @@
+{
+  "common": {
+    "search": "search",
+    "cancel": "cancel",
+    "yes": "yes",
+    "confirm": "confirm",
+    "soon": "soon",
+    "email": "email",
+    "password": "password",
+    "submit": "submit",
+    "price": "price",
+    "quantity": "quantity",
+    "checkout": "checkout",
+    "hello": "hello",
+    "see_all": "see all",
+    "details": "details",
+    "status": "status",
+    "order_date": "order date",
+    "shipping_address": "shipping address",
+    "total_amount": "total amount",
+    "from": "from",
+    "buy_now": "buy now",
+    "edit": "edit"
+  },
+  "account": {
+    "index": {
+      "account": "account",
+      "profile": "profile",
+      "options": "options",
+      "paw_shop": "paw shop",
+      "about_us": "about us",
+      "sign_out": "sign out"
+    },
+    "options": {
+      "options": "options",
+      "language": "language",
+      "other_settings": "other settings",
+      "notifications": "notifications",
+      "dark_mode": "dark mode",
+      "change_language": "change language",
+      "are_you_sure_you_want_to_change_the_language_to": "are you sure you want to change the language to $flag $language",
+      "language_changed_to": "language changed to $language",
+      "yes_change": "yes, change"
+    }
+  },
+  "no_connection": {
+    "connection_failed": "connection failed",
+    "we_could_not_reach_the_server_please_try_again_later": "we couldn't reach the server. please try again later.",
+    "try_again": "try again"
+  },
+  "auth": {
+    "onboarding": {
+      "welcome_to_pawtastic": "welcome to pawtastic!",
+      "one_app_for_all_of_your_pet_equipment": "one app for all of your pet equipment!",
+      "get_started": "get started",
+      "login": "login"
+    },
+    "login": {
+      "welcome_back": "welcome back!",
+      "pawtastic_email": "pawtastic email",
+      "password": "password",
+      "forgot_your_password": "forgot your password?",
+      "login": "login",
+      "or": "or",
+      "create_an_account": "create an account",
+      "please_enter_email_and_password": "please enter email and password",
+      "an_unexpected_error_occurred_please_try_again": "an unexpected error occurred. please try again."
+    },
+    "signup": {
+      "create_account": "create account!",
+      "full_name": "full name",
+      "password": "password",
+      "confirm_password": "confirm password",
+      "by_clicking_create_account_i_have_agreed_to_our": "by clicking create account, i have agreed to our",
+      "terms_and_conditions": "terms and conditions",
+      "and_have_read_our": "and have read our",
+      "privacy_statement": "privacy statement",
+      "create_account_button": "create account",
+      "i_already_have_an_account": "i already have an account,",
+      "login": "login",
+      "please_fill_in_all_required_fields": "please fill in all required fields",
+      "passwords_do_not_match": "passwords do not match!",
+      "password_must_be_at_least_6_characters": "password must be at least 6 characters",
+      "account_created_successfully_please_check_your_email_for_verification": "account created successfully! please check your email for verification.",
+      "an_unexpected_error_occurred_please_try_again": "an unexpected error occurred. please try again."
+    },
+    "forgot_password": {
+      "forgot_your_password": "forgot your password?",
+      "enter_registered_email_address": "enter registered email address",
+      "we_will_send_you_a_message_to_set_or_reset_your_new_password": "we will send you a message to set or reset your new password",
+      "please_enter_your_email_address": "please enter your email address",
+      "reset_link_has_been_sent_to_your_email": "reset link has been sent to your email!",
+      "wait": "wait $seconds s",
+      "submit": "submit"
+    },
+    "reset_password": {
+      "reset_password": "reset password",
+      "set_new_password": "set new password",
+      "please_enter_your_new_password_below": "please enter your new password below.",
+      "new_password": "new password",
+      "confirm_new_password": "confirm new password",
+      "update_password": "update password",
+      "please_fill_in_all_fields": "please fill in all fields",
+      "password_updated_successfully": "password updated successfully!"
+    },
+    "seller": {
+      "login": {
+        "pawsitively_profitable": "pawsitively profitable",
+        "shop_email": "shop email",
+        "login": "login",
+        "have_not_registered_paw_shop_yet": "have not registered paw shop yet?",
+        "register": "register!",
+        "please_enter_shop_email_and_password": "please enter shop email and password."
+      },
+      "signup": {
+        "build_a_paw_shop_business": "build a paw shop business",
+        "shop_name": "shop name",
+        "shop_address": "shop address",
+        "shop_description": "shop description",
+        "create_shop": "create shop",
+        "i_already_have_paw_shop": "i already have paw shop,",
+        "shop_account_created_successfully": "shop account created successfully!"
+      }
+    }
+  },
+  "cart": {
+    "cart":"cart",
+    "my_cart": "my cart",
+    "please_log_in_to_view_your_cart": "please log in to view your cart",
+    "item_removed_from_cart": "item removed from cart",
+    "failed_to_remove_item_please_try_again": "failed to remove item. please try again.",
+    "failed_to_load_cart_please_check_your_connection": "failed to load cart. please check your connection.",
+    "your_cart_empty": "your cart is empty.",
+    "cart_details": "cart details",
+    "total_price": "total price",
+    "proceed_to_checkout": "proceed to checkout",
+    "error_deleting_item": "error deleting item: $error",
+    "proceeding_with_checkout": "proceeding with checkout...",
+    "address_not_found": "address not found",
+    "error_retrieving_address": "error retrieving address",
+    "seller_not_found": "seller not found",
+    "error_retrieving_seller_name": "error retrieving seller name"
+  },
+  "home": {
+    "index": {
+      "search_here": "search here",
+      "categories": "categories",
+      "no_products_available": "no products available",
+      "most_popular": "most popular",
+      "no_popular_products": "no popular products",
+      "seller_not_found": "seller not found"
+    },
+    "most_popular": {
+      "most_popular": "most_popular",
+      "product": "product"
+    },
+    "product_category": {
+      "product_category": "product category",
+      "no_products_found_for_this_category": "no products found for this category."
+    }
+  },
+  "my_orders": {
+    "index": {
+      "my_orders": "my orders",
+      "delivered": "delivered",
+      "processing": "processing",
+      "cancelled": "cancelled",
+      "order": "order",
+      "delivered_on": "delivered $date",
+      "details": "details"
+    },
+    "details": {
+      "details": "details",
+      "order": "order",
+      "shop_information": "shop information",
+      "shop": "shop",
+      "shop_address": "shop address",
+      "products": "products",
+      "product_subtotal": "product subtotal",
+      "order_details": "order details",
+      "status": "status",
+      "order_date": "order date",
+      "delivered_date": "delivered date",
+      "not_delivered": "not delivered",
+      "payment_method": "payment method",
+      "shipping_cost": "shipping cost",
+      "discount": "discount",
+      "total_payment": "total payment",
+      "shipping_address": "shipping address"
+    },
+    "checkout": {
+      "checkout": "checkout",
+      "order_summary": "order summary",
+      "order_from": "order from $name",
+      "order_number": "order number",
+      "total_price": "total price",
+      "shipping_address": "shipping address",
+      "cart_items": "cart items",
+      "qty": "qty",
+      "buy_now": "buy now",
+      "please_log_in_to_place_an_order": "please log in to place an order.",
+      "please_log_in_to_proceed": "please log in to proceed.",
+      "not_enough_stock_available": "not enough stock available.",
+      "order_placed_successfully": "order placed successfully!",
+      "error_placing_order": "error placing order: $error"
+    }
+  },
+  "search": {
+    "no_products_available": "no products available",
+    "no_products_match_your_search": "no products match your search",
+    "seller_not_found": "seller not found"
+  },
+  "product": {
+    "details": {
+      "details": "details",
+      "order": "order",
+      "sold": "sold",
+      "stock": "stock",
+      "for": "for",
+      "description": "description",
+      "seller": "seller",
+      "please_log_in_to_add_to_cart": "please log in to add to cart",
+      "added_to_cart_successfully": "added to cart successfully!",
+      "quantity_updated_in_cart": "quantity updated in cart!"
+    }
+  },
+  "seller_product": {
+    "manage_product": {
+      "product_list": "product list",
+      "current_stock": "current stock: $stock",
+      "edit_product": "edit product",
+      "edit_details_for": "edit details for $name"
+    }
+  },
+  "navigation": {
+    "home": "home",
+    "cart": "cart",
+    "my_orders": "my orders",
+    "account": "account"
+  },
+  "errors": {
+    "auth": {
+      "this_email_is_already_registered_please_use_another_email": "this email is already registered. please use another email.",
+      "connection_problem_check_your_internet": "connection problem. check your internet.",
+      "failed_to_register_make_sure_the_data_is_correct_or_try_again_later": "failed to register. make sure the data is correct or try again later.",
+      "system_error_occurred_please_try_again_in_a_few_moments": "system error occurred. please try again in a few moments.",
+      "incorrect_email_or_password": "incorrect email or password.",
+      "your_email_has_not_been_confirmed_please_check_your_email_inbox": "your email has not been confirmed. please check your email inbox.",
+      "failed_to_login_please_try_again": "failed to login. please try again.",
+      "system_error": "system error.",
+      "email_not_registered_please_check_again": "email not registered. please check again.",
+      "too_many_requests_please_wait_a_few_moments": "too many requests. please wait a few moments.",
+      "failed_to_send_reset_email_make_sure_your_email_is_correct": "failed to send reset email. make sure your email is correct.",
+      "connection_problem_please_try_again": "connection problem. please try again.",
+      "new_password_cannot_be_the_same_as_the_old_password": "new password cannot be the same as the old password.",
+      "failed_to_update_password_please_try_again": "failed to update password. please try again."
+    },
+    "shop": {
+      "shop_name_already_used_or_contains_unauthorized_characters": "shop name already used or contains unauthorized characters.",
+      "failed_to_create_shop_please_try_again": "failed to create shop. please try again.",
+      "failed_to_create_shop_account": "failed to create shop account."
+    }
+  }
+}

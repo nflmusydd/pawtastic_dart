@@ -1,5 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:pawtastic/i10n/strings.g.dart';
+import 'package:pawtastic/core/utils/string_extension.dart';
 
 class SupabaseAuthService {
   final SupabaseClient _supabase = Supabase.instance.client;
@@ -30,17 +32,17 @@ class SupabaseAuthService {
       
       // Map common technical errors to safe, friendly messages
       if (e.message.contains("already registered")) {
-        throw "Email ini sudah terdaftar. Silakan gunakan email lain.";
+        throw t.errors.auth.this_email_is_already_registered_please_use_another_email.ucfirst();
       }
       if (e.message.contains("Network")) {
-        throw "Koneksi bermasalah. Periksa internet kamu.";
+        throw t.errors.auth.connection_problem_check_your_internet.ucfirst();
       }
       
       // Fallback to a safe general message for production
-      throw "Gagal mendaftar. Pastikan data benar atau coba lagi nanti.";
+      throw t.errors.auth.failed_to_register_make_sure_the_data_is_correct_or_try_again_later.ucfirst();
     } catch (e) {
       if (kDebugMode) debugPrint("UNEXPECTED_ERROR [SignUp]: $e");
-      throw 'Terjadi kesalahan sistem. Silakan coba beberapa saat lagi.';
+      throw t.errors.auth.system_error_occurred_please_try_again_in_a_few_moments.ucfirst();
     }
   }
 
@@ -59,15 +61,15 @@ class SupabaseAuthService {
       
       final message = e.message.toLowerCase();
       if (message.contains("invalid login credentials")) {
-        throw "Email atau password salah.";
+        throw t.errors.auth.incorrect_email_or_password.ucfirst();
       }
       if (message.contains("email not confirmed")) {
-        throw "Email kamu belum dikonfirmasi. Silakan cek inbox email kamu.";
+        throw t.errors.auth.your_email_has_not_been_confirmed_please_check_your_email_inbox.ucfirst();
       }
-      throw "Gagal login. Silakan coba lagi.";
+      throw t.errors.auth.failed_to_login_please_try_again.ucfirst();
     } catch (e) {
       if (kDebugMode) debugPrint("UNEXPECTED_ERROR [SignIn]: $e");
-      throw 'Terjadi kesalahan sistem.';
+      throw t.errors.auth.system_error.ucfirst();
     }
   }
 
@@ -96,18 +98,17 @@ class SupabaseAuthService {
     } on AuthException catch (e) {
       if (kDebugMode) debugPrint("SUPABASE_AUTH_ERROR [ResetPassword]: ${e.message}");
 
-      // Saring pesan error Supabase agar tidak terlalu teknis
       final msg = e.message.toLowerCase();
       if (msg.contains("user not found")) {
-        throw "Email tidak terdaftar. Silakan cek kembali.";
+        throw t.errors.auth.email_not_registered_please_check_again.ucfirst();
       }
       if (msg.contains("rate limit")) {
-        throw "Terlalu banyak permintaan. Silakan tunggu beberapa saat.";
+        throw t.errors.auth.too_many_requests_please_wait_a_few_moments.ucfirst();
       }
-      throw "Gagal mengirim email reset. Pastikan email Anda benar.";
+      throw t.errors.auth.failed_to_send_reset_email_make_sure_your_email_is_correct.ucfirst();
     } catch (e) {
       if (kDebugMode) debugPrint("UNEXPECTED_ERROR [ResetPassword]: $e");
-      throw 'Terjadi masalah koneksi. Silakan coba lagi.';
+      throw t.errors.auth.connection_problem_please_try_again.ucfirst();
     }
   }
 
@@ -121,12 +122,12 @@ class SupabaseAuthService {
       if (kDebugMode) debugPrint("SUPABASE_AUTH_ERROR [UpdatePassword]: ${e.message}");
 
       if (e.message.contains("same as old password")) {
-        throw "Password baru tidak boleh sama dengan password lama.";
+        throw t.errors.auth.new_password_cannot_be_the_same_as_the_old_password.ucfirst();
       }
-      throw "Gagal memperbarui password. Silakan coba lagi.";
+      throw t.errors.auth.failed_to_update_password_please_try_again.ucfirst();
     } catch (e) {
       if (kDebugMode) debugPrint("UNEXPECTED_ERROR [UpdatePassword]: $e");
-      throw 'Terjadi kesalahan sistem.';
+      throw t.errors.auth.system_error.ucfirst();
     }
   
   }
@@ -150,14 +151,13 @@ class SupabaseAuthService {
     } on PostgrestException catch (e) {
       if (kDebugMode) debugPrint("SUPABASE_DB_ERROR [CreateShop]: ${e.message} (Code: ${e.code})");
 
-      // Very important: don't expose database column/constraint names
       if (e.message.contains("store_slug")) {
-        throw "Nama toko sudah digunakan atau mengandung karakter yang tidak diizinkan.";
+        throw t.errors.shop.shop_name_already_used_or_contains_unauthorized_characters.ucfirst();
       }
-      throw 'Gagal membuat toko. Silakan coba lagi.';
+      throw t.errors.shop.failed_to_create_shop_please_try_again.ucfirst();
     } catch (e) {
       if (kDebugMode) debugPrint("UNEXPECTED_ERROR [CreateShop]: $e");
-      throw 'Gagal membuat akun toko.';
+      throw t.errors.shop.failed_to_create_shop_account.ucfirst();
     }
   }
 }

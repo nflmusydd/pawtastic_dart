@@ -3,29 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pawtastic/core/config/env_config.dart';
 import 'package:pawtastic/services/firebase/add_product.dart';
-import 'package:pawtastic/pages/buyer/cart/cart.dart';
-import 'package:pawtastic/pages/buyer/home/most_popular.dart';
-import 'package:pawtastic/pages/seller/cashier.dart';
-import 'package:pawtastic/pages/seller/home_seller.dart';
-import 'package:pawtastic/pages/seller/manage_order.dart';
-import 'package:pawtastic/pages/seller/manage_product.dart';
-import 'package:pawtastic/pages/common/about_us_page.dart';
-import 'package:pawtastic/pages/buyer/orders/my_orders.dart';
-import 'package:pawtastic/pages/buyer/search_page.dart';
-import 'package:pawtastic/pages/common/options_page.dart';
-import 'package:pawtastic/pages/common/settings_page.dart';
-import 'package:pawtastic/pages/auth/forgot_password.dart';
-import 'package:pawtastic/pages/buyer/home/home.dart';
-import 'package:pawtastic/pages/auth/login_page.dart';
-import 'package:pawtastic/pages/auth/login_page_seller.dart';
-import 'package:pawtastic/pages/auth/onboarding.dart';
-import 'package:pawtastic/pages/auth/signup_page.dart';
-import 'package:pawtastic/pages/auth/splash_screen.dart';
-import 'package:pawtastic/pages/auth/splash_screen_shop.dart';
-import 'package:pawtastic/pages/auth/signup_page_seller.dart';
-import 'package:pawtastic/pages/common/no_connection_page.dart';
-import 'package:pawtastic/pages/auth/reset_password.dart';
-import 'package:pawtastic/pages/test_page.dart';
+import 'package:pawtastic/features/cart/presentation/pages/cart_page.dart';
+import 'package:pawtastic/features/home/presentation/pages/most_popular_page.dart';
+import 'package:pawtastic/features/seller/presentation/pages/cashier_page.dart';
+import 'package:pawtastic/features/seller/presentation/pages/home_seller_page.dart';
+import 'package:pawtastic/features/seller/presentation/pages/manage_order_page.dart';
+import 'package:pawtastic/features/seller/presentation/pages/manage_product_page.dart';
+import 'package:pawtastic/features/account/presentation/pages/about_us_page.dart';
+import 'package:pawtastic/features/my_orders/presentation/pages/my_orders_page.dart';
+import 'package:pawtastic/features/search/presentation/pages/search_page.dart';
+import 'package:pawtastic/features/account/presentation/pages/options_page.dart';
+import 'package:pawtastic/features/account/presentation/pages/account_page.dart';
+import 'package:pawtastic/features/auth/presentation/pages/forgot_password_page.dart';
+import 'package:pawtastic/features/home/presentation/pages/home_page.dart';
+import 'package:pawtastic/features/auth/presentation/pages/login_page.dart';
+import 'package:pawtastic/features/auth/presentation/pages/login_seller_page.dart';
+import 'package:pawtastic/features/auth/presentation/pages/onboarding_page.dart';
+import 'package:pawtastic/features/auth/presentation/pages/signup_page.dart';
+import 'package:pawtastic/features/auth/presentation/pages/splash_page.dart';
+import 'package:pawtastic/features/auth/presentation/pages/splash_seller_page.dart';
+import 'package:pawtastic/features/auth/presentation/pages/signup_seller_page.dart';
+import 'package:pawtastic/features/common/presentation/pages/no_connection_page.dart';
+import 'package:pawtastic/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:pawtastic/features/common/presentation/pages/test_page.dart';
 import 'package:pawtastic/services/gemini_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -34,8 +34,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:pawtastic/services/user_provider.dart';
 import 'package:pawtastic/services/locale_provider.dart';
-import 'l10n/app_localizations.dart';
+import 'package:pawtastic/i10n/strings.g.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+
+import 'package:pawtastic/core/config/app_routes.dart';
 
 // Use --dart-define=ENVIRONMENT=prod during build/run
 const String env = String.fromEnvironment('ENVIRONMENT', defaultValue: 'local');
@@ -70,12 +73,14 @@ void main() async {
   }
   
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => UserProvider()),
-        ChangeNotifierProvider(create: (context) => LocaleProvider()),
-      ],
-      child: const MyApp(),
+    TranslationProvider(
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => UserProvider()),
+          ChangeNotifierProvider(create: (context) => LocaleProvider()),
+        ],
+        child: const MyApp(),
+      ),
     ),
   );
 }
@@ -100,7 +105,7 @@ class _MyAppState extends State<MyApp> {
       if (event == AuthChangeEvent.passwordRecovery) {
         // Jika user datang dari link reset password di email, 
         // arahkan otomatis ke halaman Reset Password.
-        _navigatorKey.currentState?.pushNamed('/reset-password');
+        _navigatorKey.currentState?.pushNamed(AppRoutes.resetPassword);
       }
     });
   }
@@ -116,10 +121,10 @@ class _MyAppState extends State<MyApp> {
     return Consumer<LocaleProvider>(
       builder: (context, localeProvider, child) {
         return MaterialApp(
-          locale: localeProvider.locale,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          navigatorKey: _navigatorKey, // Penting agar bisa navigasi dari luar widget tree
+          locale: TranslationProvider.of(context).flutterLocale, // Gunakan dari Slang
+          localizationsDelegates: GlobalMaterialLocalizations.delegates,
+          supportedLocales: AppLocaleUtils.supportedLocales,
+          navigatorKey: _navigatorKey, // navigasi dari luar widget tree
           title: 'Pawtastic',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
@@ -139,30 +144,28 @@ class _MyAppState extends State<MyApp> {
             useMaterial3: true,
           ),
           routes: {
-            '/test': (context) => TestPage(),
-            '/shop': (context) => const StartingAnimationShop(),
-            '/login': (context) => const Loginpage(),
-            '/login-seller': (context) => const LoginpageSeller(),
-            '/signup': (context) => const Signuppage(),
-            '/signup-seller': (context) => const SignuppageSeller(),
-            '/forgot-password': (context) => const Forgotpassword(),
-            '/reset-password': (context) => const ResetPasswordPage(),
-            '/home': (context) => toHomePage(),
-            '/home-seller': (context) => HomeSeller(),
-            // '/home': (context) => Bottombar(initialIndex: 0),    // jangan dihapus
-            '/most-popular': (context) => MostPopular(),
-            '/cart': (context) => toCartPage(),
-            '/my-orders': (context) => toMyOrdersPage(),
-            // '/detail-orders': (context) => Detailorders(),
-            '/settings': (context) => toSettingsPage(),
-            '/options': (context) => const OptionsPage(),
-            '/search': (context) => toSearchPage(),
-            '/addproduct': (context) => AddProduct(),
-            '/manageorder': (context) => ManageOrders(),
-            '/cashier': (context) => Cashier(),
-            '/aboutus': (context) => AboutUs(),
-            '/manageproduct': (context) => ManageProduct(),
-            '/chatbot': (context) => GeminiService(),
+            AppRoutes.test: (context) => const TestPage(),
+            AppRoutes.shop: (context) => const SplashSellerPage(),
+            AppRoutes.login: (context) => const LoginPage(),
+            AppRoutes.loginSeller: (context) => const LoginSellerPage(),
+            AppRoutes.signup: (context) => const SignUpPage(),
+            AppRoutes.signupSeller: (context) => const SignUpSellerPage(),
+            AppRoutes.forgotPassword: (context) => const ForgotPasswordPage(),
+            AppRoutes.resetPassword: (context) => const ResetPasswordPage(),
+            AppRoutes.home: (context) => const ToHomePage(),
+            AppRoutes.cart: (context) => const ToCartPage(),
+            AppRoutes.myOrders: (context) => const ToMyOrdersPage(),
+            AppRoutes.account: (context) => ToAccountPage(),
+            AppRoutes.search: (context) => ToSearchPage(),
+            AppRoutes.homeSeller: (context) => const HomeSellerPage(),
+            AppRoutes.mostPopular: (context) => const MostPopularPage(),
+            AppRoutes.options: (context) => OptionsPage(),
+            AppRoutes.addProduct: (context) => const AddProduct(),
+            AppRoutes.manageOrder: (context) => const ManageOrdersPage(),
+            AppRoutes.cashier: (context) => CashierPage(),
+            AppRoutes.aboutUs: (context) => AboutUsPage(),
+            AppRoutes.manageProduct: (context) => ManageProductPage(),
+            AppRoutes.chatbot: (context) => const GeminiService(),
           },
           home: const AuthWrapper(),
         );
@@ -187,20 +190,20 @@ class AuthWrapper extends StatelessWidget {
 
     // Jika masih loading, tampilkan Splash
     if (userProvider.isLoading) {
-      return const StartingAnimation();
+      return const SplashPage();
     }
 
-    // Jika belum login (dan tidak sedang simulasi), tampilkan Onboarding
+    // Jika belum login (dan tidak sedang simulasi), tampilkan OnboardingPage
     if (userProvider.user == null && userProvider.role == UserRole.none) {
-      return const Onboarding();
+      return const OnboardingPage();
     }
 
-    // Jika Role Seller, ke Home Seller
+    // Jika Role Seller, ke HomePage Seller
     if (userProvider.role == UserRole.seller) {
-      return HomeSeller();
+      return const HomeSellerPage();
     }
 
-    // Default: Ke Home Buyer
-    return toHomePage();
+    // Default: Ke HomePage Buyer
+    return const ToHomePage();
   }
 }
