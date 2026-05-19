@@ -19,15 +19,16 @@ class _SplashSellerPageState extends State<SplashSellerPage> {
 
   // Navigate to the next screen (Welcome) after a delay
   Future<void> _navigateToWelcomeScreen() async {
-    await Future.delayed(Duration(seconds: 5)); 
-    Navigator.pushReplacementNamed(
-        context, AppRoutes.signupSeller);
+    await Future.delayed(const Duration(seconds: 5)); 
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, AppRoutes.signupSeller);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(252, 147, 3, 1.0),
+      backgroundColor: const Color.fromRGBO(252, 147, 3, 1.0),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +50,7 @@ class _SplashSellerPageState extends State<SplashSellerPage> {
               strokeWidth: 20,
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             Lottie.asset('assets/animation/loadingwhite.json',
                 width: 200, height: 200),

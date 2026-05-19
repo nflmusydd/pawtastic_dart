@@ -105,11 +105,11 @@
     },
     "seller": {
       "login": {
-        "pawsitively_profitable": "PaWsti untung",
+        "pawsitively_profitable": "pawsitively profitable",
         "shop_email": "email toko",
         "login": "masuk",
-        "have_not_registered_paw_shop_yet": "belum mendaftarkan paw shop?",
-        "register": "daftar!",
+        "have_not_registered_paw_shop_yet": "belum daftar paw shop?",
+        "register": "daftar sekarang!",
         "please_enter_shop_email_and_password": "harap masukkan email toko dan kata sandi."
       },
       "signup": {
@@ -231,6 +231,33 @@
       "edit_product": "ubah produk",
       "edit_details_for": "ubah detail untuk $name"
     }
+  },
+  "seller": {
+    "home": {
+        "add_product": "tambah produk",
+        "manage_products": "kelola produk",
+        "manage_orders": "kelola pesanan",
+        "cashier": "kasir",
+        "sign_out": "keluar"
+      },
+      "manage_orders": {
+        "title": "kelola pesanan",
+        "pending": "menunggu",
+        "delivered": "terkirim",
+        "cancelled": "dibatalkan",
+        "tracking_number": "nomor resi",
+        "product_list": "daftar produk",
+        "confirm": "konfirmasi"
+      },
+      "cashier": {
+        "title": "kasir",
+        "transaction_record": "catatan transaksi",
+        "add_offline_transaction": "tambah transaksi offline",
+        "total_income": "total pendapatan",
+        "shipping_cost": "biaya pengiriman",
+        "discount": "diskon",
+        "offline_form_placeholder": "placeholder formulir transaksi offline"
+      }
   },
   "navigation": {
     "home": "beranda",

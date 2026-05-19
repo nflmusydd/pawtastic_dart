@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pawtastic/shared/utils/snackbar_utils.dart';
 import 'package:pawtastic/services/supabase_auth_service.dart';
 import 'package:pawtastic/shared/widgets/custom_text_field_decoration.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
+import 'package:pawtastic/shared/widgets/primary_button.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
 
@@ -112,9 +114,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0, 
-      ),
+      appBar: CustomAppBar.actionOnly(context),
       body: SafeArea(  
         child: SingleChildScrollView(
           child: Padding(
@@ -182,31 +182,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   
                   const SizedBox(height: 50),
                   
-                  SizedBox(
-                    width: 350,
-                    height: 55,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: _secondsRemaining > 0 
-                            ? Colors.grey 
-                            : const Color.fromRGBO(252, 147, 3, 1.0), 
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0), 
-                        ), 
-                      ),
-                      onPressed: (_isLoading || _secondsRemaining > 0) ? null : _handleResetPassword,
-                      child: _isLoading 
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : Text(
-                            _secondsRemaining > 0 
-                                ? context.t.auth.forgot_password.wait(seconds: _secondsRemaining.toString()).toTitleCase()
-                                : context.t.auth.forgot_password.submit.toTitleCase(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0
-                            )
-                          ),
-                    ),
+                  PrimaryButton(
+                    label: _secondsRemaining > 0 
+                        ? context.t.auth.forgot_password.wait(seconds: _secondsRemaining.toString()).toTitleCase()
+                        : context.t.auth.forgot_password.submit.toTitleCase(),
+                    isLoading: _isLoading,
+                    backgroundColor: _secondsRemaining > 0 
+                        ? Colors.grey 
+                        : const Color.fromRGBO(252, 147, 3, 1.0),
+                    onPressed: _secondsRemaining > 0 ? null : _handleResetPassword,
                   ),
                 ],
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
-import 'package:pawtastic/features/home/presentation/widgets/bottom_bar.dart';
+import 'package:pawtastic/shared/widgets/bottom_bar.dart';
 import 'package:pawtastic/services/user_provider.dart';
 import 'package:pawtastic/shared/widgets/custom_text_button.dart';
 import 'package:provider/provider.dart';
@@ -89,7 +89,7 @@ class AccountPage extends StatelessWidget {
                       },
                       textStyle: const TextStyle(
                         fontSize: 16,
-                        color: Color.fromRGBO(252, 147, 3, 1.0),
+                        color: const Color.fromRGBO(252, 147, 3, 1.0),
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Montserrat',
                       ),
@@ -147,7 +147,7 @@ class MenuItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Color.fromRGBO(252, 147, 3, 1.0)),
+                const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: const Color.fromRGBO(252, 147, 3, 1.0)),
               ],
             ),
           ),

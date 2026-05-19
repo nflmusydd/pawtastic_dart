@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
+import 'package:pawtastic/shared/widgets/primary_button.dart';
 import 'package:pawtastic/shared/widgets/custom_text_field_decoration.dart';
 
 class AddProduct extends StatefulWidget {
@@ -151,7 +153,10 @@ class _AddProductState extends State<AddProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Product")),
+      appBar: CustomAppBar.leftTitle(
+        context,
+        title: "Add Product",
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -261,19 +266,9 @@ class _AddProductState extends State<AddProduct> {
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 30),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(252, 147, 3, 1.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-                  ),
+                PrimaryButton(
+                  label: "Add Product",
                   onPressed: _submitProduct,
-                  child: const Text(
-                    "Add Product",
-                    style: TextStyle(color: Colors.white, fontSize: 20.0),
-                  ),
                 ),
               ],
             ),

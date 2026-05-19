@@ -49,6 +49,7 @@ class TranslationsId extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsSearchId search = _TranslationsSearchId._(_root);
 	@override late final _TranslationsProductId product = _TranslationsProductId._(_root);
 	@override late final _TranslationsSellerProductId seller_product = _TranslationsSellerProductId._(_root);
+	@override late final _TranslationsSellerId seller = _TranslationsSellerId._(_root);
 	@override late final _TranslationsNavigationId navigation = _TranslationsNavigationId._(_root);
 	@override late final _TranslationsErrorsId errors = _TranslationsErrorsId._(_root);
 }
@@ -200,6 +201,18 @@ class _TranslationsSellerProductId extends TranslationsSellerProductEn {
 
 	// Translations
 	@override late final _TranslationsSellerProductManageProductId manage_product = _TranslationsSellerProductManageProductId._(_root);
+}
+
+// Path: seller
+class _TranslationsSellerId extends TranslationsSellerEn {
+	_TranslationsSellerId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsSellerHomeId home = _TranslationsSellerHomeId._(_root);
+	@override late final _TranslationsSellerManageOrdersId manage_orders = _TranslationsSellerManageOrdersId._(_root);
+	@override late final _TranslationsSellerCashierId cashier = _TranslationsSellerCashierId._(_root);
 }
 
 // Path: navigation
@@ -493,6 +506,52 @@ class _TranslationsSellerProductManageProductId extends TranslationsSellerProduc
 	@override String edit_details_for({required Object name}) => 'ubah detail untuk ${name}';
 }
 
+// Path: seller.home
+class _TranslationsSellerHomeId extends TranslationsSellerHomeEn {
+	_TranslationsSellerHomeId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get add_product => 'tambah produk';
+	@override String get manage_products => 'kelola produk';
+	@override String get manage_orders => 'kelola pesanan';
+	@override String get cashier => 'kasir';
+	@override String get sign_out => 'keluar';
+}
+
+// Path: seller.manage_orders
+class _TranslationsSellerManageOrdersId extends TranslationsSellerManageOrdersEn {
+	_TranslationsSellerManageOrdersId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'kelola pesanan';
+	@override String get pending => 'menunggu';
+	@override String get delivered => 'terkirim';
+	@override String get cancelled => 'dibatalkan';
+	@override String get tracking_number => 'nomor resi';
+	@override String get product_list => 'daftar produk';
+	@override String get confirm => 'konfirmasi';
+}
+
+// Path: seller.cashier
+class _TranslationsSellerCashierId extends TranslationsSellerCashierEn {
+	_TranslationsSellerCashierId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'kasir';
+	@override String get transaction_record => 'catatan transaksi';
+	@override String get add_offline_transaction => 'tambah transaksi offline';
+	@override String get total_income => 'total pendapatan';
+	@override String get shipping_cost => 'biaya pengiriman';
+	@override String get discount => 'diskon';
+	@override String get offline_form_placeholder => 'placeholder formulir transaksi offline';
+}
+
 // Path: errors.auth
 class _TranslationsErrorsAuthId extends TranslationsErrorsAuthEn {
 	_TranslationsErrorsAuthId._(TranslationsId root) : this._root = root, super.internal(root);
@@ -535,11 +594,11 @@ class _TranslationsAuthSellerLoginId extends TranslationsAuthSellerLoginEn {
 	final TranslationsId _root; // ignore: unused_field
 
 	// Translations
-	@override String get pawsitively_profitable => 'PaWsti untung';
+	@override String get pawsitively_profitable => 'pawsitively profitable';
 	@override String get shop_email => 'email toko';
 	@override String get login => 'masuk';
-	@override String get have_not_registered_paw_shop_yet => 'belum mendaftarkan paw shop?';
-	@override String get register => 'daftar!';
+	@override String get have_not_registered_paw_shop_yet => 'belum daftar paw shop?';
+	@override String get register => 'daftar sekarang!';
 	@override String get please_enter_shop_email_and_password => 'harap masukkan email toko dan kata sandi.';
 }
 
@@ -650,11 +709,11 @@ extension on TranslationsId {
 			'auth.reset_password.update_password' => 'perbarui kata sandi',
 			'auth.reset_password.please_fill_in_all_fields' => 'harap isi semua bidang',
 			'auth.reset_password.password_updated_successfully' => 'kata sandi berhasil diperbarui!',
-			'auth.seller.login.pawsitively_profitable' => 'PaWsti untung',
+			'auth.seller.login.pawsitively_profitable' => 'pawsitively profitable',
 			'auth.seller.login.shop_email' => 'email toko',
 			'auth.seller.login.login' => 'masuk',
-			'auth.seller.login.have_not_registered_paw_shop_yet' => 'belum mendaftarkan paw shop?',
-			'auth.seller.login.register' => 'daftar!',
+			'auth.seller.login.have_not_registered_paw_shop_yet' => 'belum daftar paw shop?',
+			'auth.seller.login.register' => 'daftar sekarang!',
 			'auth.seller.login.please_enter_shop_email_and_password' => 'harap masukkan email toko dan kata sandi.',
 			'auth.seller.signup.build_a_paw_shop_business' => 'bangun bisnis paw shop',
 			'auth.seller.signup.shop_name' => 'nama toko',
@@ -744,6 +803,25 @@ extension on TranslationsId {
 			'seller_product.manage_product.current_stock' => ({required Object stock}) => 'stok saat ini: ${stock}',
 			'seller_product.manage_product.edit_product' => 'ubah produk',
 			'seller_product.manage_product.edit_details_for' => ({required Object name}) => 'ubah detail untuk ${name}',
+			'seller.home.add_product' => 'tambah produk',
+			'seller.home.manage_products' => 'kelola produk',
+			'seller.home.manage_orders' => 'kelola pesanan',
+			'seller.home.cashier' => 'kasir',
+			'seller.home.sign_out' => 'keluar',
+			'seller.manage_orders.title' => 'kelola pesanan',
+			'seller.manage_orders.pending' => 'menunggu',
+			'seller.manage_orders.delivered' => 'terkirim',
+			'seller.manage_orders.cancelled' => 'dibatalkan',
+			'seller.manage_orders.tracking_number' => 'nomor resi',
+			'seller.manage_orders.product_list' => 'daftar produk',
+			'seller.manage_orders.confirm' => 'konfirmasi',
+			'seller.cashier.title' => 'kasir',
+			'seller.cashier.transaction_record' => 'catatan transaksi',
+			'seller.cashier.add_offline_transaction' => 'tambah transaksi offline',
+			'seller.cashier.total_income' => 'total pendapatan',
+			'seller.cashier.shipping_cost' => 'biaya pengiriman',
+			'seller.cashier.discount' => 'diskon',
+			'seller.cashier.offline_form_placeholder' => 'placeholder formulir transaksi offline',
 			'navigation.home' => 'beranda',
 			'navigation.cart' => 'keranjang',
 			'navigation.my_orders' => 'pesanan saya',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 
 class AboutUsPage extends StatelessWidget {
   // Data tim (nama, jobdesc, dan URL foto)
@@ -28,9 +29,9 @@ class AboutUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Meet Our Team"),
-        centerTitle: true,
+      appBar: CustomAppBar.centerTitle(
+        context,
+        blackTitle: "Meet Our Team",
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

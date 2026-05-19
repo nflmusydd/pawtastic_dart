@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:pawtastic/features/product/presentation/pages/seller_product_list_page.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   final Map<String, dynamic> product;
@@ -24,8 +25,8 @@ class ProductDetailsPage extends StatelessWidget {
         : [product["category"]];
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
+      appBar: CustomAppBar.actionOnly(
+        context,
         actions: [
           IconButton(
             icon: const Icon(Icons.search, color: Colors.black),
@@ -67,7 +68,7 @@ class ProductDetailsPage extends StatelessWidget {
                     NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0).format(product["price"]),
                     style: const TextStyle(
                       fontSize: 18.0,
-                      color: Color.fromRGBO(252, 147, 3, 1.0),
+                      color: const Color.fromRGBO(252, 147, 3, 1.0),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -125,7 +126,7 @@ class ProductDetailsPage extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.w500,
-                              color: Color.fromRGBO(252, 147, 3, 1.0),
+                              color: const Color.fromRGBO(252, 147, 3, 1.0),
                             ),
                           ),
                         ),
@@ -199,7 +200,7 @@ class ProductDetailsPage extends StatelessWidget {
                                 Text(
                                   "${seller["shop_name"]}",
                                   style: const TextStyle(
-                                    color: Color.fromRGBO(252, 147, 3, 1.0),
+                                    color: const Color.fromRGBO(252, 147, 3, 1.0),
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold, 
                                   ),
@@ -220,7 +221,7 @@ class ProductDetailsPage extends StatelessWidget {
                             ),
                             const Icon(
                               Icons.arrow_forward_ios,
-                              color: Color.fromRGBO(252, 147, 3, 1.0),
+                              color: const Color.fromRGBO(252, 147, 3, 1.0),
                             ),
                           ],
                         ),
@@ -357,7 +358,7 @@ class _AddToCartWithQuantityState extends State<AddToCartWithQuantity> {
           height: 80,
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
-            color: Color.fromRGBO(252, 147, 3, 1.0),
+            color: const Color.fromRGBO(252, 147, 3, 1.0),
           ),
           child: IconButton(
             icon: const Icon(

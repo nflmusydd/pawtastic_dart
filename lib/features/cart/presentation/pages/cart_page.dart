@@ -5,7 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:pawtastic/shared/utils/snackbar_utils.dart';
 import 'package:pawtastic/features/cart/presentation/pages/cart_detail_page.dart';
 // import 'package:pawtastic/features/my_orders/presentation/pages/checkout_page.dart';
-import 'package:pawtastic/features/home/presentation/widgets/bottom_bar.dart';
+import 'package:pawtastic/shared/widgets/bottom_bar.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
 
@@ -54,7 +55,10 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     if (user == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(context.t.cart.cart.toTitleCase())), 
+        appBar: CustomAppBar.leftTitle(
+          context,
+          title: context.t.cart.cart.toTitleCase(),
+        ),
         body: Center(child: Text(context.t.cart.please_log_in_to_view_your_cart.ucfirst())),
       );
     }
@@ -63,30 +67,10 @@ class _CartPageState extends State<CartPage> {
         firestore.collection('users').doc(user?.uid).collection('cart');
 
     return Scaffold(
-      appBar: AppBar(
-       automaticallyImplyLeading: false,
-       backgroundColor: Colors.white,
-       title: Padding(
-          padding: const EdgeInsets.only(top: 10.0),  // Add margin for the title
-          child: Column(
-            mainAxisSize: MainAxisSize.min,  // Ensure the column only takes as much space as needed
-            children: [
-              // Title Widget
-              Center(
-                child: Text(
-                  context.t.cart.my_cart.toTitleCase(),
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18.0,  
-                  ),
-                ),
-              ),
-              // Add a SizedBox after the title
-              // const SizedBox(height: 20.0),  // Space between title and the TabBar
-            ],
-          ),
-        ),
+      appBar: CustomAppBar.leftTitle(
+        context,
+        title: context.t.cart.my_cart.toTitleCase(),
+        onBack: () => Navigator.pop(context), // Ensure it has a back button if needed, or null for default
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: cartRef.snapshots(),
@@ -190,8 +174,6 @@ class _CartPageState extends State<CartPage> {
     );
   }
 }
-
-
 
 class ToCartPage extends StatelessWidget {
   const ToCartPage({super.key});

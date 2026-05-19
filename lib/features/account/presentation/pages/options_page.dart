@@ -5,6 +5,7 @@ import 'package:pawtastic/services/locale_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 
 class OptionsPage extends StatefulWidget {
   const OptionsPage({super.key});
@@ -37,25 +38,11 @@ class _OptionsPageState extends State<OptionsPage> {
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color.fromRGBO(252, 147, 3, 1.0);
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 250, 250),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          context.t.account.options.options.toTitleCase(),
-          style: const TextStyle(
-            color: Colors.black,
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: primaryColor),
-          onPressed: () => Navigator.pop(context),
-        ),
+      appBar: CustomAppBar.leftTitle(
+        context,
+        title: context.t.account.options.options.toTitleCase(),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -71,8 +58,8 @@ class _OptionsPageState extends State<OptionsPage> {
               ),
             ),
             const SizedBox(height: 15),
-            _buildLanguageCard('English', '🇺🇸', 'en', TranslationProvider.of(context).locale.languageCode == 'en', primaryColor),
-            _buildLanguageCard('Indonesian', '🇮🇩', 'id', TranslationProvider.of(context).locale.languageCode == 'id', primaryColor),
+            _buildLanguageCard('English', '🇺🇸', 'en', TranslationProvider.of(context).locale.languageCode == 'en', const Color.fromRGBO(252, 147, 3, 1.0)),
+            _buildLanguageCard('Indonesian', '🇮🇩', 'id', TranslationProvider.of(context).locale.languageCode == 'id', const Color.fromRGBO(252, 147, 3, 1.0)),
             
             const SizedBox(height: 30),
             Text(
@@ -84,15 +71,15 @@ class _OptionsPageState extends State<OptionsPage> {
               ),
             ),
             const SizedBox(height: 15),
-            _buildToggleCard(context.t.account.options.notifications.toTitleCase(), true, primaryColor),
-            _buildToggleCard(context.t.account.options.dark_mode.toTitleCase(), false, primaryColor, enabled: false),
+            _buildToggleCard(context.t.account.options.notifications.toTitleCase(), true, const Color.fromRGBO(252, 147, 3, 1.0)),
+            _buildToggleCard(context.t.account.options.dark_mode.toTitleCase(), false, const Color.fromRGBO(252, 147, 3, 1.0), enabled: false),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildLanguageCard(String language, String flag, String localeCode, bool isSelected, Color primaryColor) {
+  Widget _buildLanguageCard(String language, String flag, String localeCode, bool isSelected, Color color) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -106,7 +93,7 @@ class _OptionsPageState extends State<OptionsPage> {
           ),
         ],
         border: isSelected
-            ? Border.all(color: primaryColor, width: 2)
+            ? Border.all(color: color, width: 2)
             : Border.all(color: Colors.transparent, width: 2),
       ),
       child: ListTile(
@@ -127,13 +114,13 @@ class _OptionsPageState extends State<OptionsPage> {
           ),
         ),
         trailing: isSelected
-            ? Icon(Icons.check_circle, color: primaryColor)
+            ? Icon(Icons.check_circle, color: color)
             : Icon(Icons.circle_outlined, color: Colors.grey.shade300),
       ),
     );
   }
 
-  Widget _buildToggleCard(String title, bool value, Color primaryColor, {bool enabled = true}) {
+  Widget _buildToggleCard(String title, bool value, Color color, {bool enabled = true}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -159,7 +146,7 @@ class _OptionsPageState extends State<OptionsPage> {
         trailing: Switch(
           value: value,
           onChanged: enabled ? (val) {} : null,
-          activeColor: primaryColor,
+          activeColor: color,
         ),
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
-import 'package:pawtastic/shared/utils/snackbar_utils.dart';
 import 'package:pawtastic/services/supabase_auth_service.dart';
+import 'package:pawtastic/shared/utils/snackbar_utils.dart';
 import 'package:pawtastic/shared/widgets/custom_text_field_decoration.dart';
+import 'package:pawtastic/shared/widgets/primary_button.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
 
@@ -63,9 +65,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.t.auth.reset_password.reset_password.toTitleCase()),
-        elevation: 0,
+      appBar: CustomAppBar.leftTitle(
+        context,
+        title: context.t.auth.reset_password.reset_password.toTitleCase(),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -113,24 +115,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ).decoration,
               ),
               const SizedBox(height: 50),
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(252, 147, 3, 1.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                    ),
-                  ),
-                  onPressed: _isLoading ? null : _handleUpdatePassword,
-                  child: _isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : Text(
-                          context.t.auth.reset_password.update_password.toTitleCase(),
-                          style: const TextStyle(color: Colors.white, fontSize: 18.0),
-                        ),
-                ),
+              PrimaryButton(
+                label: context.t.auth.reset_password.update_password.toTitleCase(),
+                isLoading: _isLoading,
+                onPressed: _handleUpdatePassword,
               ),
             ],
           ),

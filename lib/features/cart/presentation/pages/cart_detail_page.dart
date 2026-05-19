@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pawtastic/features/my_orders/presentation/pages/checkout_page.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
 
@@ -85,7 +86,10 @@ class _CartDetailPageState extends State<CartDetailPage> {
   Widget build(BuildContext context) {
     if (user == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(context.t.cart.my_cart.toTitleCase())),
+        appBar: CustomAppBar.leftTitle(
+          context,
+          title: context.t.cart.my_cart.toTitleCase(),
+        ),
         body: Center(child: Text(context.t.cart.please_log_in_to_view_your_cart.ucfirst())),
       );
     }
@@ -96,9 +100,9 @@ class _CartDetailPageState extends State<CartDetailPage> {
     double price = cartItemData['price'];
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(context.t.cart.cart_details.toTitleCase()),
+      appBar: CustomAppBar.leftTitle(
+        context,
+        title: context.t.cart.cart_details.toTitleCase(),
       ),
       body: SingleChildScrollView(
         child: Column(

@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
 import 'package:pawtastic/features/product/presentation/pages/product_details_page.dart';
-import 'package:pawtastic/features/home/presentation/widgets/bottom_bar.dart';
+import 'package:pawtastic/shared/widgets/bottom_bar.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
 

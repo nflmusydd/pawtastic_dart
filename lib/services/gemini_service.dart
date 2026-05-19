@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -46,8 +47,9 @@ class _GeminiServicesWidgetState extends State<GeminiService> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Gemini Chat"),
+      appBar: CustomAppBar.leftTitle(
+        context,
+        title: "Gemini Chat",
       ),
       body: Column(
         children: [

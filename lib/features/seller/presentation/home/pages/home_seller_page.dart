@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
+import 'package:pawtastic/i10n/strings.g.dart';
+import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/custom_text_button.dart';
 
 class HomeSellerPage extends StatelessWidget {
   const HomeSellerPage({Key? key}) : super(key: key);
@@ -40,7 +43,7 @@ class HomeSellerPage extends StatelessWidget {
               _buildMenuButton(
                 context,
                 icon: Icons.add,
-                label: "Add Product",
+                label: context.t.seller.home.add_product.toTitleCase(),
                 onTap: () {
                   Navigator.pushNamed(context, AppRoutes.addProduct);
                 },
@@ -51,7 +54,7 @@ class HomeSellerPage extends StatelessWidget {
               _buildMenuButton(
                 context,
                 icon: Icons.inventory,
-                label: "Manage Products",
+                label: context.t.seller.home.manage_products.toTitleCase(),
                 onTap: () {
                   Navigator.pushNamed(context, AppRoutes.manageProduct);
                 },
@@ -62,7 +65,7 @@ class HomeSellerPage extends StatelessWidget {
               _buildMenuButton(
                 context,
                 icon: Icons.shopping_bag,
-                label: "Manage Orders",
+                label: context.t.seller.home.manage_orders.toTitleCase(),
                 onTap: () {
                   Navigator.pushNamed(context, AppRoutes.manageOrder);
                 },
@@ -73,7 +76,7 @@ class HomeSellerPage extends StatelessWidget {
               _buildMenuButton(
                 context,
                 icon: Icons.point_of_sale,
-                label: "CashierPage",
+                label: context.t.seller.home.cashier.toTitleCase(),
                 onTap: () {
                   Navigator.pushNamed(context, AppRoutes.cashier);
                 },
@@ -81,17 +84,20 @@ class HomeSellerPage extends StatelessWidget {
               const SizedBox(height: 80),
 
               // Sign Out Button
-              GestureDetector(
-                onTap: () {
+              CustomTextButton(
+                text: context.t.seller.home.sign_out.toTitleCase(),
+                onPressed: () async {
+                  // await userProvider.logout();
+                  // if (context.mounted) {
+                  //   Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
+                  // }
                   Navigator.pushNamed(context, AppRoutes.home);
                 },
-                child: const Text(
-                  "Sign Out",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.orange,
-                  ),
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  color: const Color.fromRGBO(252, 147, 3, 1.0),
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Montserrat',
                 ),
               ),
             ],

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pawtastic/features/my_orders/presentation/pages/my_orders_page.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/models/order_model.dart';
 
 class OrderDetailsPage extends StatefulWidget {
   final Order order;  // menerima object Order
@@ -50,45 +51,10 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        elevation: 0,
-        toolbarHeight: 75,    //tinggi appBar
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context); // Go back to the previous screen
-          },
-        ),
-        titleSpacing: 0,  // Remove any default padding for the title
-        flexibleSpace: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,  // Center vertically within AppBar
-              children: [
-                // Title Widget for "Details"
-                Text(
-                  context.t.my_orders.details.details.toTitleCase(),  // Display "Details" as the main title
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                  ),
-                ),
-                // Display the order ID below the title
-                Text(
-                  '${context.t.my_orders.details.order.toTitleCase()} №${order.orderId}',  // Display the order ID
-                  style: const TextStyle(
-                    color: Color.fromRGBO(252, 147, 3, 1.0),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18.0,
-                    height: 1.7,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+      appBar: CustomAppBar.centerTitle(
+        context,
+        blackTitle: context.t.my_orders.details.details.toTitleCase(),
+        orangeTitle: '${context.t.my_orders.details.order.toTitleCase()} №${order.orderId}',
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -318,7 +284,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                       Text(
                         'Rp ${order.totalPrice}',
                         style: const TextStyle(
-                          color: Color.fromRGBO(252, 147, 3, 1.0),
+                          color: const Color.fromRGBO(252, 147, 3, 1.0),
                           fontSize: 14.5,
                           fontWeight: FontWeight.w600,
                         ),

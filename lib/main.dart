@@ -5,10 +5,10 @@ import 'package:pawtastic/core/config/env_config.dart';
 import 'package:pawtastic/services/firebase/add_product.dart';
 import 'package:pawtastic/features/cart/presentation/pages/cart_page.dart';
 import 'package:pawtastic/features/home/presentation/pages/most_popular_page.dart';
-import 'package:pawtastic/features/seller/presentation/pages/cashier_page.dart';
-import 'package:pawtastic/features/seller/presentation/pages/home_seller_page.dart';
-import 'package:pawtastic/features/seller/presentation/pages/manage_order_page.dart';
-import 'package:pawtastic/features/seller/presentation/pages/manage_product_page.dart';
+import 'package:pawtastic/features/seller/presentation/cashier/pages/cashier_page.dart';
+import 'package:pawtastic/features/seller/presentation/home/pages/home_seller_page.dart';
+import 'package:pawtastic/features/seller/presentation/orders/pages/manage_order_page.dart';
+import 'package:pawtastic/features/seller/presentation/inventory/pages/manage_product_page.dart';
 import 'package:pawtastic/features/account/presentation/pages/about_us_page.dart';
 import 'package:pawtastic/features/my_orders/presentation/pages/my_orders_page.dart';
 import 'package:pawtastic/features/search/presentation/pages/search_page.dart';
@@ -133,9 +133,9 @@ class _MyAppState extends State<MyApp> {
                 seedColor: const Color.fromRGBO(252, 147, 3, 1.0)),
             scaffoldBackgroundColor: const Color.fromARGB(255, 255, 250, 250),
             textSelectionTheme: const TextSelectionThemeData(
-              cursorColor: Color.fromRGBO(252, 147, 3, 1.0),
+              cursorColor: const Color.fromRGBO(252, 147, 3, 1.0),
               selectionColor: Color.fromRGBO(252, 147, 3, 0.3),
-              selectionHandleColor: Color.fromRGBO(252, 147, 3, 1.0),
+              selectionHandleColor: const Color.fromRGBO(252, 147, 3, 1.0),
             ),
             textTheme: const TextTheme(
               bodyLarge: TextStyle(fontSize: 16.0),
@@ -144,30 +144,31 @@ class _MyAppState extends State<MyApp> {
             useMaterial3: true,
           ),
           routes: {
-            AppRoutes.test: (context) => const TestPage(),
-            AppRoutes.shop: (context) => const SplashSellerPage(),
-            AppRoutes.login: (context) => const LoginPage(),
-            AppRoutes.loginSeller: (context) => const LoginSellerPage(),
-            AppRoutes.signup: (context) => const SignUpPage(),
-            AppRoutes.signupSeller: (context) => const SignUpSellerPage(),
+            AppRoutes.test: (context)           => const TestPage(),
+            AppRoutes.shop: (context)           => const SplashSellerPage(),
+            AppRoutes.login: (context)          => const LoginPage(),
+            AppRoutes.loginSeller: (context)    => const LoginSellerPage(),
+            AppRoutes.signup: (context)         => const SignUpPage(),
+            AppRoutes.signupSeller: (context)   => const SignUpSellerPage(),
             AppRoutes.forgotPassword: (context) => const ForgotPasswordPage(),
-            AppRoutes.resetPassword: (context) => const ResetPasswordPage(),
-            AppRoutes.home: (context) => const ToHomePage(),
-            AppRoutes.cart: (context) => const ToCartPage(),
-            AppRoutes.myOrders: (context) => const ToMyOrdersPage(),
-            AppRoutes.account: (context) => ToAccountPage(),
-            AppRoutes.search: (context) => ToSearchPage(),
-            AppRoutes.homeSeller: (context) => const HomeSellerPage(),
-            AppRoutes.mostPopular: (context) => const MostPopularPage(),
-            AppRoutes.options: (context) => OptionsPage(),
-            AppRoutes.addProduct: (context) => const AddProduct(),
-            AppRoutes.manageOrder: (context) => const ManageOrdersPage(),
-            AppRoutes.cashier: (context) => CashierPage(),
-            AppRoutes.aboutUs: (context) => AboutUsPage(),
-            AppRoutes.manageProduct: (context) => ManageProductPage(),
-            AppRoutes.chatbot: (context) => const GeminiService(),
+            AppRoutes.resetPassword: (context)  => const ResetPasswordPage(),
+            AppRoutes.home: (context)           => const ToHomePage(),
+            AppRoutes.cart: (context)           => const ToCartPage(),
+            AppRoutes.myOrders: (context)       => const ToMyOrdersPage(),
+            AppRoutes.account: (context)        => ToAccountPage(),
+            AppRoutes.search: (context)         => ToSearchPage(),
+            AppRoutes.homeSeller: (context)     => const HomeSellerPage(),
+            AppRoutes.mostPopular: (context)    => const MostPopularPage(),
+            AppRoutes.options: (context)        => OptionsPage(),
+            AppRoutes.addProduct: (context)     => const AddProduct(),
+            AppRoutes.manageOrder: (context)    => const ManageOrdersPage(),
+            AppRoutes.cashier: (context)        => CashierPage(),
+            AppRoutes.aboutUs: (context)        => AboutUsPage(),
+            AppRoutes.manageProduct: (context)  => ManageProductPage(),
+            AppRoutes.chatbot: (context)        => const GeminiService(),
           },
           home: const AuthWrapper(),
+          // home: HomeSellerPage(),
         );
       },
     );
@@ -181,9 +182,8 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     
-    if (kDebugMode) {
-      debugPrint("AUTH_DEBUG: Role=${userProvider.role}, User=${userProvider.user}, Loading=${userProvider.isLoading}, Error=${userProvider.hasConnectionError}");
-    }
+    if (kDebugMode) debugPrint("AUTH_DEBUG: Role=${userProvider.role}, User=${userProvider.user}, Loading=${userProvider.isLoading}, Error=${userProvider.hasConnectionError}");
+    
     if (userProvider.hasConnectionError) {
       return const NoConnectionPage();
     }
@@ -193,7 +193,7 @@ class AuthWrapper extends StatelessWidget {
       return const SplashPage();
     }
 
-    // Jika belum login (dan tidak sedang simulasi), tampilkan OnboardingPage
+    // Jika belum login, tampilkan OnboardingPage
     if (userProvider.user == null && userProvider.role == UserRole.none) {
       return const OnboardingPage();
     }

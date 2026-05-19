@@ -232,6 +232,33 @@
       "edit_details_for": "edit details for $name"
     }
   },
+  "seller": {
+    "home": {
+        "add_product": "add product",
+        "manage_products": "manage products",
+        "manage_orders": "manage orders",
+        "cashier": "cashier",
+        "sign_out": "sign out"
+      },
+      "manage_orders": {
+        "title": "manage orders",
+        "pending": "pending",
+        "delivered": "delivered",
+        "cancelled": "cancelled",
+        "tracking_number": "tracking number",
+        "product_list": "product list",
+        "confirm": "confirm"
+      },
+      "cashier": {
+        "title": "cashier",
+        "transaction_record": "transaction record",
+        "add_offline_transaction": "add offline transaction",
+        "total_income": "total income",
+        "shipping_cost": "shipping cost",
+        "discount": "discount",
+        "offline_form_placeholder": "offline transaction form placeholder"
+      }
+  },
   "navigation": {
     "home": "home",
     "cart": "cart",

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/features/seller/presentation/inventory/pages/edit_product_page.dart';
 
 class ManageProductPage extends StatelessWidget {
   const ManageProductPage({super.key});
@@ -46,8 +48,9 @@ class ManageProductPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.t.seller_product.manage_product.product_list.toTitleCase()),
+      appBar: CustomAppBar.leftTitle(
+        context,
+        title: context.t.seller_product.manage_product.product_list.toTitleCase(),
       ),
       body: ListView.builder(
         itemCount: products.length,
@@ -100,7 +103,7 @@ class ManageProductPage extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(252, 147, 3, 1.0),
+                              color: const Color.fromRGBO(252, 147, 3, 1.0),
                             ),
                           ),
                           const SizedBox(height: 4.0),
@@ -123,8 +126,7 @@ class ManageProductPage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        EditProductPage(product: product),
+                                    builder: (context) => EditProductPage(product: product),
                                   ),
                                 );
                               },
@@ -151,27 +153,6 @@ class ManageProductPage extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class EditProductPage extends StatelessWidget {
-  final Map<String, dynamic> product;
-
-  const EditProductPage({super.key, required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.t.seller_product.manage_product.edit_product.toTitleCase()),
-      ),
-      body: Center(
-        child: Text(
-          context.t.seller_product.manage_product.edit_details_for(name: product['name']).ucfirst(),
-          style: const TextStyle(fontSize: 18.0),
-        ),
       ),
     );
   }

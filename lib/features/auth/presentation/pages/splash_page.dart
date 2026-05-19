@@ -27,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(252, 147, 3, 1.0), 
+      backgroundColor: const Color.fromRGBO(252, 147, 3, 1.0), 
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +35,7 @@ class _SplashPageState extends State<SplashPage> {
           children: [
             Image.asset('images/logo_pawtastic-removebg-preview.png', width: 314, height: 385),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             Lottie.asset('assets/animation/loadingwhite.json', width: 200, height: 200),
           ],

@@ -4,6 +4,7 @@ import 'package:pawtastic/shared/utils/snackbar_utils.dart';
 import 'package:pawtastic/services/supabase_auth_service.dart';
 import 'package:pawtastic/shared/widgets/custom_text_button.dart';
 import 'package:pawtastic/shared/widgets/custom_text_field_decoration.dart';
+import 'package:pawtastic/shared/widgets/primary_button.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
 
@@ -136,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                         route: AppRoutes.forgotPassword,
                         textStyle: const TextStyle(
                           fontFamily: 'Montserrat',
-                          color: Color.fromRGBO(252, 147, 3, 1.0),
+                          color: const Color.fromRGBO(252, 147, 3, 1.0),
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                         ),
@@ -147,27 +148,10 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 50),
 
                   // Login button
-                  SizedBox(
-                    width: 350,
-                    height: 55,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(252, 147, 3, 1.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                      ),
-                      onPressed: _isLoading ? null : _login,
-                      child: _isLoading 
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : Text(
-                            context.t.auth.login.login.toTitleCase(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                            ),
-                          ),
-                    ),
+                  PrimaryButton(
+                    label: context.t.auth.login.login.toTitleCase(),
+                    isLoading: _isLoading,
+                    onPressed: _login,
                   ),
                   const SizedBox(height: 40),
 
@@ -193,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                             route: AppRoutes.signup,
                             textStyle: const TextStyle(
                               fontFamily: 'Montserrat',
-                              color: Color.fromRGBO(252, 147, 3, 1.0),
+                              color: const Color.fromRGBO(252, 147, 3, 1.0),
                               fontSize: 15.0,
                               fontWeight: FontWeight.w500,
                             ),

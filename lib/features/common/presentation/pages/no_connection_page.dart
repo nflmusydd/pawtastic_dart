@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:pawtastic/services/user_provider.dart';
+import 'package:pawtastic/shared/widgets/primary_button.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/services/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class NoConnectionPage extends StatelessWidget {
   const NoConnectionPage({super.key});
@@ -19,7 +20,7 @@ class NoConnectionPage extends StatelessWidget {
               const Icon(
                 Icons.wifi_off_rounded,
                 size: 100,
-                color: Color.fromRGBO(252, 147, 3, 1.0),
+                color: const Color.fromRGBO(252, 147, 3, 1.0),
               ),
               const SizedBox(height: 30),
               Text(
@@ -45,28 +46,12 @@ class NoConnectionPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 50),
-              SizedBox(
+              PrimaryButton(
+                label: context.t.no_connection.try_again.toTitleCase(),
                 width: 200,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(252, 147, 3, 1.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    context.read<UserProvider>().retry();
-                  },
-                  child: Text(
-                    context.t.no_connection.try_again.toTitleCase(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                onPressed: () {
+                  context.read<UserProvider>().retry();
+                },
               ),
             ],
           ),

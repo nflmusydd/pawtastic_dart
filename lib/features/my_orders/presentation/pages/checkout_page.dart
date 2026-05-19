@@ -3,6 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
+import 'package:pawtastic/shared/widgets/primary_button.dart';
+import 'package:pawtastic/shared/widgets/global_order_card.dart';
+import 'package:pawtastic/models/order_model.dart' as model;
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/core/utils/string_extension.dart';
 
@@ -123,37 +127,34 @@ class _CheckoutPageState extends State<CheckoutPage> {
   Widget build(BuildContext context) {
     if (user == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(context.t.my_orders.checkout.order_summary.toTitleCase())),
+        appBar: CustomAppBar.leftTitle(
+          context,
+          title: context.t.my_orders.checkout.order_summary.toTitleCase(),
+        ),
         body: Center(child: Text(context.t.my_orders.checkout.please_log_in_to_proceed.ucfirst())),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(context.t.my_orders.checkout.order_summary.toTitleCase()),
+      appBar: CustomAppBar.leftTitle(
+        context,
+        title: context.t.my_orders.checkout.order_summary.toTitleCase(),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(context.t.my_orders.checkout.order_from(name: widget.sellerName).toTitleCase(), style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-            ),
-            
-            // Order Card
-            Card(
-              color: Colors.white,
-              margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: ListTile(
-                title: Text('${context.t.my_orders.checkout.order_number.toTitleCase()}: ${generateOrderNumber()}'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('${context.t.my_orders.checkout.total_price.toTitleCase()}: ${NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0).format(widget.totalPrice)}'),
-                    const SizedBox(height: 10),
-                    Text('${context.t.my_orders.checkout.shipping_address.toTitleCase()}: ${widget.userAddress}'),
-                  ],
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: GlobalOrderCard(
+                order: model.Order(
+                  orderId: 'TBA',
+                  shop: widget.sellerName,
+                  shippingAddress: widget.userAddress,
+                  totalPrice: widget.totalPrice.toInt(),
+                  orderDate: DateFormat('dd MMM yyyy').format(DateTime.now()),
+                  paymentMethod: "Cash on Delivery",
+                  status: 'processing',
+                  detailStatus: context.t.my_orders.checkout.order_summary.toTitleCase(),
                 ),
               ),
             ),
@@ -203,16 +204,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
             // Proceed to Checkout Button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-              child: ElevatedButton(
+              child: PrimaryButton(
+                label: context.t.common.buy_now.toTitleCase(),
                 onPressed: checkout,
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.orange,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text(context.t.common.buy_now.toTitleCase()),
               ),
             ),
           ],

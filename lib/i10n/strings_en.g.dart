@@ -50,6 +50,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsSearchEn search = TranslationsSearchEn.internal(_root);
 	late final TranslationsProductEn product = TranslationsProductEn.internal(_root);
 	late final TranslationsSellerProductEn seller_product = TranslationsSellerProductEn.internal(_root);
+	late final TranslationsSellerEn seller = TranslationsSellerEn.internal(_root);
 	late final TranslationsNavigationEn navigation = TranslationsNavigationEn.internal(_root);
 	late final TranslationsErrorsEn errors = TranslationsErrorsEn.internal(_root);
 }
@@ -287,6 +288,18 @@ class TranslationsSellerProductEn {
 
 	// Translations
 	late final TranslationsSellerProductManageProductEn manage_product = TranslationsSellerProductManageProductEn.internal(_root);
+}
+
+// Path: seller
+class TranslationsSellerEn {
+	TranslationsSellerEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsSellerHomeEn home = TranslationsSellerHomeEn.internal(_root);
+	late final TranslationsSellerManageOrdersEn manage_orders = TranslationsSellerManageOrdersEn.internal(_root);
+	late final TranslationsSellerCashierEn cashier = TranslationsSellerCashierEn.internal(_root);
 }
 
 // Path: navigation
@@ -830,6 +843,90 @@ class TranslationsSellerProductManageProductEn {
 	String edit_details_for({required Object name}) => 'edit details for ${name}';
 }
 
+// Path: seller.home
+class TranslationsSellerHomeEn {
+	TranslationsSellerHomeEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'add product'
+	String get add_product => 'add product';
+
+	/// en: 'manage products'
+	String get manage_products => 'manage products';
+
+	/// en: 'manage orders'
+	String get manage_orders => 'manage orders';
+
+	/// en: 'cashier'
+	String get cashier => 'cashier';
+
+	/// en: 'sign out'
+	String get sign_out => 'sign out';
+}
+
+// Path: seller.manage_orders
+class TranslationsSellerManageOrdersEn {
+	TranslationsSellerManageOrdersEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'manage orders'
+	String get title => 'manage orders';
+
+	/// en: 'pending'
+	String get pending => 'pending';
+
+	/// en: 'delivered'
+	String get delivered => 'delivered';
+
+	/// en: 'cancelled'
+	String get cancelled => 'cancelled';
+
+	/// en: 'tracking number'
+	String get tracking_number => 'tracking number';
+
+	/// en: 'product list'
+	String get product_list => 'product list';
+
+	/// en: 'confirm'
+	String get confirm => 'confirm';
+}
+
+// Path: seller.cashier
+class TranslationsSellerCashierEn {
+	TranslationsSellerCashierEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'cashier'
+	String get title => 'cashier';
+
+	/// en: 'transaction record'
+	String get transaction_record => 'transaction record';
+
+	/// en: 'add offline transaction'
+	String get add_offline_transaction => 'add offline transaction';
+
+	/// en: 'total income'
+	String get total_income => 'total income';
+
+	/// en: 'shipping cost'
+	String get shipping_cost => 'shipping cost';
+
+	/// en: 'discount'
+	String get discount => 'discount';
+
+	/// en: 'offline transaction form placeholder'
+	String get offline_form_placeholder => 'offline transaction form placeholder';
+}
+
 // Path: errors.auth
 class TranslationsErrorsAuthEn {
 	TranslationsErrorsAuthEn.internal(this._root);
@@ -1141,6 +1238,25 @@ extension on Translations {
 			'seller_product.manage_product.current_stock' => ({required Object stock}) => 'current stock: ${stock}',
 			'seller_product.manage_product.edit_product' => 'edit product',
 			'seller_product.manage_product.edit_details_for' => ({required Object name}) => 'edit details for ${name}',
+			'seller.home.add_product' => 'add product',
+			'seller.home.manage_products' => 'manage products',
+			'seller.home.manage_orders' => 'manage orders',
+			'seller.home.cashier' => 'cashier',
+			'seller.home.sign_out' => 'sign out',
+			'seller.manage_orders.title' => 'manage orders',
+			'seller.manage_orders.pending' => 'pending',
+			'seller.manage_orders.delivered' => 'delivered',
+			'seller.manage_orders.cancelled' => 'cancelled',
+			'seller.manage_orders.tracking_number' => 'tracking number',
+			'seller.manage_orders.product_list' => 'product list',
+			'seller.manage_orders.confirm' => 'confirm',
+			'seller.cashier.title' => 'cashier',
+			'seller.cashier.transaction_record' => 'transaction record',
+			'seller.cashier.add_offline_transaction' => 'add offline transaction',
+			'seller.cashier.total_income' => 'total income',
+			'seller.cashier.shipping_cost' => 'shipping cost',
+			'seller.cashier.discount' => 'discount',
+			'seller.cashier.offline_form_placeholder' => 'offline transaction form placeholder',
 			'navigation.home' => 'home',
 			'navigation.cart' => 'cart',
 			'navigation.my_orders' => 'my orders',

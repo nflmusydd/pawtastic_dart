@@ -15,8 +15,8 @@ class DialogUtils {
     const primaryColor = Color.fromRGBO(252, 147, 3, 1.0);
     
     // Default values using translations (runtime)
-    final effectiveConfirmText = confirmText ?? t.common.yes.toTitleCase();
-    final effectiveCancelText = cancelText ?? t.common.cancel.toTitleCase();
+    final effectiveConfirmText = confirmText ?? context.t.common.yes.toTitleCase();
+    final effectiveCancelText = cancelText ?? context.t.common.cancel.toTitleCase();
     final effectiveMessage = message ?? "";
 
     return showDialog(

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pawtastic/features/product/presentation/pages/product_details_page.dart';
+import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 
 class SellerProductListPage extends StatefulWidget {
   final Map<String, dynamic> seller;
@@ -19,6 +21,7 @@ class SellerProductListPage extends StatefulWidget {
 
 class _SellerProductListPageState extends State<SellerProductListPage> {
   late List<Map<String, dynamic>> sellerProducts = [];
+  bool isLoading = true;
 
   // Fetch products for the given sellerId
   Future<void> fetchProducts() async {
@@ -34,9 +37,11 @@ class _SellerProductListPageState extends State<SellerProductListPage> {
         sellerProducts = querySnapshot.docs
             .map((doc) => doc.data() as Map<String, dynamic>)
             .toList();
+        isLoading = false;
       });
     } catch (e) {
-      print("Error fetching products: $e");
+      if (kDebugMode) debugPrint("Error fetching products: $e");
+      print("Error fetching products");
     }
   }
 
@@ -49,43 +54,13 @@ class _SellerProductListPageState extends State<SellerProductListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        elevation: 0,
-        toolbarHeight: 75,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        flexibleSpace: SafeArea(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Products by',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 17.0,
-                  ),
-                ),
-                Text(
-                  "${widget.seller["shop_name"]}",
-                  style: const TextStyle(
-                    color: Color.fromRGBO(252, 147, 3, 1.0),
-                    fontSize: 19.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+      appBar: CustomAppBar.centerTitle(
+        context,
+        blackTitle: 'Products by',
+        orangeTitle: "${widget.seller["shop_name"]}",
       ),
-      body: sellerProducts.isEmpty
+      body: SafeArea(
+          child: isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: SafeArea(
@@ -183,7 +158,7 @@ class _SellerProductListPageState extends State<SellerProductListPage> {
                 ),
               ),
             ),
+      )
     );
   }
 }
-

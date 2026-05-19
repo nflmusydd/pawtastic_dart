@@ -47,7 +47,7 @@ class _TestPageState extends State<TestPage> {
                 children: [
                   CustomPaint(
                     size: Size(size.width, 80),
-                    painter: BNBCustomPainter(),
+                    painter: TestBottomBarPainter(),
                   ),
                   Center(
                     heightFactor: 0.8,
@@ -177,7 +177,7 @@ class _TestPageState extends State<TestPage> {
   }
 }
 
-class BNBCustomPainter extends CustomPainter {
+class TestBottomBarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
@@ -236,6 +236,5 @@ class BNBCustomPainter extends CustomPainter {
 //           ),
 //         )
        
-      
 //       ),
 //     );
