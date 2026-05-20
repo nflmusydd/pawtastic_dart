@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pawtastic/models/order_model.dart';
-import 'package:pawtastic/shared/widgets/bottom_bar.dart';
-import 'package:pawtastic/shared/widgets/custom_tab_layout.dart';
 import 'package:pawtastic/features/my_orders/presentation/widgets/delivered_orders_tab.dart';
 import 'package:pawtastic/features/my_orders/presentation/widgets/processing_orders_tab.dart';
 import 'package:pawtastic/features/my_orders/presentation/widgets/cancelled_orders_tab.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
+import 'package:pawtastic/services/bottom_bar_provider.dart';
+import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 class MyOrdersPage extends StatefulWidget {
   const MyOrdersPage({super.key});
@@ -100,35 +102,36 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        automaticallyImplyLeading: false, 
-        title: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Center(
-            child: Text(
-              context.t.my_orders.index.my_orders.toTitleCase(),
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 18.0,  
-              ),
-            ),
-          ),
-        ),
+      appBar: CustomAppBar.centerTitle(
+        context,
+        blackTitle: context.t.my_orders.index.my_orders.toTitleCase(),
+        titleOnly: true,
       ),
-      body: CustomTabLayout(
-        tabTitles: [
-          context.t.my_orders.index.delivered.toTitleCase(),
-          context.t.my_orders.index.processing.toTitleCase(),
-          context.t.my_orders.index.cancelled.toTitleCase(),
-        ],
-        tabViews: [
-          DeliveredOrdersTab(orders: orders.where((o) => o.status == 'delivered').toList()),
-          ProcessingOrdersTab(orders: orders.where((o) => o.status == 'processing').toList()),
-          CancelledOrdersTab(orders: orders.where((o) => o.status == 'cancelled').toList()),
-        ],
+      body: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.direction == ScrollDirection.reverse) {
+            if (context.read<BottomBarProvider>().isVisible) {
+              context.read<BottomBarProvider>().setVisible(false);
+            }
+          } else if (notification.direction == ScrollDirection.forward) {
+            if (!context.read<BottomBarProvider>().isVisible) {
+              context.read<BottomBarProvider>().setVisible(true);
+            }
+          }
+          return true;
+        },
+        child: CustomTabLayout(
+          tabTitles: [
+            context.t.my_orders.index.delivered.toTitleCase(),
+            context.t.my_orders.index.processing.toTitleCase(),
+            context.t.my_orders.index.cancelled.toTitleCase(),
+          ],
+          tabViews: [
+            DeliveredOrdersTab(orders: orders.where((o) => o.status == 'delivered').toList()),
+            ProcessingOrdersTab(orders: orders.where((o) => o.status == 'processing').toList()),
+            CancelledOrdersTab(orders: orders.where((o) => o.status == 'cancelled').toList()),
+          ],
+        ),
       ),
     );
   }

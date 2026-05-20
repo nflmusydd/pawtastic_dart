@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pawtastic/models/order_model.dart';
-import 'package:pawtastic/shared/widgets/global_order_card.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
 
 class SellerOrdersTab extends StatelessWidget {
   final List<Order> orders;

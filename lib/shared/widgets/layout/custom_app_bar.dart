@@ -33,6 +33,7 @@ class CustomAppBar {
     String? blackTitle,
     String? orangeTitle,
     VoidCallback? onBack,
+    bool titleOnly = false,
   }) {
     // Determine height based on content: 75 for double line, default (56) for single line
     final double height = (blackTitle != null && orangeTitle != null) ? 75 : 56;
@@ -41,10 +42,13 @@ class CustomAppBar {
       backgroundColor: Colors.white,
       elevation: 0,
       toolbarHeight: height,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios_new_rounded, color: _primaryColor),
-        onPressed: onBack ?? () => Navigator.pop(context),
-      ),
+      automaticallyImplyLeading: !titleOnly,
+      leading: titleOnly
+          ? null
+          : IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new_rounded, color: _primaryColor),
+              onPressed: onBack ?? () => Navigator.pop(context),
+            ),
       centerTitle: true,
       title: Column(
         mainAxisAlignment: MainAxisAlignment.center,

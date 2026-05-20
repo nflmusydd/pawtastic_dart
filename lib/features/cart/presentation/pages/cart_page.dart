@@ -5,10 +5,13 @@ import 'package:intl/intl.dart';
 import 'package:pawtastic/shared/utils/snackbar_utils.dart';
 import 'package:pawtastic/features/cart/presentation/pages/cart_detail_page.dart';
 // import 'package:pawtastic/features/my_orders/presentation/pages/checkout_page.dart';
-import 'package:pawtastic/shared/widgets/bottom_bar.dart';
-import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
+
+import 'package:pawtastic/services/bottom_bar_provider.dart';
+import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -20,6 +23,33 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   final User? user = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+      if (context.read<BottomBarProvider>().isVisible) {
+        context.read<BottomBarProvider>().setVisible(false);
+      }
+    } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
+      if (!context.read<BottomBarProvider>().isVisible) {
+        context.read<BottomBarProvider>().setVisible(true);
+      }
+    }
+  }
 
   Future<void> deleteCartItem(String cartItemId) async {
     try {
@@ -55,9 +85,10 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     if (user == null) {
       return Scaffold(
-        appBar: CustomAppBar.leftTitle(
+        appBar: CustomAppBar.centerTitle(
           context,
-          title: context.t.cart.cart.toTitleCase(),
+          blackTitle: context.t.cart.cart.toTitleCase(),
+          titleOnly: true,
         ),
         body: Center(child: Text(context.t.cart.please_log_in_to_view_your_cart.ucfirst())),
       );
@@ -67,16 +98,16 @@ class _CartPageState extends State<CartPage> {
         firestore.collection('users').doc(user?.uid).collection('cart');
 
     return Scaffold(
-      appBar: CustomAppBar.leftTitle(
+      appBar: CustomAppBar.centerTitle(
         context,
-        title: context.t.cart.my_cart.toTitleCase(),
-        onBack: () => Navigator.pop(context), // Ensure it has a back button if needed, or null for default
+        blackTitle: context.t.cart.my_cart.toTitleCase(),
+        titleOnly: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: cartRef.snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return GlobalLoading.centered();
           }
 
           if (snapshot.hasError) {
@@ -90,6 +121,7 @@ class _CartPageState extends State<CartPage> {
           var cartItems = snapshot.data!.docs;
 
           return ListView.builder(
+            controller: _scrollController,
             itemCount: cartItems.length,
             itemBuilder: (context, index) {
               var cartItem = cartItems[index];

@@ -1,7 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
 
 class SupabaseAuthService {
   final SupabaseClient _supabase = Supabase.instance.client;

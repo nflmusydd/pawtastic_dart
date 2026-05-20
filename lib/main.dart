@@ -34,6 +34,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:pawtastic/services/user_provider.dart';
 import 'package:pawtastic/services/locale_provider.dart';
+import 'package:pawtastic/services/bottom_bar_provider.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -78,6 +79,7 @@ void main() async {
         providers: [
           ChangeNotifierProvider(create: (context) => UserProvider()),
           ChangeNotifierProvider(create: (context) => LocaleProvider()),
+          ChangeNotifierProvider(create: (context) => BottomBarProvider()),
         ],
         child: const MyApp(),
       ),

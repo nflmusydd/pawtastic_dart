@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pawtastic/models/order_model.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
 
 class SellerOrderCard extends StatelessWidget {
   final Order order;

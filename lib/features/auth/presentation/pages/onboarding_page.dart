@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
-import 'package:pawtastic/shared/widgets/custom_text_button.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});

@@ -4,13 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pawtastic/features/product/presentation/pages/product_details_page.dart';
-import 'package:pawtastic/shared/widgets/bottom_bar.dart';
-import 'package:pawtastic/features/home/presentation/pages/product_category_page.dart';
 import 'package:pawtastic/features/account/presentation/pages/account_page.dart';
-import 'package:pawtastic/shared/widgets/custom_text_button.dart';
-import 'package:pawtastic/shared/widgets/global_product_card.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
+
+import 'package:pawtastic/services/bottom_bar_provider.dart';
+import 'package:flutter/rendering.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,18 +19,61 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  List categories = [
-    "images/cat.jpeg",
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+  final List categories = [
+    "images/cat.png",
     "images/dog.png",
-    "images/hamster.jpeg",
-    "images/fish.jpeg"
+    "images/hamster.png",
+    "images/fish.png"
   ];
 
-  List categoryName = ["Cats", "Dogs", "Hamster", "Fish"];
+  final List categoryName = ["Cats", "Dogs", "Hamster", "Fish"];
+
+  late Stream<QuerySnapshot> _productsStream;
+  late Stream<QuerySnapshot> _popularProductsStream;
+  late ScrollController _scrollController;
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+    
+    // Inisialisasi Stream di initState agar tidak dibuat ulang setiap build
+    _productsStream = FirebaseFirestore.instance.collection('products').snapshots();
+    _popularProductsStream = FirebaseFirestore.instance
+        .collection('products')
+        .orderBy("product_sold", descending: true)
+        .limit(6)
+        .snapshots();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+      // Scroll ke bawah -> Sembunyikan Bar
+      if (context.read<BottomBarProvider>().isVisible) {
+        context.read<BottomBarProvider>().setVisible(false);
+      }
+    } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
+      // Scroll ke atas -> Tampilkan Bar
+      if (!context.read<BottomBarProvider>().isVisible) {
+        context.read<BottomBarProvider>().setVisible(true);
+      }
+    }
+  }
 
   // Helper function to limit characters in name
-  String _formatDisplayName(String fullName, {int maxChars = 23,}) {
+  String _formatDisplayName(String fullName, {int maxChars = 23}) {
     if (fullName.trim().isEmpty) return "User";
     final words = fullName.trim().split(RegExp(r'\s+'));
     if (words.first.length > maxChars) {
@@ -49,6 +92,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Wajib dipanggil jika menggunakan AutomaticKeepAliveClientMixin
 
     return Scaffold(
       body: GestureDetector(
@@ -57,6 +101,7 @@ class _HomePageState extends State<HomePage> {
         },
         child: SafeArea(
           child: SingleChildScrollView(
+            controller: _scrollController,
             padding: const EdgeInsets.only(bottom: 90, top: 25),
             child: Column(
               children: [
@@ -69,8 +114,7 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const ToAccountPage()),
+                            MaterialPageRoute(builder: (context) => const ToAccountPage()),
                           );
                         },
                         child: const Icon(
@@ -158,28 +202,24 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         context.t.home.index.categories.toTitleCase(),
-                        style: const TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w700),
+                        style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 5.0),
-                // Fetch categories and products from Firestore
+                
                 StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('products')
-                      .snapshots(),
+                  stream: _productsStream,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return GlobalLoading.centered();
                     }
 
                     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                       return Center(child: Text(context.t.home.index.no_products_available.ucfirst()));
                     }
 
-                    // Mapping product data from Firestore
                     var products = snapshot.data!.docs.map((doc) {
                       return {
                         "productId": doc.id,
@@ -203,8 +243,6 @@ class _HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           final nameCategory = categoryName[index];
-
-                          // Filter products by category name
                           final filteredProducts = products.where((product) {
                             return product['category'] != null &&
                                 product['category'].contains(nameCategory);
@@ -213,8 +251,7 @@ class _HomePageState extends State<HomePage> {
                           return CategoryTile(
                             image: categories[index],
                             name: nameCategory,
-                            filteredProducts:
-                                filteredProducts, // Pass filtered products here
+                            filteredProducts: filteredProducts,
                           );
                         },
                       ),
@@ -232,14 +269,13 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         context.t.home.index.most_popular.toTitleCase(),
-                        style: const TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w700),
+                        style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
                       ),
                       CustomTextButton(
                         text: context.t.common.see_all.toTitleCase(),
                         route: AppRoutes.mostPopular,
                         textStyle: const TextStyle(
-                          color: const Color.fromRGBO(252, 147, 3, 1.0),
+                          color: Color.fromRGBO(252, 147, 3, 1.0),
                           fontWeight: FontWeight.w500,
                         ),
                       )
@@ -252,15 +288,10 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14.0),
                   child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('products')
-                        .orderBy("product_sold", descending: true)
-                        .limit(6)
-                        .snapshots(),
+                    stream: _popularProductsStream,
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return GlobalLoading.centered();
                       }
 
                       if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -285,8 +316,7 @@ class _HomePageState extends State<HomePage> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: products.length > 6 ? 6 : products.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10.0,
                           mainAxisSpacing: 10.0,
@@ -295,29 +325,21 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           final product = products[index];
 
-                          // Fetch seller name using the sellerId
                           return FutureBuilder<DocumentSnapshot>(
                             future: FirebaseFirestore.instance
                                 .collection('seller')
-                                .doc(product[
-                                    'sellerId']) // Use sellerId to get seller data
+                                .doc(product['sellerId'])
                                 .get(),
                             builder: (context, sellerSnapshot) {
-                              if (sellerSnapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
+                              if (sellerSnapshot.connectionState == ConnectionState.waiting) {
+                                return GlobalLoading.centered(size: 80);
                               }
 
-                              if (!sellerSnapshot.hasData ||
-                                  !sellerSnapshot.data!.exists) {
-                                return Center(
-                                    child: Text(context.t.home.index.seller_not_found.ucfirst()));
+                              if (!sellerSnapshot.hasData || !sellerSnapshot.data!.exists) {
+                                return Center(child: Text(context.t.home.index.seller_not_found.ucfirst()));
                               }
 
-                              // Correct: Accessing seller data directly
-                              var seller = sellerSnapshot.data!.data()
-                                  as Map<String, dynamic>;
+                              var seller = sellerSnapshot.data!.data() as Map<String, dynamic>;
 
                               return GlobalProductCard(
                                 productName: product["productName"],
@@ -325,7 +347,6 @@ class _HomePageState extends State<HomePage> {
                                 price: (product["price"] as num).toDouble(),
                                 shopName: seller["shop_name"],
                                 onTap: () {
-                                  // Navigate to details page, passing product data
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -347,56 +368,6 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class CategoryTile extends StatelessWidget {
-  final String image, name;
-  final List<Map<String, dynamic>> filteredProducts;
-
-  const CategoryTile({
-    super.key,
-    required this.image,
-    required this.name,
-    required this.filteredProducts,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductCategoryPage(
-              categoryName: name,
-              products: filteredProducts,
-            ),
-          ),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.only(right: 15.0),
-        height: 90.0,
-        width: 90.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset(
-              image,
-              height: 90,
-              width: 60,
-              fit: BoxFit.cover,
-            ),
-            const Icon(Icons.arrow_forward_ios_rounded, color: Colors.orange)
-          ],
         ),
       ),
     );

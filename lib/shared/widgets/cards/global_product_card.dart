@@ -8,6 +8,7 @@ class GlobalProductCard extends StatelessWidget {
   final String shopName;
   final VoidCallback? onTap;
   final bool isGrid;
+  final EdgeInsetsGeometry? margin;
 
   const GlobalProductCard({
     super.key,
@@ -17,14 +18,21 @@ class GlobalProductCard extends StatelessWidget {
     required this.shopName,
     this.onTap,
     this.isGrid = true,
+    this.margin,
   });
 
   @override
   Widget build(BuildContext context) {
     if (isGrid) {
-      return _buildGridCard(context);
+      return Padding(
+        padding: margin ?? EdgeInsets.zero,
+        child: _buildGridCard(context),
+      );
     } else {
-      return _buildListCard(context);
+      return Padding(
+        padding: margin ?? EdgeInsets.zero,
+        child: _buildListCard(context),
+      );
     }
   }
 
@@ -117,9 +125,18 @@ class GlobalProductCard extends StatelessWidget {
     // Basic list view implementation for future use
     return GestureDetector(
       onTap: onTap,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        elevation: 4.0,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 2,
+              blurRadius: 5,
+            ),
+          ],
+        ),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Row(
@@ -145,7 +162,7 @@ class GlobalProductCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Montserrat',
                       ),
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4.0),

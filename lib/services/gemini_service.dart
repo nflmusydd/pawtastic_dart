@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

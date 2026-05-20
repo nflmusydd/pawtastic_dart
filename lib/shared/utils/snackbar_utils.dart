@@ -15,7 +15,7 @@ class SnackBarUtils {
         break;
       case SnackBarType.error:
         backgroundColor = const Color.fromRGBO(211, 47, 47, 1.0);
-        icon = Icons.error_outline_rounded;
+        icon = Icons.cancel_rounded;
         break;
       case SnackBarType.info:
       // ignore: unreachable_switch_default

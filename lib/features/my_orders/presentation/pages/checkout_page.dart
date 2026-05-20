@@ -3,12 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
-import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
-import 'package:pawtastic/shared/widgets/primary_button.dart';
-import 'package:pawtastic/shared/widgets/global_order_card.dart';
 import 'package:pawtastic/models/order_model.dart' as model;
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
 
 class CheckoutPage extends StatefulWidget {
   final List<Map<String, dynamic>> cartItems;  // List of cart items

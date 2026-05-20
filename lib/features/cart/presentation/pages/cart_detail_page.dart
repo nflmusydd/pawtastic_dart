@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pawtastic/features/my_orders/presentation/pages/checkout_page.dart';
-import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
 
 class CartDetailPage extends StatefulWidget {
   final Map<String, dynamic> cartItemData;  // Add cartItemData as a parameter

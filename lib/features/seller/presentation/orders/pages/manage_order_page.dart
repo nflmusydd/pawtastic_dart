@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pawtastic/models/order_model.dart';
-import 'package:pawtastic/shared/widgets/custom_tab_layout.dart';
 import 'package:pawtastic/features/seller/presentation/orders/widgets/seller_orders_tab.dart';
-import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
 
 class ManageOrdersPage extends StatefulWidget {
   const ManageOrdersPage({super.key});

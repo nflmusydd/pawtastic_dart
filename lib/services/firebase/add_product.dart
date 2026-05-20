@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
-import 'package:pawtastic/shared/widgets/primary_button.dart';
-import 'package:pawtastic/shared/widgets/custom_text_field_decoration.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({super.key});

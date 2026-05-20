@@ -172,6 +172,8 @@
     "details": {
       "details": "details",
       "order": "order",
+      "confirm_order": "confirm order",
+      "confirm_receipt_message": "has your order arrived safely?",
       "shop_information": "shop information",
       "shop": "shop",
       "shop_address": "shop address",
@@ -247,7 +249,9 @@
         "cancelled": "cancelled",
         "tracking_number": "tracking number",
         "product_list": "product list",
-        "confirm": "confirm"
+        "confirm": "confirm",
+        "confirm_order_message": "are you sure you want to confirm this order?",
+        "cancel_order_message": "Are you sure you want to cancel this order??"
       },
       "cashier": {
         "title": "cashier",

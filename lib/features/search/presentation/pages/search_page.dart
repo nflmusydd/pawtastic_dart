@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
 import 'package:pawtastic/features/product/presentation/pages/product_details_page.dart';
-import 'package:pawtastic/shared/widgets/bottom_bar.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
+
+import 'package:pawtastic/services/bottom_bar_provider.dart';
+import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -17,6 +20,34 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchKeyword = ""; // Holds the SearchPage keyword
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+      if (context.read<BottomBarProvider>().isVisible) {
+        context.read<BottomBarProvider>().setVisible(false);
+      }
+    } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
+      if (!context.read<BottomBarProvider>().isVisible) {
+        context.read<BottomBarProvider>().setVisible(true);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +58,7 @@ class _SearchPageState extends State<SearchPage> {
         },
         child: SafeArea(
           child: SingleChildScrollView(
+            controller: _scrollController,
             padding: const EdgeInsets.only(bottom: 90, top: 25),
             child: Column(
               children: [
@@ -91,7 +123,7 @@ class _SearchPageState extends State<SearchPage> {
                   stream: FirebaseFirestore.instance.collection('products').snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return GlobalLoading.centered();
                     }
 
                     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -138,7 +170,7 @@ class _SearchPageState extends State<SearchPage> {
                               .get(),
                           builder: (context, sellerSnapshot) {
                             if (sellerSnapshot.connectionState == ConnectionState.waiting) {
-                              return const Center(child: CircularProgressIndicator());
+                              return GlobalLoading.centered();
                             }
 
                             if (!sellerSnapshot.hasData || !sellerSnapshot.data!.exists) {
@@ -147,10 +179,13 @@ class _SearchPageState extends State<SearchPage> {
 
                             final seller = sellerSnapshot.data!.data() as Map<String, dynamic>;
 
-                            // Check if the image URL is a local asset or network URL
-                            bool isNetworkImage = Uri.tryParse(product["productImage"])?.hasScheme == 'http';
-
-                            return GestureDetector(
+                            return GlobalProductCard(
+                              productName: product["productName"],
+                              productImage: product["productImage"],
+                              price: product["price"].toDouble(),
+                              shopName: seller["shop_name"],
+                              isGrid: false,
+                              margin: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -162,76 +197,6 @@ class _SearchPageState extends State<SearchPage> {
                                   ),
                                 );
                               },
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.3),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: isNetworkImage
-                                          ? Image.network(
-                                              product["productImage"],
-                                              height: 100,
-                                              width: 100,
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Image.asset(
-                                              product["productImage"],
-                                              height: 100,
-                                              width: 100,
-                                              fit: BoxFit.cover,
-                                            ),
-                                    ),
-                                    const SizedBox(width: 12.0),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            product["productName"],
-                                            style: const TextStyle(
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Text(
-                                            NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0).format(product["price"]),
-                                            style: const TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.orange,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 3.0),
-                                          Text(
-                                            seller["shop_name"],
-                                            style: const TextStyle(
-                                              fontSize: 13.0,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: "Montserrat",
-                                            ),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                             );
                           },
                         );

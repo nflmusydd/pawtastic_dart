@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../global_loading.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String label;
@@ -40,13 +41,9 @@ class PrimaryButton extends StatelessWidget {
         ),
         onPressed: isLoading ? null : onPressed,
         child: isLoading
-            ? SizedBox(
-                height: height * 0.5,
-                width: height * 0.5,
-                child: CircularProgressIndicator(
-                  color: textColor,
-                  strokeWidth: 3,
-                ),
+            ? GlobalLoading(
+                size: height * 1.5, // Lottie usually has internal padding, so we make it larger
+                isWhite: true,
               )
             : Text(
                 label,

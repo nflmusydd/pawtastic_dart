@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
 
 class DialogUtils {
   static Future<void> showConfirmationDialog({

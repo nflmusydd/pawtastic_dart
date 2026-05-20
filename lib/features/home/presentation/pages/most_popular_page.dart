@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pawtastic/features/product/presentation/pages/product_details_page.dart';
-import 'package:pawtastic/shared/widgets/global_product_card.dart';
-import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
 
 class MostPopularPage extends StatefulWidget {
   const MostPopularPage({super.key});
@@ -29,7 +28,7 @@ class _MostPopularPageState extends State<MostPopularPage> {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return GlobalLoading.centered();
             }
 
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -68,7 +67,7 @@ class _MostPopularPageState extends State<MostPopularPage> {
                       .get(),
                   builder: (context, sellerSnapshot) {
                     if (sellerSnapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return GlobalLoading.centered();
                     }
 
                     if (!sellerSnapshot.hasData || !sellerSnapshot.data!.exists) {

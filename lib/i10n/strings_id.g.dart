@@ -434,6 +434,8 @@ class _TranslationsMyOrdersDetailsId extends TranslationsMyOrdersDetailsEn {
 	// Translations
 	@override String get details => 'detail';
 	@override String get order => 'pesanan';
+	@override String get confirm_order => 'pesanan selesai';
+	@override String get confirm_receipt_message => 'apakah pesananmu telah sampai dengan selamat?';
 	@override String get shop_information => 'informasi toko';
 	@override String get shop => 'toko';
 	@override String get shop_address => 'alamat toko';
@@ -534,6 +536,8 @@ class _TranslationsSellerManageOrdersId extends TranslationsSellerManageOrdersEn
 	@override String get tracking_number => 'nomor resi';
 	@override String get product_list => 'daftar produk';
 	@override String get confirm => 'konfirmasi';
+	@override String get confirm_order_message => 'apakah anda yakin ingin mengonfirmasi pesanan ini?';
+	@override String get cancel_order_message => 'apakah anda yakin ingin membatalkan pesanan ini?';
 }
 
 // Path: seller.cashier
@@ -757,6 +761,8 @@ extension on TranslationsId {
 			'my_orders.index.details' => 'detail',
 			'my_orders.details.details' => 'detail',
 			'my_orders.details.order' => 'pesanan',
+			'my_orders.details.confirm_order' => 'pesanan selesai',
+			'my_orders.details.confirm_receipt_message' => 'apakah pesananmu telah sampai dengan selamat?',
 			'my_orders.details.shop_information' => 'informasi toko',
 			'my_orders.details.shop' => 'toko',
 			'my_orders.details.shop_address' => 'alamat toko',
@@ -815,6 +821,8 @@ extension on TranslationsId {
 			'seller.manage_orders.tracking_number' => 'nomor resi',
 			'seller.manage_orders.product_list' => 'daftar produk',
 			'seller.manage_orders.confirm' => 'konfirmasi',
+			'seller.manage_orders.confirm_order_message' => 'apakah anda yakin ingin mengonfirmasi pesanan ini?',
+			'seller.manage_orders.cancel_order_message' => 'apakah anda yakin ingin membatalkan pesanan ini?',
 			'seller.cashier.title' => 'kasir',
 			'seller.cashier.transaction_record' => 'catatan transaksi',
 			'seller.cashier.add_offline_transaction' => 'tambah transaksi offline',

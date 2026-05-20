@@ -172,6 +172,8 @@
     "details": {
       "details": "detail",
       "order": "pesanan",
+      "confirm_order": "pesanan selesai",
+      "confirm_receipt_message": "apakah pesananmu telah sampai dengan selamat?",
       "shop_information": "informasi toko",
       "shop": "toko",
       "shop_address": "alamat toko",
@@ -247,7 +249,9 @@
         "cancelled": "dibatalkan",
         "tracking_number": "nomor resi",
         "product_list": "daftar produk",
-        "confirm": "konfirmasi"
+        "confirm": "konfirmasi",
+        "confirm_order_message": "apakah anda yakin ingin mengonfirmasi pesanan ini?",
+        "cancel_order_message": "apakah anda yakin ingin membatalkan pesanan ini?"
       },
       "cashier": {
         "title": "kasir",

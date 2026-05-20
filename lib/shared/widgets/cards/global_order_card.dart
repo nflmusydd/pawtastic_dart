@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pawtastic/models/order_model.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
+import 'package:pawtastic/shared/utils/dialog_utils.dart';
 
 class GlobalOrderCard extends StatelessWidget {
   final Order order;
@@ -39,6 +40,28 @@ class GlobalOrderCard extends StatelessWidget {
     return order.detailStatus;
   }
 
+  void _handleConfirm(BuildContext context) {
+    DialogUtils.showConfirmationDialog(
+      context: context,
+      title: isSeller 
+        ? context.t.seller.manage_orders.confirm.toTitleCase()
+        : context.t.my_orders.details.confirm_order.toTitleCase(),
+      message: isSeller
+        ? context.t.seller.manage_orders.confirm_order_message.ucfirst()
+        : context.t.my_orders.details.confirm_receipt_message.ucfirst(),
+      onConfirm: onConfirm ?? () {},
+    );
+  }
+
+  void _handleCancel(BuildContext context) {
+    DialogUtils.showConfirmationDialog(
+      context: context,
+      title: context.t.common.cancel.toTitleCase(),
+      message: context.t.seller.manage_orders.cancel_order_message.ucfirst(),
+      onConfirm: onCancel ?? () {},
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -49,10 +72,11 @@ class GlobalOrderCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.fromLTRB(16, 16, 16, _shouldShowActionButtons() ? 4 : 16,),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Top Row: Order ID and Date
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -75,6 +99,8 @@ class GlobalOrderCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12.0),
+
+            // Info Rows: Shop/Tracking and Address/Product List
             _buildInfoRow(
               context,
               label: isSeller 
@@ -91,6 +117,8 @@ class GlobalOrderCard extends StatelessWidget {
               value: order.shippingAddress,
             ),
             const SizedBox(height: 12.0),
+
+            // Middle Row: Total Amount, Status, and Details Button
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -130,9 +158,44 @@ class GlobalOrderCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                _buildActionButtons(context),
+                // Details button always visible
+                _buildOutlineButton(
+                  context,
+                  label: context.t.common.details.toTitleCase(),
+                  color: const Color.fromARGB(255, 108, 108, 108),
+                  onPressed: onTap,
+                ),
               ],
             ),
+            
+            // Bottom Row: Action Buttons (Confirm/Cancel)
+            if (_shouldShowActionButtons()) ...[
+              const SizedBox(height: 12.0),
+              const Divider(height: 1, thickness: 0.5),
+              const SizedBox(height: 4.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (isSeller) ...[
+                    _buildOutlineButton(
+                      context,
+                      label: context.t.common.cancel.toTitleCase(),
+                      color: const Color.fromARGB(255, 197, 31, 16),
+                      onPressed: () => _handleCancel(context),
+                    ),
+                    const SizedBox(width: 12),
+                  ],
+                  _buildOutlineButton(
+                    context,
+                    label: isSeller 
+                        ? context.t.seller.manage_orders.confirm.toTitleCase()
+                        : context.t.my_orders.details.confirm_order.toTitleCase(),
+                    color: const Color.fromARGB(255, 33, 196, 12),
+                    onPressed: () => _handleConfirm(context),
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),
@@ -167,40 +230,17 @@ class GlobalOrderCard extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context) {
-    if (isSeller && order.status.toLowerCase() == 'delivered') {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildOutlineButton(
-            context,
-            label: context.t.common.cancel.toTitleCase(),
-            color: const Color.fromARGB(255, 197, 31, 16),
-            onPressed: onCancel,
-          ),
-          const SizedBox(width: 8),
-          _buildOutlineButton(
-            context,
-            label: context.t.seller.manage_orders.confirm.toTitleCase(),
-            color: const Color.fromARGB(255, 33, 196, 12),
-            onPressed: onConfirm,
-          ),
-        ],
-      );
-    }
-
-    return _buildOutlineButton(
-      context,
-      label: context.t.common.details.toTitleCase(),
-      color: const Color.fromARGB(255, 108, 108, 108),
-      onPressed: onTap,
-    );
+  bool _shouldShowActionButtons() {
+    final status = order.status.toLowerCase();
+    if (isSeller && status == 'processing') return true;
+    if (!isSeller && status == 'delivered') return true;
+    return false;
   }
 
   Widget _buildOutlineButton(BuildContext context, {
     required String label,
     required Color color,
-    VoidCallback? onPressed,
+    required VoidCallback? onPressed,
   }) {
     return OutlinedButton(
       onPressed: onPressed,

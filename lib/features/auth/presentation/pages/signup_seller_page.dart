@@ -2,12 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
 import 'package:pawtastic/shared/utils/snackbar_utils.dart';
-import 'package:pawtastic/services/supabase_auth_service.dart';
-import 'package:pawtastic/shared/widgets/custom_text_button.dart';
-import 'package:pawtastic/shared/widgets/custom_text_field_decoration.dart';
-import 'package:pawtastic/shared/widgets/primary_button.dart';
+import 'package:pawtastic/services/supabase/supabase_auth_service.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
 
 class SignUpSellerPage extends StatefulWidget {
   const SignUpSellerPage({super.key});

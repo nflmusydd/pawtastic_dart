@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pawtastic/models/order_model.dart';
-import 'package:pawtastic/shared/widgets/global_order_card.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
 import 'package:pawtastic/features/my_orders/presentation/pages/order_details_page.dart';
 
 class DeliveredOrdersTab extends StatelessWidget {
@@ -11,7 +11,7 @@ class DeliveredOrdersTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.only(bottom: 70),
+      padding: const EdgeInsets.only(bottom: 100),
       child: Column(
         children: [
           ListView.builder(

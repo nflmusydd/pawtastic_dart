@@ -686,6 +686,12 @@ class TranslationsMyOrdersDetailsEn {
 	/// en: 'order'
 	String get order => 'order';
 
+	/// en: 'confirm order'
+	String get confirm_order => 'confirm order';
+
+	/// en: 'has your order arrived safely?'
+	String get confirm_receipt_message => 'has your order arrived safely?';
+
 	/// en: 'shop information'
 	String get shop_information => 'shop information';
 
@@ -895,6 +901,12 @@ class TranslationsSellerManageOrdersEn {
 
 	/// en: 'confirm'
 	String get confirm => 'confirm';
+
+	/// en: 'are you sure you want to confirm this order?'
+	String get confirm_order_message => 'are you sure you want to confirm this order?';
+
+	/// en: 'Are you sure you want to cancel this order??'
+	String get cancel_order_message => 'Are you sure you want to cancel this order??';
 }
 
 // Path: seller.cashier
@@ -1192,6 +1204,8 @@ extension on Translations {
 			'my_orders.index.details' => 'details',
 			'my_orders.details.details' => 'details',
 			'my_orders.details.order' => 'order',
+			'my_orders.details.confirm_order' => 'confirm order',
+			'my_orders.details.confirm_receipt_message' => 'has your order arrived safely?',
 			'my_orders.details.shop_information' => 'shop information',
 			'my_orders.details.shop' => 'shop',
 			'my_orders.details.shop_address' => 'shop address',
@@ -1250,6 +1264,8 @@ extension on Translations {
 			'seller.manage_orders.tracking_number' => 'tracking number',
 			'seller.manage_orders.product_list' => 'product list',
 			'seller.manage_orders.confirm' => 'confirm',
+			'seller.manage_orders.confirm_order_message' => 'are you sure you want to confirm this order?',
+			'seller.manage_orders.cancel_order_message' => 'Are you sure you want to cancel this order??',
 			'seller.cashier.title' => 'cashier',
 			'seller.cashier.transaction_record' => 'transaction record',
 			'seller.cashier.add_offline_transaction' => 'add offline transaction',

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pawtastic/features/product/presentation/pages/seller_product_list_page.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
-import 'package:pawtastic/core/utils/string_extension.dart';
-import 'package:pawtastic/shared/widgets/custom_app_bar.dart';
+import 'package:pawtastic/core/utils/core_utils.dart';
+import 'package:pawtastic/shared/widgets/widgets.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   final Map<String, dynamic> product;
