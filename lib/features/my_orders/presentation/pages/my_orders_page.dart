@@ -101,36 +101,38 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar.centerTitle(
-        context,
-        blackTitle: context.t.my_orders.index.my_orders.toTitleCase(),
-        titleOnly: true,
-      ),
-      body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          if (notification.direction == ScrollDirection.reverse) {
-            if (context.read<BottomBarProvider>().isVisible) {
-              context.read<BottomBarProvider>().setVisible(false);
+    return AuthGuard(
+        child: Scaffold(
+          appBar: CustomAppBar.centerTitle(
+            context,
+            blackTitle: context.t.my_orders.index.my_orders.toTitleCase(),
+            titleOnly: true,
+          ),
+          body: NotificationListener<UserScrollNotification>(
+          onNotification: (notification) {
+            if (notification.direction == ScrollDirection.reverse) {
+              if (context.read<BottomBarProvider>().isVisible) {
+                context.read<BottomBarProvider>().setVisible(false);
+              }
+            } else if (notification.direction == ScrollDirection.forward) {
+              if (!context.read<BottomBarProvider>().isVisible) {
+                context.read<BottomBarProvider>().setVisible(true);
+              }
             }
-          } else if (notification.direction == ScrollDirection.forward) {
-            if (!context.read<BottomBarProvider>().isVisible) {
-              context.read<BottomBarProvider>().setVisible(true);
-            }
-          }
-          return true;
-        },
-        child: CustomTabLayout(
-          tabTitles: [
-            context.t.my_orders.index.delivered.toTitleCase(),
-            context.t.my_orders.index.processing.toTitleCase(),
-            context.t.my_orders.index.cancelled.toTitleCase(),
-          ],
-          tabViews: [
-            DeliveredOrdersTab(orders: orders.where((o) => o.status == 'delivered').toList()),
-            ProcessingOrdersTab(orders: orders.where((o) => o.status == 'processing').toList()),
-            CancelledOrdersTab(orders: orders.where((o) => o.status == 'cancelled').toList()),
-          ],
+            return true;
+          },
+          child: CustomTabLayout(
+            tabTitles: [
+              context.t.my_orders.index.delivered.toTitleCase(),
+              context.t.my_orders.index.processing.toTitleCase(),
+              context.t.my_orders.index.cancelled.toTitleCase(),
+            ],
+            tabViews: [
+              DeliveredOrdersTab(orders: orders.where((o) => o.status == 'delivered').toList()),
+              ProcessingOrdersTab(orders: orders.where((o) => o.status == 'processing').toList()),
+              CancelledOrdersTab(orders: orders.where((o) => o.status == 'cancelled').toList()),
+            ],
+          ),
         ),
       ),
     );

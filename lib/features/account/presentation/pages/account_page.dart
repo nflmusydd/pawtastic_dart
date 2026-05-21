@@ -49,87 +49,97 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: ListView(
-          controller: _scrollController,
-          padding: const EdgeInsets.only(bottom: 120, left: 20, right: 20),
-          children: [
-            const SizedBox(height: 30),
-            // Profile Section
-            Column(
-              children: [
-                // Profile Picture
-                const CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('images/photoprofile.jpg'),
-                ),
-                const SizedBox(height: 10),
-                // Profile Name
-                Consumer<UserProvider>(
-                  builder: (context, userProvider, child) {
-                    return Text(
-                      userProvider.fullName.isNotEmpty ? userProvider.fullName : 'User',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Montserrat',
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
-            // Menu List
-            GlobalMenuItem(
-              icon: Icons.person,
-              text: context.t.account.index.profile.toTitleCase(),
-              onTap: () {},
-            ),
-            GlobalMenuItem(
-              icon: Icons.settings,
-              text: context.t.account.index.options.toTitleCase(),
-              onTap: () {
-                Navigator.pushNamed(context, AppRoutes.options);
-              },
-            ),
-            GlobalMenuItem(
-              icon: Icons.store,
-              text: context.t.account.index.paw_shop.toTitleCase(),
-              onTap: () {
-                Navigator.pushNamed(context, AppRoutes.shop);
-              },
-            ),
-            GlobalMenuItem(
-              icon: Icons.info_rounded,
-              text: context.t.account.index.about_us.toTitleCase(),
-              onTap: () {
-                Navigator.pushNamed(context, AppRoutes.aboutUs);
-              },
-            ),
-            const SizedBox(height: 20),
-            // Sign Out
-            Center(
-              child: CustomTextButton(
-                text: context.t.account.index.sign_out.toTitleCase(),
-                onPressed: () async {
-                  await userProvider.logout();
-                  if (context.mounted) {
-                    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
-                  }
+    return AuthGuard(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: ListView(
+            controller: _scrollController,
+            padding: const EdgeInsets.only(bottom: 120, left: 20, right: 20),
+            children: [
+              const SizedBox(height: 30),
+              // Profile Section
+              Column(
+                children: [
+                  // Profile Picture
+                  Consumer<UserProvider>(
+                    builder: (context, userProvider, child) {
+                      return CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey[200],
+                        // Rencana: Gunakan NetworkImage jika avatar_url sudah di-fetch ke UserProvider
+                        child: const Icon(Icons.person, size: 50, color: Colors.grey),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  // Profile Name                  
+                  Consumer<UserProvider>(
+                    builder: (context, userProvider, child) {
+                      return Text(
+                        userProvider.fullName.isNotEmpty ? userProvider.fullName : context.t.common.guest.ucfirst(),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat',
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              // Menu List
+              GlobalMenuItem(
+                icon: Icons.person,
+                text: context.t.account.index.profile.toTitleCase(),
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.profile);
                 },
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  color: Color.fromRGBO(252, 147, 3, 1.0),
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Montserrat',
+              ),
+              GlobalMenuItem(
+                icon: Icons.settings,
+                text: context.t.account.index.options.toTitleCase(),
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.options);
+                },
+              ),
+              GlobalMenuItem(
+                icon: Icons.store,
+                text: context.t.account.index.paw_shop.toTitleCase(),
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.shop);
+                },
+              ),
+              GlobalMenuItem(
+                icon: Icons.info_rounded,
+                text: context.t.account.index.about_us.toTitleCase(),
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.aboutUs);
+                },
+              ),
+              const SizedBox(height: 20),
+              // Sign Out
+              Center(
+                child: CustomTextButton(
+                  text: context.t.account.index.sign_out.toTitleCase(),
+                  onPressed: () async {
+                    await userProvider.logout();
+                    if (context.mounted) {
+                      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
+                    }
+                  },
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    color: Color.fromRGBO(252, 147, 3, 1.0),
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Montserrat',
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 30),
-          ],
+              const SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );

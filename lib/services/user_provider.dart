@@ -14,7 +14,7 @@ class UserProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get hasConnectionError => _hasConnectionError;
   User? get user => _user;
-  String get fullName => _fullName ?? "User";
+  String get fullName => _fullName ?? "";
 
   final _supabase = Supabase.instance.client;
 
@@ -82,9 +82,15 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> _fetchUserRole(String uid) async {
-    _isLoading = true;
-    _hasConnectionError = false;
-    notifyListeners();
+    // Hanya tampilkan loading screen jika ini adalah login pertama kali
+    // (role belum ada). Ini mencegah layar kedap-kedip ke Splash saat token refresh atau re-login.
+    final bool isFirstLoad = _role == UserRole.none;
+
+    if (isFirstLoad) {
+      _isLoading = true;
+      _hasConnectionError = false;
+      notifyListeners();
+    }
 
     try {
       // Check if user has a shop (is a seller)
@@ -134,7 +140,9 @@ class UserProvider extends ChangeNotifier {
       }
     }
 
-    _isLoading = false;
+    if (isFirstLoad) {
+      _isLoading = false;
+    }
     notifyListeners();
   }
 
@@ -151,6 +159,7 @@ class UserProvider extends ChangeNotifier {
     }
     _role = UserRole.none;
     _user = null;
+    _fullName = null;
     notifyListeners();
   }
 }

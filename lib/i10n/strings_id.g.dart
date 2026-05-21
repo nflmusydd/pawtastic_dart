@@ -66,9 +66,12 @@ class _TranslationsCommonId extends TranslationsCommonEn {
 	@override String get yes => 'ya';
 	@override String get confirm => 'konfirmasi';
 	@override String get soon => 'segera';
+	@override String get now => 'sekarang';
+	@override String get guest => 'tamu';
 	@override String get email => 'email';
 	@override String get password => 'kata sandi';
 	@override String get submit => 'kirim';
+	@override String get change => 'ganti';
 	@override String get price => 'harga';
 	@override String get quantity => 'jumlah';
 	@override String get checkout => 'checkout';
@@ -82,6 +85,10 @@ class _TranslationsCommonId extends TranslationsCommonEn {
 	@override String get from => 'dari';
 	@override String get buy_now => 'beli sekarang';
 	@override String get edit => 'ubah';
+	@override String get login => 'masuk';
+	@override String get login_required => 'login diperlukan';
+	@override String get please_login_to_access_this_page => 'silahkan login dahulu untuk mengakses halaman ini';
+	@override String get please_login_as_a_seller_to_access_this_page => 'silahkan login sebagai penjual (Paw Shop) untuk mengakses halaman ini';
 }
 
 // Path: account
@@ -92,6 +99,8 @@ class _TranslationsAccountId extends TranslationsAccountEn {
 
 	// Translations
 	@override late final _TranslationsAccountIndexId index = _TranslationsAccountIndexId._(_root);
+	@override late final _TranslationsAccountProfileId profile = _TranslationsAccountProfileId._(_root);
+	@override late final _TranslationsAccountChangePasswordId change_password = _TranslationsAccountChangePasswordId._(_root);
 	@override late final _TranslationsAccountOptionsId options = _TranslationsAccountOptionsId._(_root);
 }
 
@@ -252,6 +261,36 @@ class _TranslationsAccountIndexId extends TranslationsAccountIndexEn {
 	@override String get paw_shop => 'paw shop';
 	@override String get about_us => 'tentang kami';
 	@override String get sign_out => 'keluar';
+}
+
+// Path: account.profile
+class _TranslationsAccountProfileId extends TranslationsAccountProfileEn {
+	_TranslationsAccountProfileId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get change_password => 'ubah password';
+	@override String get joined_since => 'bergabung sejak';
+	@override String get full_name => 'nama lengkap';
+	@override String get username => 'username';
+}
+
+// Path: account.change_password
+class _TranslationsAccountChangePasswordId extends TranslationsAccountChangePasswordEn {
+	_TranslationsAccountChangePasswordId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get cannot_find_user_email => 'email user tidak ditemukan';
+	@override String get your_current_password_is_incorrect => 'password lama salah';
+	@override String get password_changed_successfully => 'password berhasil diubah';
+	@override String get are_you_sure_you_want_to_change_yout_password => 'apakah Anda yakin ingin mengganti password?';
+	@override String get you_will_be_logged_out_and_required_to_login_again => 'sesi Anda akan dihapus dan Anda diminta masuk kembali.';
+	@override String get secure_your_account => 'amankan akunmu';
+	@override String get please_enter_your_current_password_and_your_new_password_below => 'silahkan masukkan password lama dan password baru di bawah';
+	@override String get current_password => 'kata sandi lama';
 }
 
 // Path: account.options
@@ -564,11 +603,11 @@ class _TranslationsErrorsAuthId extends TranslationsErrorsAuthEn {
 
 	// Translations
 	@override String get this_email_is_already_registered_please_use_another_email => 'email ini sudah terdaftar. silakan gunakan email lain.';
-	@override String get connection_problem_check_your_internet => 'masalah koneksi. periksa internet kamu.';
+	@override String get connection_problem_check_your_internet => 'masalah koneksi. periksa internet Anda.';
 	@override String get failed_to_register_make_sure_the_data_is_correct_or_try_again_later => 'gagal mendaftar. pastikan data benar atau coba lagi nanti.';
 	@override String get system_error_occurred_please_try_again_in_a_few_moments => 'terjadi kesalahan sistem. silakan coba beberapa saat lagi.';
 	@override String get incorrect_email_or_password => 'email atau kata sandi salah.';
-	@override String get your_email_has_not_been_confirmed_please_check_your_email_inbox => 'email kamu belum dikonfirmasi. silakan cek inbox email kamu.';
+	@override String get your_email_has_not_been_confirmed_please_check_your_email_inbox => 'email Anda belum dikonfirmasi. silakan cek inbox email Anda.';
 	@override String get failed_to_login_please_try_again => 'gagal masuk. silakan coba lagi.';
 	@override String get system_error => 'kesalahan sistem.';
 	@override String get email_not_registered_please_check_again => 'email tidak terdaftar. silakan cek kembali.';
@@ -635,9 +674,12 @@ extension on TranslationsId {
 			'common.yes' => 'ya',
 			'common.confirm' => 'konfirmasi',
 			'common.soon' => 'segera',
+			'common.now' => 'sekarang',
+			'common.guest' => 'tamu',
 			'common.email' => 'email',
 			'common.password' => 'kata sandi',
 			'common.submit' => 'kirim',
+			'common.change' => 'ganti',
 			'common.price' => 'harga',
 			'common.quantity' => 'jumlah',
 			'common.checkout' => 'checkout',
@@ -651,12 +693,28 @@ extension on TranslationsId {
 			'common.from' => 'dari',
 			'common.buy_now' => 'beli sekarang',
 			'common.edit' => 'ubah',
+			'common.login' => 'masuk',
+			'common.login_required' => 'login diperlukan',
+			'common.please_login_to_access_this_page' => 'silahkan login dahulu untuk mengakses halaman ini',
+			'common.please_login_as_a_seller_to_access_this_page' => 'silahkan login sebagai penjual (Paw Shop) untuk mengakses halaman ini',
 			'account.index.account' => 'akun',
 			'account.index.profile' => 'profil',
 			'account.index.options' => 'opsi',
 			'account.index.paw_shop' => 'paw shop',
 			'account.index.about_us' => 'tentang kami',
 			'account.index.sign_out' => 'keluar',
+			'account.profile.change_password' => 'ubah password',
+			'account.profile.joined_since' => 'bergabung sejak',
+			'account.profile.full_name' => 'nama lengkap',
+			'account.profile.username' => 'username',
+			'account.change_password.cannot_find_user_email' => 'email user tidak ditemukan',
+			'account.change_password.your_current_password_is_incorrect' => 'password lama salah',
+			'account.change_password.password_changed_successfully' => 'password berhasil diubah',
+			'account.change_password.are_you_sure_you_want_to_change_yout_password' => 'apakah Anda yakin ingin mengganti password?',
+			'account.change_password.you_will_be_logged_out_and_required_to_login_again' => 'sesi Anda akan dihapus dan Anda diminta masuk kembali.',
+			'account.change_password.secure_your_account' => 'amankan akunmu',
+			'account.change_password.please_enter_your_current_password_and_your_new_password_below' => 'silahkan masukkan password lama dan password baru di bawah',
+			'account.change_password.current_password' => 'kata sandi lama',
 			'account.options.options' => 'opsi',
 			'account.options.language' => 'bahasa',
 			'account.options.other_settings' => 'pengaturan lainnya',
@@ -835,11 +893,11 @@ extension on TranslationsId {
 			'navigation.my_orders' => 'pesanan saya',
 			'navigation.account' => 'akun',
 			'errors.auth.this_email_is_already_registered_please_use_another_email' => 'email ini sudah terdaftar. silakan gunakan email lain.',
-			'errors.auth.connection_problem_check_your_internet' => 'masalah koneksi. periksa internet kamu.',
+			'errors.auth.connection_problem_check_your_internet' => 'masalah koneksi. periksa internet Anda.',
 			'errors.auth.failed_to_register_make_sure_the_data_is_correct_or_try_again_later' => 'gagal mendaftar. pastikan data benar atau coba lagi nanti.',
 			'errors.auth.system_error_occurred_please_try_again_in_a_few_moments' => 'terjadi kesalahan sistem. silakan coba beberapa saat lagi.',
 			'errors.auth.incorrect_email_or_password' => 'email atau kata sandi salah.',
-			'errors.auth.your_email_has_not_been_confirmed_please_check_your_email_inbox' => 'email kamu belum dikonfirmasi. silakan cek inbox email kamu.',
+			'errors.auth.your_email_has_not_been_confirmed_please_check_your_email_inbox' => 'email Anda belum dikonfirmasi. silakan cek inbox email Anda.',
 			'errors.auth.failed_to_login_please_try_again' => 'gagal masuk. silakan coba lagi.',
 			'errors.auth.system_error' => 'kesalahan sistem.',
 			'errors.auth.email_not_registered_please_check_again' => 'email tidak terdaftar. silakan cek kembali.',

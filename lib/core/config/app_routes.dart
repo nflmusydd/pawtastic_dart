@@ -19,6 +19,8 @@ class AppRoutes {
   static const String manageOrder     = '/manage-order';
   static const String cashier         = '/cashier';
   static const String aboutUs         = '/about-us';
+  static const String profile         = '/profile';
+  static const String changePassword  = '/change-password';
   static const String manageProduct   = '/manage-product';
   static const String chatbot         = '/chatbot';
 }

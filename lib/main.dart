@@ -10,6 +10,8 @@ import 'package:pawtastic/features/seller/presentation/home/pages/home_seller_pa
 import 'package:pawtastic/features/seller/presentation/orders/pages/manage_order_page.dart';
 import 'package:pawtastic/features/seller/presentation/inventory/pages/manage_product_page.dart';
 import 'package:pawtastic/features/account/presentation/pages/about_us_page.dart';
+import 'package:pawtastic/features/account/presentation/pages/profile_page.dart';
+import 'package:pawtastic/features/account/presentation/pages/change_password_page.dart';
 import 'package:pawtastic/features/my_orders/presentation/pages/my_orders_page.dart';
 import 'package:pawtastic/features/search/presentation/pages/search_page.dart';
 import 'package:pawtastic/features/account/presentation/pages/options_page.dart';
@@ -28,6 +30,7 @@ import 'package:pawtastic/features/auth/presentation/pages/reset_password_page.d
 import 'package:pawtastic/features/common/presentation/pages/test_page.dart';
 import 'package:pawtastic/services/gemini_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:pawtastic/shared/widgets/layout/auth_guard.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -146,31 +149,33 @@ class _MyAppState extends State<MyApp> {
             useMaterial3: true,
           ),
           routes: {
-            AppRoutes.test: (context)           => const TestPage(),
-            AppRoutes.shop: (context)           => const SplashSellerPage(),
+            // AppRoutes.test: (context)           => const TestPage(),
+            AppRoutes.shop: (context)           => const AuthGuard(child: SplashSellerPage()),
             AppRoutes.login: (context)          => const LoginPage(),
             AppRoutes.loginSeller: (context)    => const LoginSellerPage(),
             AppRoutes.signup: (context)         => const SignUpPage(),
             AppRoutes.signupSeller: (context)   => const SignUpSellerPage(),
             AppRoutes.forgotPassword: (context) => const ForgotPasswordPage(),
             AppRoutes.resetPassword: (context)  => const ResetPasswordPage(),
-            AppRoutes.home: (context)           => const ToHomePage(),
-            AppRoutes.cart: (context)           => const ToCartPage(),
-            AppRoutes.myOrders: (context)       => const ToMyOrdersPage(),
-            AppRoutes.account: (context)        => ToAccountPage(),
-            AppRoutes.search: (context)         => ToSearchPage(),
-            AppRoutes.homeSeller: (context)     => const HomeSellerPage(),
-            AppRoutes.mostPopular: (context)    => const MostPopularPage(),
-            AppRoutes.options: (context)        => OptionsPage(),
-            AppRoutes.addProduct: (context)     => const AddProduct(),
-            AppRoutes.manageOrder: (context)    => const ManageOrdersPage(),
-            AppRoutes.cashier: (context)        => CashierPage(),
+            AppRoutes.home: (context)           => const AuthGuard(allowGuest: true, child: ToHomePage()),
+            AppRoutes.cart: (context)           => const AuthGuard(child: ToCartPage()),
+            AppRoutes.myOrders: (context)       => const AuthGuard(child: ToMyOrdersPage()),
+            AppRoutes.account: (context)        => const AuthGuard(child: ToAccountPage()),
+            AppRoutes.search: (context)         => const AuthGuard(child: ToSearchPage()),
+            AppRoutes.homeSeller: (context)     => const AuthGuard(requiredRole: UserRole.seller, child: HomeSellerPage()),
+            AppRoutes.mostPopular: (context)    => const AuthGuard(child: MostPopularPage()),
+            AppRoutes.options: (context)        => const AuthGuard(child: OptionsPage()),
+            AppRoutes.addProduct: (context)     => const AuthGuard(requiredRole: UserRole.seller, child: AddProduct()),
+            AppRoutes.manageOrder: (context)    => const AuthGuard(requiredRole: UserRole.seller, child: ManageOrdersPage()),
+            AppRoutes.cashier: (context)        => const AuthGuard(requiredRole: UserRole.seller, child: CashierPage()),
             AppRoutes.aboutUs: (context)        => AboutUsPage(),
-            AppRoutes.manageProduct: (context)  => ManageProductPage(),
-            AppRoutes.chatbot: (context)        => const GeminiService(),
+            AppRoutes.profile: (context)        => const AuthGuard(child: ProfilePage()),
+            AppRoutes.changePassword: (context) => const AuthGuard(child: ChangePasswordPage()),
+            AppRoutes.manageProduct: (context)  => const AuthGuard(requiredRole: UserRole.seller, child: ManageProductPage()),
+            AppRoutes.chatbot: (context)        => const AuthGuard(child: GeminiService()),
           },
           home: const AuthWrapper(),
-          // home: HomeSellerPage(),
+          // home: const TestPage(),
         );
       },
     );
@@ -195,8 +200,8 @@ class AuthWrapper extends StatelessWidget {
       return const SplashPage();
     }
 
-    // Jika belum login, tampilkan OnboardingPage
-    if (userProvider.user == null && userProvider.role == UserRole.none) {
+    // Jika belum login atau session tidak valid (ghost session)
+    if (userProvider.user == null || userProvider.role == UserRole.none) {
       return const OnboardingPage();
     }
 

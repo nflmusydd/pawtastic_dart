@@ -5,9 +5,12 @@
     "yes": "ya",
     "confirm": "konfirmasi",
     "soon": "segera",
+    "now": "sekarang",
+    "guest": "tamu",
     "email": "email",
     "password": "kata sandi",
     "submit": "kirim",
+    "change": "ganti",
     "price": "harga",
     "quantity": "jumlah",
     "checkout": "checkout",
@@ -20,7 +23,11 @@
     "total_amount": "total belanja",
     "from": "dari",
     "buy_now": "beli sekarang",
-    "edit": "ubah"
+    "edit": "ubah",
+    "login": "masuk",
+    "login_required": "login diperlukan",
+    "please_login_to_access_this_page": "silahkan login dahulu untuk mengakses halaman ini",
+    "please_login_as_a_seller_to_access_this_page": "silahkan login sebagai penjual (Paw Shop) untuk mengakses halaman ini"
   },
   "account": {
     "index": {
@@ -30,6 +37,22 @@
       "paw_shop": "paw shop",
       "about_us": "tentang kami",
       "sign_out": "keluar"
+    },
+    "profile": {
+      "change_password": "ubah password",
+      "joined_since": "bergabung sejak",
+      "full_name": "nama lengkap",
+      "username": "username"
+    },
+    "change_password": {
+      "cannot_find_user_email": "email user tidak ditemukan",
+      "your_current_password_is_incorrect": "password lama salah",
+      "password_changed_successfully": "password berhasil diubah",
+      "are_you_sure_you_want_to_change_yout_password": "apakah Anda yakin ingin mengganti password?",
+      "you_will_be_logged_out_and_required_to_login_again": "sesi Anda akan dihapus dan Anda diminta masuk kembali.",
+      "secure_your_account": "amankan akunmu",
+      "please_enter_your_current_password_and_your_new_password_below": "silahkan masukkan password lama dan password baru di bawah",
+      "current_password": "kata sandi lama"
     },
     "options": {
       "options": "opsi",
@@ -272,11 +295,11 @@
   "errors": {
     "auth": {
       "this_email_is_already_registered_please_use_another_email": "email ini sudah terdaftar. silakan gunakan email lain.",
-      "connection_problem_check_your_internet": "masalah koneksi. periksa internet kamu.",
+      "connection_problem_check_your_internet": "masalah koneksi. periksa internet Anda.",
       "failed_to_register_make_sure_the_data_is_correct_or_try_again_later": "gagal mendaftar. pastikan data benar atau coba lagi nanti.",
       "system_error_occurred_please_try_again_in_a_few_moments": "terjadi kesalahan sistem. silakan coba beberapa saat lagi.",
       "incorrect_email_or_password": "email atau kata sandi salah.",
-      "your_email_has_not_been_confirmed_please_check_your_email_inbox": "email kamu belum dikonfirmasi. silakan cek inbox email kamu.",
+      "your_email_has_not_been_confirmed_please_check_your_email_inbox": "email Anda belum dikonfirmasi. silakan cek inbox email Anda.",
       "failed_to_login_please_try_again": "gagal masuk. silakan coba lagi.",
       "system_error": "kesalahan sistem.",
       "email_not_registered_please_check_again": "email tidak terdaftar. silakan cek kembali.",

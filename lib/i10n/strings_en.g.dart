@@ -78,6 +78,12 @@ class TranslationsCommonEn {
 	/// en: 'soon'
 	String get soon => 'soon';
 
+	/// en: 'now'
+	String get now => 'now';
+
+	/// en: 'guest'
+	String get guest => 'guest';
+
 	/// en: 'email'
 	String get email => 'email';
 
@@ -86,6 +92,9 @@ class TranslationsCommonEn {
 
 	/// en: 'submit'
 	String get submit => 'submit';
+
+	/// en: 'change'
+	String get change => 'change';
 
 	/// en: 'price'
 	String get price => 'price';
@@ -125,6 +134,18 @@ class TranslationsCommonEn {
 
 	/// en: 'edit'
 	String get edit => 'edit';
+
+	/// en: 'login'
+	String get login => 'login';
+
+	/// en: 'login required'
+	String get login_required => 'login required';
+
+	/// en: 'please log in to access this page'
+	String get please_login_to_access_this_page => 'please log in to access this page';
+
+	/// en: 'please log in as a seller (Paw Shop) to access this page'
+	String get please_login_as_a_seller_to_access_this_page => 'please log in as a seller (Paw Shop) to access this page';
 }
 
 // Path: account
@@ -135,6 +156,8 @@ class TranslationsAccountEn {
 
 	// Translations
 	late final TranslationsAccountIndexEn index = TranslationsAccountIndexEn.internal(_root);
+	late final TranslationsAccountProfileEn profile = TranslationsAccountProfileEn.internal(_root);
+	late final TranslationsAccountChangePasswordEn change_password = TranslationsAccountChangePasswordEn.internal(_root);
 	late final TranslationsAccountOptionsEn options = TranslationsAccountOptionsEn.internal(_root);
 }
 
@@ -359,6 +382,60 @@ class TranslationsAccountIndexEn {
 
 	/// en: 'sign out'
 	String get sign_out => 'sign out';
+}
+
+// Path: account.profile
+class TranslationsAccountProfileEn {
+	TranslationsAccountProfileEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'change password'
+	String get change_password => 'change password';
+
+	/// en: 'joined since'
+	String get joined_since => 'joined since';
+
+	/// en: 'full name'
+	String get full_name => 'full name';
+
+	/// en: 'username'
+	String get username => 'username';
+}
+
+// Path: account.change_password
+class TranslationsAccountChangePasswordEn {
+	TranslationsAccountChangePasswordEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'cannot find user email'
+	String get cannot_find_user_email => 'cannot find user email';
+
+	/// en: 'your current password is incorrect'
+	String get your_current_password_is_incorrect => 'your current password is incorrect';
+
+	/// en: 'password changed successfully'
+	String get password_changed_successfully => 'password changed successfully';
+
+	/// en: 'are you sure you want to change your password?'
+	String get are_you_sure_you_want_to_change_yout_password => 'are you sure you want to change your password?';
+
+	/// en: 'you will be logged out and required to log in again.'
+	String get you_will_be_logged_out_and_required_to_login_again => 'you will be logged out and required to log in again.';
+
+	/// en: 'secure your account'
+	String get secure_your_account => 'secure your account';
+
+	/// en: 'please enter your current password and your new password below'
+	String get please_enter_your_current_password_and_your_new_password_below => 'please enter your current password and your new password below';
+
+	/// en: 'current password'
+	String get current_password => 'current password';
 }
 
 // Path: account.options
@@ -1078,9 +1155,12 @@ extension on Translations {
 			'common.yes' => 'yes',
 			'common.confirm' => 'confirm',
 			'common.soon' => 'soon',
+			'common.now' => 'now',
+			'common.guest' => 'guest',
 			'common.email' => 'email',
 			'common.password' => 'password',
 			'common.submit' => 'submit',
+			'common.change' => 'change',
 			'common.price' => 'price',
 			'common.quantity' => 'quantity',
 			'common.checkout' => 'checkout',
@@ -1094,12 +1174,28 @@ extension on Translations {
 			'common.from' => 'from',
 			'common.buy_now' => 'buy now',
 			'common.edit' => 'edit',
+			'common.login' => 'login',
+			'common.login_required' => 'login required',
+			'common.please_login_to_access_this_page' => 'please log in to access this page',
+			'common.please_login_as_a_seller_to_access_this_page' => 'please log in as a seller (Paw Shop) to access this page',
 			'account.index.account' => 'account',
 			'account.index.profile' => 'profile',
 			'account.index.options' => 'options',
 			'account.index.paw_shop' => 'paw shop',
 			'account.index.about_us' => 'about us',
 			'account.index.sign_out' => 'sign out',
+			'account.profile.change_password' => 'change password',
+			'account.profile.joined_since' => 'joined since',
+			'account.profile.full_name' => 'full name',
+			'account.profile.username' => 'username',
+			'account.change_password.cannot_find_user_email' => 'cannot find user email',
+			'account.change_password.your_current_password_is_incorrect' => 'your current password is incorrect',
+			'account.change_password.password_changed_successfully' => 'password changed successfully',
+			'account.change_password.are_you_sure_you_want_to_change_yout_password' => 'are you sure you want to change your password?',
+			'account.change_password.you_will_be_logged_out_and_required_to_login_again' => 'you will be logged out and required to log in again.',
+			'account.change_password.secure_your_account' => 'secure your account',
+			'account.change_password.please_enter_your_current_password_and_your_new_password_below' => 'please enter your current password and your new password below',
+			'account.change_password.current_password' => 'current password',
 			'account.options.options' => 'options',
 			'account.options.language' => 'language',
 			'account.options.other_settings' => 'other settings',

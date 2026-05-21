@@ -5,6 +5,7 @@ export 'bottom_bar/top_half_circle_border.dart';
 export 'layout/custom_app_bar.dart';
 export 'layout/custom_tab_layout.dart';
 export 'layout/category_tile.dart';
+export 'layout/auth_guard.dart';
 export 'inputs/custom_text_field_decoration.dart';
 export 'inputs/custom_text_field.dart';
 export 'cards/global_order_card.dart';

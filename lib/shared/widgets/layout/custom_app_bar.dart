@@ -57,10 +57,10 @@ class CustomAppBar {
           if (blackTitle != null)
             Text(
               blackTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
-                fontSize: 17.0,
+                fontSize: orangeTitle != null ? 17.0 : 20.0,
               ),
             ),
           if (orangeTitle != null)

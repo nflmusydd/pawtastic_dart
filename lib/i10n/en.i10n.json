@@ -5,9 +5,12 @@
     "yes": "yes",
     "confirm": "confirm",
     "soon": "soon",
+    "now": "now",
+    "guest": "guest",
     "email": "email",
     "password": "password",
     "submit": "submit",
+    "change": "change",
     "price": "price",
     "quantity": "quantity",
     "checkout": "checkout",
@@ -20,7 +23,11 @@
     "total_amount": "total amount",
     "from": "from",
     "buy_now": "buy now",
-    "edit": "edit"
+    "edit": "edit",
+    "login": "login",
+    "login_required": "login required",
+    "please_login_to_access_this_page": "please log in to access this page",
+    "please_login_as_a_seller_to_access_this_page": "please log in as a seller (Paw Shop) to access this page"
   },
   "account": {
     "index": {
@@ -30,6 +37,22 @@
       "paw_shop": "paw shop",
       "about_us": "about us",
       "sign_out": "sign out"
+    },
+    "profile": {
+      "change_password": "change password",
+      "joined_since": "joined since",
+      "full_name": "full name",
+      "username": "username"
+    },
+    "change_password": {
+      "cannot_find_user_email": "cannot find user email",
+      "your_current_password_is_incorrect": "your current password is incorrect",
+      "password_changed_successfully": "password changed successfully",
+      "are_you_sure_you_want_to_change_yout_password": "are you sure you want to change your password?",
+      "you_will_be_logged_out_and_required_to_login_again": "you will be logged out and required to log in again.",
+      "secure_your_account": "secure your account",
+      "please_enter_your_current_password_and_your_new_password_below": "please enter your current password and your new password below",
+      "current_password": "current password"
     },
     "options": {
       "options": "options",

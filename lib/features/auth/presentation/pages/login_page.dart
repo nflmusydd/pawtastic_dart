@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       if (mounted) {
-        Navigator.of(context).pop();
+        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
       }
     } catch (e) {
       if (mounted) {

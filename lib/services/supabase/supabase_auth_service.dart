@@ -121,7 +121,7 @@ class SupabaseAuthService {
     } on AuthException catch (e) {
       if (kDebugMode) debugPrint("SUPABASE_AUTH_ERROR [UpdatePassword]: ${e.message}");
 
-      if (e.message.contains("same as old password")) {
+      if (e.message.contains("same as old password") || e.message.contains("New password should be different from the old password")) {
         throw t.errors.auth.new_password_cannot_be_the_same_as_the_old_password.ucfirst();
       }
       throw t.errors.auth.failed_to_update_password_please_try_again.ucfirst();
