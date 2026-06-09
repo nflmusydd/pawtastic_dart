@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pawtastic/core/config/env_config.dart';
+import 'package:pawtastic/features/account/presentation/pages/address_list_page.dart';
+import 'package:pawtastic/services/supabase/address_provider.dart';
 import 'package:pawtastic/services/firebase/add_product.dart';
 import 'package:pawtastic/features/cart/presentation/pages/cart_page.dart';
 import 'package:pawtastic/features/home/presentation/pages/most_popular_page.dart';
@@ -11,6 +13,8 @@ import 'package:pawtastic/features/seller/presentation/orders/pages/manage_order
 import 'package:pawtastic/features/seller/presentation/inventory/pages/manage_product_page.dart';
 import 'package:pawtastic/features/account/presentation/pages/about_us_page.dart';
 import 'package:pawtastic/features/account/presentation/pages/profile_page.dart';
+import 'package:pawtastic/features/seller/presentation/home/pages/create_shop_page.dart';
+import 'package:pawtastic/features/seller/presentation/home/pages/seller_settings_page.dart';
 import 'package:pawtastic/features/account/presentation/pages/change_password_page.dart';
 import 'package:pawtastic/features/my_orders/presentation/pages/my_orders_page.dart';
 import 'package:pawtastic/features/search/presentation/pages/search_page.dart';
@@ -19,15 +23,13 @@ import 'package:pawtastic/features/account/presentation/pages/account_page.dart'
 import 'package:pawtastic/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:pawtastic/features/home/presentation/pages/home_page.dart';
 import 'package:pawtastic/features/auth/presentation/pages/login_page.dart';
-import 'package:pawtastic/features/auth/presentation/pages/login_seller_page.dart';
 import 'package:pawtastic/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:pawtastic/features/auth/presentation/pages/signup_page.dart';
 import 'package:pawtastic/features/auth/presentation/pages/splash_page.dart';
 import 'package:pawtastic/features/auth/presentation/pages/splash_seller_page.dart';
-import 'package:pawtastic/features/auth/presentation/pages/signup_seller_page.dart';
 import 'package:pawtastic/features/common/presentation/pages/no_connection_page.dart';
 import 'package:pawtastic/features/auth/presentation/pages/reset_password_page.dart';
-import 'package:pawtastic/features/common/presentation/pages/test_page.dart';
+// import 'package:pawtastic/features/common/presentation/pages/test_page.dart';
 import 'package:pawtastic/services/gemini_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pawtastic/shared/widgets/layout/auth_guard.dart';
@@ -81,6 +83,7 @@ void main() async {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => UserProvider()),
+          ChangeNotifierProvider(create: (context) => AddressProvider()),
           ChangeNotifierProvider(create: (context) => LocaleProvider()),
           ChangeNotifierProvider(create: (context) => BottomBarProvider()),
         ],
@@ -152,9 +155,7 @@ class _MyAppState extends State<MyApp> {
             // AppRoutes.test: (context)           => const TestPage(),
             AppRoutes.shop: (context)           => const AuthGuard(child: SplashSellerPage()),
             AppRoutes.login: (context)          => const LoginPage(),
-            AppRoutes.loginSeller: (context)    => const LoginSellerPage(),
             AppRoutes.signup: (context)         => const SignUpPage(),
-            AppRoutes.signupSeller: (context)   => const SignUpSellerPage(),
             AppRoutes.forgotPassword: (context) => const ForgotPasswordPage(),
             AppRoutes.resetPassword: (context)  => const ResetPasswordPage(),
             AppRoutes.home: (context)           => const AuthGuard(allowGuest: true, child: ToHomePage()),
@@ -168,8 +169,11 @@ class _MyAppState extends State<MyApp> {
             AppRoutes.addProduct: (context)     => const AuthGuard(requiredRole: UserRole.seller, child: AddProduct()),
             AppRoutes.manageOrder: (context)    => const AuthGuard(requiredRole: UserRole.seller, child: ManageOrdersPage()),
             AppRoutes.cashier: (context)        => const AuthGuard(requiredRole: UserRole.seller, child: CashierPage()),
+            AppRoutes.sellerSettings: (context) => const AuthGuard(requiredRole: UserRole.seller, child: SellerSettingsPage()),
             AppRoutes.aboutUs: (context)        => AboutUsPage(),
             AppRoutes.profile: (context)        => const AuthGuard(child: ProfilePage()),
+            AppRoutes.addressList: (context)    => const AuthGuard(child: AddressListPage()),
+            AppRoutes.createShop: (context)     => const AuthGuard(child: CreateShopPage()),
             AppRoutes.changePassword: (context) => const AuthGuard(child: ChangePasswordPage()),
             AppRoutes.manageProduct: (context)  => const AuthGuard(requiredRole: UserRole.seller, child: ManageProductPage()),
             AppRoutes.chatbot: (context)        => const AuthGuard(child: GeminiService()),

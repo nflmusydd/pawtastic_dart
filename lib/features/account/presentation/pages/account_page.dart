@@ -98,17 +98,32 @@ class _AccountPageState extends State<AccountPage> {
                 },
               ),
               GlobalMenuItem(
+                icon: Icons.location_on,
+                text: context.t.address.index.my_addresses.toTitleCase(),
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.addressList);
+                },
+              ),
+              GlobalMenuItem(
                 icon: Icons.settings,
                 text: context.t.account.index.options.toTitleCase(),
                 onTap: () {
                   Navigator.pushNamed(context, AppRoutes.options);
                 },
               ),
-              GlobalMenuItem(
-                icon: Icons.store,
-                text: context.t.account.index.paw_shop.toTitleCase(),
-                onTap: () {
-                  Navigator.pushNamed(context, AppRoutes.shop);
+              Consumer<UserProvider>(
+                builder: (context, userProvider, child) {
+                  return GlobalMenuItem(
+                    icon: Icons.store,
+                    text: context.t.account.index.paw_shop.toTitleCase(),
+                    onTap: () {
+                      if (userProvider.role == UserRole.seller) {
+                        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.homeSeller, (route) => false);
+                      } else {
+                        Navigator.pushNamed(context, AppRoutes.createShop);
+                      }
+                    },
+                  );
                 },
               ),
               GlobalMenuItem(

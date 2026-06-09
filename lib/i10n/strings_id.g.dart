@@ -40,6 +40,7 @@ class TranslationsId extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override late final _TranslationsCommonId common = _TranslationsCommonId._(_root);
+	@override late final _TranslationsAddressId address = _TranslationsAddressId._(_root);
 	@override late final _TranslationsAccountId account = _TranslationsAccountId._(_root);
 	@override late final _TranslationsNoConnectionId no_connection = _TranslationsNoConnectionId._(_root);
 	@override late final _TranslationsAuthId auth = _TranslationsAuthId._(_root);
@@ -65,6 +66,9 @@ class _TranslationsCommonId extends TranslationsCommonEn {
 	@override String get cancel => 'batal';
 	@override String get yes => 'ya';
 	@override String get confirm => 'konfirmasi';
+	@override String get and => 'dan';
+	@override String get or => 'atau';
+	@override String get next => 'selanjutnya';
 	@override String get soon => 'segera';
 	@override String get now => 'sekarang';
 	@override String get guest => 'tamu';
@@ -87,8 +91,25 @@ class _TranslationsCommonId extends TranslationsCommonEn {
 	@override String get edit => 'ubah';
 	@override String get login => 'masuk';
 	@override String get login_required => 'login diperlukan';
+	@override String get back => 'kembali';
+	@override String get shop => 'toko';
+	@override String get paw_shop => 'paw shop';
+	@override String get address => 'alamat';
+	@override String get choose => 'pilih';
+	@override String get loading_data => 'memuat data';
 	@override String get please_login_to_access_this_page => 'silahkan login dahulu untuk mengakses halaman ini';
 	@override String get please_login_as_a_seller_to_access_this_page => 'silahkan login sebagai penjual (Paw Shop) untuk mengakses halaman ini';
+}
+
+// Path: address
+class _TranslationsAddressId extends TranslationsAddressEn {
+	_TranslationsAddressId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsAddressIndexId index = _TranslationsAddressIndexId._(_root);
+	@override late final _TranslationsAddressFormId form = _TranslationsAddressFormId._(_root);
 }
 
 // Path: account
@@ -102,6 +123,7 @@ class _TranslationsAccountId extends TranslationsAccountEn {
 	@override late final _TranslationsAccountProfileId profile = _TranslationsAccountProfileId._(_root);
 	@override late final _TranslationsAccountChangePasswordId change_password = _TranslationsAccountChangePasswordId._(_root);
 	@override late final _TranslationsAccountOptionsId options = _TranslationsAccountOptionsId._(_root);
+	@override late final _TranslationsAccountCreateShopId create_shop = _TranslationsAccountCreateShopId._(_root);
 }
 
 // Path: no_connection
@@ -222,6 +244,7 @@ class _TranslationsSellerId extends TranslationsSellerEn {
 	@override late final _TranslationsSellerHomeId home = _TranslationsSellerHomeId._(_root);
 	@override late final _TranslationsSellerManageOrdersId manage_orders = _TranslationsSellerManageOrdersId._(_root);
 	@override late final _TranslationsSellerCashierId cashier = _TranslationsSellerCashierId._(_root);
+	@override late final _TranslationsSellerSettingsId settings = _TranslationsSellerSettingsId._(_root);
 }
 
 // Path: navigation
@@ -244,8 +267,54 @@ class _TranslationsErrorsId extends TranslationsErrorsEn {
 	final TranslationsId _root; // ignore: unused_field
 
 	// Translations
+	@override late final _TranslationsErrorsCommonId common = _TranslationsErrorsCommonId._(_root);
 	@override late final _TranslationsErrorsAuthId auth = _TranslationsErrorsAuthId._(_root);
 	@override late final _TranslationsErrorsShopId shop = _TranslationsErrorsShopId._(_root);
+}
+
+// Path: address.index
+class _TranslationsAddressIndexId extends TranslationsAddressIndexEn {
+	_TranslationsAddressIndexId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get my_addresses => 'alamat saya';
+	@override String get add_new_address => 'tambah alamat baru';
+	@override String get edit_address => 'ubah alamat';
+	@override String get no_address_found => 'alamat tidak ditemukan';
+	@override String get set_as_default => 'set sebagai alamat utama';
+	@override String get kDefault => 'utama';
+	@override String get shop_pickup => 'titik jemput toko';
+}
+
+// Path: address.form
+class _TranslationsAddressFormId extends TranslationsAddressFormEn {
+	_TranslationsAddressFormId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get address_title => 'label alamat';
+	@override String get address_title_hint => 'misal: rumah, kantor';
+	@override String get recipient_name => 'nama penerima';
+	@override String get recipient_name_hint => 'masukkan nama penerima';
+	@override String get phone_number => 'nomor telepon';
+	@override String get phone_number_hint => 'masukkan nomor telepon aktif';
+	@override String get full_address => 'alamat lengkap';
+	@override String get full_address_hint => 'nama jalan, nomor rumah, dsb';
+	@override String get province => 'provinsi';
+	@override String get province_hint => 'pilih provinsi';
+	@override String get shop_contact_name => 'nama kontak toko';
+	@override String get city => 'kota/kabupaten';
+	@override String get city_hint => 'pilih kota/kabupaten';
+	@override String get district => 'kecamatan';
+	@override String get subdistrict => 'kelurahan/desa';
+	@override String get postal_code => 'kode pos';
+	@override String get postal_code_hint => 'masukkan kode pos';
+	@override String get save_address => 'simpan alamat';
+	@override String get delete_address => 'hapus alamat';
+	@override String get are_you_sure_you_want_to_delete_this_address => 'apakah Anda yakin ingin menghapus alamat ini?';
 }
 
 // Path: account.index
@@ -309,6 +378,33 @@ class _TranslationsAccountOptionsId extends TranslationsAccountOptionsEn {
 	@override String are_you_sure_you_want_to_change_the_language_to({required Object flag, required Object language}) => 'apakah anda yakin ingin mengganti bahasa ke ${flag} ${language}';
 	@override String language_changed_to({required Object language}) => 'bahasa berhasil diubah ke ${language}';
 	@override String get yes_change => 'ya, ganti';
+}
+
+// Path: account.create_shop
+class _TranslationsAccountCreateShopId extends TranslationsAccountCreateShopEn {
+	_TranslationsAccountCreateShopId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get confirmation => 'buat Paw Shop?';
+	@override String get shop_profile => 'profil toko';
+	@override String get please_fill_in_all_fields => 'mohon isi semua bidang';
+	@override String get shop_created_successfully => 'toko berhasil dibuat!';
+	@override String get open_pawshop_for_free => 'buka toko gratis';
+	@override String get start_your_journey_with_pawtastic => 'mulai perjalanan bisnismu di Pawtastic dengan mengisi data berikut';
+	@override String get shop_name => 'nama toko';
+	@override String get store_slug => 'nama unik toko';
+	@override String get store_slug_example => '(cth: toko-meong)';
+	@override String get shop_description => 'deskripsi toko';
+	@override String get open_shop_now => 'buka toko sekarang';
+	@override String get an_error_occured => 'terjadi kesalahan';
+	@override String get please_try_different_store_slug => 'coba ganti nama unik toko';
+	@override String get cancel_creating_a_shop => 'batal buat toko?';
+	@override String get please_fill_pickup_address_date => 'mohon lengkapi data alamat penjemputan';
+	@override String get make_sure_the_store_data_and_pickup_address_are_correct => 'pastikan data toko dan alamat penjemputan sudah benar';
+	@override String get shop_pickup_address => 'alamat penjemputan toko';
+	@override String get this_address_will_be_used_by_the_courier_to_pick_up_the_order => 'alamat ini akan digunakan kurir untuk menjemput paket pesanan Anda';
 }
 
 // Path: auth.onboarding
@@ -595,6 +691,36 @@ class _TranslationsSellerCashierId extends TranslationsSellerCashierEn {
 	@override String get offline_form_placeholder => 'placeholder formulir transaksi offline';
 }
 
+// Path: seller.settings
+class _TranslationsSellerSettingsId extends TranslationsSellerSettingsEn {
+	_TranslationsSellerSettingsId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'pengaturan toko';
+	@override String get notifications => 'notifikasi';
+	@override String get pickup_address => 'alamat penjemputan';
+	@override String get manage_pickup_address => 'atur alamat penjemputan';
+	@override String get cant_reach_your_address => 'tidak dapat mengakses alamat';
+}
+
+// Path: errors.common
+class _TranslationsErrorsCommonId extends TranslationsErrorsCommonEn {
+	_TranslationsErrorsCommonId._(TranslationsId root) : this._root = root, super.internal(root);
+
+	final TranslationsId _root; // ignore: unused_field
+
+	// Translations
+	@override String get please_fill_in_all_fields => 'mohon isi semua bidang';
+	@override String get unsaved_data_will_be_lost => 'data yang belum disimpan akan hilang';
+	@override String get any_data_you_have_filled_will_be_lost => 'data yang sudah kamu isi akan hilang';
+	@override String get required_field => 'wajib diisi';
+	@override String get required_fields => 'wajib diisi';
+	@override String failed_to_load_data({required Object dataName}) => 'gagal memuat data ${dataName}';
+	@override String get please_try_again => 'silakan coba lagi';
+}
+
 // Path: errors.auth
 class _TranslationsErrorsAuthId extends TranslationsErrorsAuthEn {
 	_TranslationsErrorsAuthId._(TranslationsId root) : this._root = root, super.internal(root);
@@ -673,6 +799,9 @@ extension on TranslationsId {
 			'common.cancel' => 'batal',
 			'common.yes' => 'ya',
 			'common.confirm' => 'konfirmasi',
+			'common.and' => 'dan',
+			'common.or' => 'atau',
+			'common.next' => 'selanjutnya',
 			'common.soon' => 'segera',
 			'common.now' => 'sekarang',
 			'common.guest' => 'tamu',
@@ -695,8 +824,41 @@ extension on TranslationsId {
 			'common.edit' => 'ubah',
 			'common.login' => 'masuk',
 			'common.login_required' => 'login diperlukan',
+			'common.back' => 'kembali',
+			'common.shop' => 'toko',
+			'common.paw_shop' => 'paw shop',
+			'common.address' => 'alamat',
+			'common.choose' => 'pilih',
+			'common.loading_data' => 'memuat data',
 			'common.please_login_to_access_this_page' => 'silahkan login dahulu untuk mengakses halaman ini',
 			'common.please_login_as_a_seller_to_access_this_page' => 'silahkan login sebagai penjual (Paw Shop) untuk mengakses halaman ini',
+			'address.index.my_addresses' => 'alamat saya',
+			'address.index.add_new_address' => 'tambah alamat baru',
+			'address.index.edit_address' => 'ubah alamat',
+			'address.index.no_address_found' => 'alamat tidak ditemukan',
+			'address.index.set_as_default' => 'set sebagai alamat utama',
+			'address.index.kDefault' => 'utama',
+			'address.index.shop_pickup' => 'titik jemput toko',
+			'address.form.address_title' => 'label alamat',
+			'address.form.address_title_hint' => 'misal: rumah, kantor',
+			'address.form.recipient_name' => 'nama penerima',
+			'address.form.recipient_name_hint' => 'masukkan nama penerima',
+			'address.form.phone_number' => 'nomor telepon',
+			'address.form.phone_number_hint' => 'masukkan nomor telepon aktif',
+			'address.form.full_address' => 'alamat lengkap',
+			'address.form.full_address_hint' => 'nama jalan, nomor rumah, dsb',
+			'address.form.province' => 'provinsi',
+			'address.form.province_hint' => 'pilih provinsi',
+			'address.form.shop_contact_name' => 'nama kontak toko',
+			'address.form.city' => 'kota/kabupaten',
+			'address.form.city_hint' => 'pilih kota/kabupaten',
+			'address.form.district' => 'kecamatan',
+			'address.form.subdistrict' => 'kelurahan/desa',
+			'address.form.postal_code' => 'kode pos',
+			'address.form.postal_code_hint' => 'masukkan kode pos',
+			'address.form.save_address' => 'simpan alamat',
+			'address.form.delete_address' => 'hapus alamat',
+			'address.form.are_you_sure_you_want_to_delete_this_address' => 'apakah Anda yakin ingin menghapus alamat ini?',
 			'account.index.account' => 'akun',
 			'account.index.profile' => 'profil',
 			'account.index.options' => 'opsi',
@@ -724,6 +886,24 @@ extension on TranslationsId {
 			'account.options.are_you_sure_you_want_to_change_the_language_to' => ({required Object flag, required Object language}) => 'apakah anda yakin ingin mengganti bahasa ke ${flag} ${language}',
 			'account.options.language_changed_to' => ({required Object language}) => 'bahasa berhasil diubah ke ${language}',
 			'account.options.yes_change' => 'ya, ganti',
+			'account.create_shop.confirmation' => 'buat Paw Shop?',
+			'account.create_shop.shop_profile' => 'profil toko',
+			'account.create_shop.please_fill_in_all_fields' => 'mohon isi semua bidang',
+			'account.create_shop.shop_created_successfully' => 'toko berhasil dibuat!',
+			'account.create_shop.open_pawshop_for_free' => 'buka toko gratis',
+			'account.create_shop.start_your_journey_with_pawtastic' => 'mulai perjalanan bisnismu di Pawtastic dengan mengisi data berikut',
+			'account.create_shop.shop_name' => 'nama toko',
+			'account.create_shop.store_slug' => 'nama unik toko',
+			'account.create_shop.store_slug_example' => '(cth: toko-meong)',
+			'account.create_shop.shop_description' => 'deskripsi toko',
+			'account.create_shop.open_shop_now' => 'buka toko sekarang',
+			'account.create_shop.an_error_occured' => 'terjadi kesalahan',
+			'account.create_shop.please_try_different_store_slug' => 'coba ganti nama unik toko',
+			'account.create_shop.cancel_creating_a_shop' => 'batal buat toko?',
+			'account.create_shop.please_fill_pickup_address_date' => 'mohon lengkapi data alamat penjemputan',
+			'account.create_shop.make_sure_the_store_data_and_pickup_address_are_correct' => 'pastikan data toko dan alamat penjemputan sudah benar',
+			'account.create_shop.shop_pickup_address' => 'alamat penjemputan toko',
+			'account.create_shop.this_address_will_be_used_by_the_courier_to_pick_up_the_order' => 'alamat ini akan digunakan kurir untuk menjemput paket pesanan Anda',
 			'no_connection.connection_failed' => 'koneksi gagal',
 			'no_connection.we_could_not_reach_the_server_please_try_again_later' => 'kami tidak dapat terhubung ke server. silakan coba lagi nanti.',
 			'no_connection.try_again' => 'coba lagi',
@@ -888,10 +1068,22 @@ extension on TranslationsId {
 			'seller.cashier.shipping_cost' => 'biaya pengiriman',
 			'seller.cashier.discount' => 'diskon',
 			'seller.cashier.offline_form_placeholder' => 'placeholder formulir transaksi offline',
+			'seller.settings.title' => 'pengaturan toko',
+			'seller.settings.notifications' => 'notifikasi',
+			'seller.settings.pickup_address' => 'alamat penjemputan',
+			'seller.settings.manage_pickup_address' => 'atur alamat penjemputan',
+			'seller.settings.cant_reach_your_address' => 'tidak dapat mengakses alamat',
 			'navigation.home' => 'beranda',
 			'navigation.cart' => 'keranjang',
 			'navigation.my_orders' => 'pesanan saya',
 			'navigation.account' => 'akun',
+			'errors.common.please_fill_in_all_fields' => 'mohon isi semua bidang',
+			'errors.common.unsaved_data_will_be_lost' => 'data yang belum disimpan akan hilang',
+			'errors.common.any_data_you_have_filled_will_be_lost' => 'data yang sudah kamu isi akan hilang',
+			'errors.common.required_field' => 'wajib diisi',
+			'errors.common.required_fields' => 'wajib diisi',
+			'errors.common.failed_to_load_data' => ({required Object dataName}) => 'gagal memuat data ${dataName}',
+			'errors.common.please_try_again' => 'silakan coba lagi',
 			'errors.auth.this_email_is_already_registered_please_use_another_email' => 'email ini sudah terdaftar. silakan gunakan email lain.',
 			'errors.auth.connection_problem_check_your_internet' => 'masalah koneksi. periksa internet Anda.',
 			'errors.auth.failed_to_register_make_sure_the_data_is_correct_or_try_again_later' => 'gagal mendaftar. pastikan data benar atau coba lagi nanti.',

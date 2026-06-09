@@ -4,6 +4,9 @@
     "cancel": "batal",
     "yes": "ya",
     "confirm": "konfirmasi",
+    "and": "dan",
+    "or": "atau",
+    "next": "selanjutnya",
     "soon": "segera",
     "now": "sekarang",
     "guest": "tamu",
@@ -26,8 +29,47 @@
     "edit": "ubah",
     "login": "masuk",
     "login_required": "login diperlukan",
+    "back": "kembali",
+    "shop": "toko",
+    "paw_shop": "paw shop",
+    "address": "alamat",
+    "choose": "pilih",
+    "loading_data": "memuat data",
     "please_login_to_access_this_page": "silahkan login dahulu untuk mengakses halaman ini",
     "please_login_as_a_seller_to_access_this_page": "silahkan login sebagai penjual (Paw Shop) untuk mengakses halaman ini"
+  },
+  "address": {
+    "index": {
+      "my_addresses": "alamat saya",
+      "add_new_address": "tambah alamat baru",
+      "edit_address": "ubah alamat",
+      "no_address_found": "alamat tidak ditemukan",
+      "set_as_default": "set sebagai alamat utama",
+      "default": "utama",
+      "shop_pickup": "titik jemput toko"
+    },
+    "form": {
+      "address_title": "label alamat",
+      "address_title_hint": "misal: rumah, kantor",
+      "recipient_name": "nama penerima",
+      "recipient_name_hint": "masukkan nama penerima",
+      "phone_number": "nomor telepon",
+      "phone_number_hint": "masukkan nomor telepon aktif",
+      "full_address": "alamat lengkap",
+      "full_address_hint": "nama jalan, nomor rumah, dsb",
+      "province": "provinsi",
+      "province_hint": "pilih provinsi",
+      "shop_contact_name": "nama kontak toko",
+      "city": "kota/kabupaten",
+      "city_hint": "pilih kota/kabupaten",
+      "district": "kecamatan",
+      "subdistrict": "kelurahan/desa",
+      "postal_code": "kode pos",
+      "postal_code_hint": "masukkan kode pos",
+      "save_address": "simpan alamat",
+      "delete_address": "hapus alamat",
+      "are_you_sure_you_want_to_delete_this_address": "apakah Anda yakin ingin menghapus alamat ini?"
+    }
   },
   "account": {
     "index": {
@@ -64,6 +106,26 @@
       "are_you_sure_you_want_to_change_the_language_to": "apakah anda yakin ingin mengganti bahasa ke $flag $language",
       "language_changed_to": "bahasa berhasil diubah ke $language",
       "yes_change": "ya, ganti"
+    },
+    "create_shop": {
+      "confirmation": "buat Paw Shop?",
+      "shop_profile": "profil toko",
+      "please_fill_in_all_fields": "mohon isi semua bidang",
+      "shop_created_successfully": "toko berhasil dibuat!",
+      "open_pawshop_for_free": "buka toko gratis",
+      "start_your_journey_with_pawtastic": "mulai perjalanan bisnismu di Pawtastic dengan mengisi data berikut",
+      "shop_name": "nama toko",
+      "store_slug": "nama unik toko",
+      "store_slug_example": "(cth: toko-meong)",
+      "shop_description": "deskripsi toko",
+      "open_shop_now": "buka toko sekarang",
+      "an_error_occured": "terjadi kesalahan",
+      "please_try_different_store_slug" : "coba ganti nama unik toko",
+      "cancel_creating_a_shop" : "batal buat toko?",
+      "please_fill_pickup_address_date" : "mohon lengkapi data alamat penjemputan",
+      "make_sure_the_store_data_and_pickup_address_are_correct": "pastikan data toko dan alamat penjemputan sudah benar",
+      "shop_pickup_address": "alamat penjemputan toko",
+      "this_address_will_be_used_by_the_courier_to_pick_up_the_order": "alamat ini akan digunakan kurir untuk menjemput paket pesanan Anda"
     }
   },
   "no_connection": {
@@ -284,6 +346,13 @@
         "shipping_cost": "biaya pengiriman",
         "discount": "diskon",
         "offline_form_placeholder": "placeholder formulir transaksi offline"
+      },
+      "settings": {
+        "title": "pengaturan toko",
+        "notifications": "notifikasi",
+        "pickup_address": "alamat penjemputan",
+        "manage_pickup_address": "atur alamat penjemputan",
+        "cant_reach_your_address": "tidak dapat mengakses alamat"
       }
   },
   "navigation": {
@@ -293,6 +362,15 @@
     "account": "akun"
   },
   "errors": {
+    "common":{
+      "please_fill_in_all_fields": "mohon isi semua bidang",
+      "unsaved_data_will_be_lost": "data yang belum disimpan akan hilang",
+      "any_data_you_have_filled_will_be_lost": "data yang sudah kamu isi akan hilang",
+      "required_field": "wajib diisi",
+      "required_fields": "wajib diisi",
+      "failed_to_load_data": "gagal memuat data $dataName",
+      "please_try_again": "silakan coba lagi"
+    },
     "auth": {
       "this_email_is_already_registered_please_use_another_email": "email ini sudah terdaftar. silakan gunakan email lain.",
       "connection_problem_check_your_internet": "masalah koneksi. periksa internet Anda.",

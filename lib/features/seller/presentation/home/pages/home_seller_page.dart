@@ -19,8 +19,10 @@ class HomeSellerPage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.orange),
-            onPressed: () {},
+            icon: const Icon(Icons.settings, color: Colors.orange),
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.sellerSettings);
+            },
           ),
         ],
         centerTitle: true,
@@ -91,7 +93,7 @@ class HomeSellerPage extends StatelessWidget {
                   // if (context.mounted) {
                   //   Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
                   // }
-                  Navigator.pushNamed(context, AppRoutes.home);
+                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
                 },
                 textStyle: const TextStyle(
                   fontSize: 16,

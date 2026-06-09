@@ -16,7 +16,7 @@ serve(async (req) => {
     const apiKey = Deno.env.get('GEMINI_API_KEY')
 
     if (!apiKey) {
-      throw new Error("GEMINI_API_KEY tidak ditemukan di environment server.")
+      throw new Error("GEMINI_API_KEY not found")
     }
 
     // cara paling simple
@@ -40,7 +40,7 @@ serve(async (req) => {
     const data = await response.json()
 
     if (!response.ok) {
-      throw new Error(data.error?.message || "Terjadi kesalahan pada server Gemini")
+      throw new Error(data.error?.message || "Failed to connect to Gemini Server")
     }
     const text = data.candidates[0].content.parts[0].text
 

@@ -50,7 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
       await _authService.signUp(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
-        username: '',                               // di-generate TRIGGER kalo kosong
+        username: '',                               // di-generate TRIGGER kalo kosong (sementara tidak bisa diinput dan diubah)
         fullName: _fullNameController.text.trim(),
       );
 

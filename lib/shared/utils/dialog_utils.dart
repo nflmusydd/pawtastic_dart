@@ -6,7 +6,7 @@ import 'package:pawtastic/core/utils/core_utils.dart';
 class DialogUtils {
   static Future<void> showConfirmationDialog({
     required BuildContext context,
-    required String title,
+    required String? title,
     String? message,
     String? confirmText,
     String? cancelText,
@@ -15,6 +15,7 @@ class DialogUtils {
     const primaryColor = Color.fromRGBO(252, 147, 3, 1.0);
     
     // Default values using translations (runtime)
+    final effectiveTitleText = title ?? context.t.common.confirm.toTitleCase();
     final effectiveConfirmText = confirmText ?? context.t.common.yes.toTitleCase();
     final effectiveCancelText = cancelText ?? context.t.common.cancel.toTitleCase();
     final effectiveMessage = message ?? "";
@@ -25,7 +26,7 @@ class DialogUtils {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
-            title,
+            effectiveTitleText,
             style: const TextStyle(
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.bold,

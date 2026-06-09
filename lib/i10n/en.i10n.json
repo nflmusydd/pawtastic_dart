@@ -4,6 +4,9 @@
     "cancel": "cancel",
     "yes": "yes",
     "confirm": "confirm",
+    "and": "and",
+    "or": "or",
+    "next": "next",
     "soon": "soon",
     "now": "now",
     "guest": "guest",
@@ -26,8 +29,47 @@
     "edit": "edit",
     "login": "login",
     "login_required": "login required",
+    "back": "back",
+    "shop": "shop",
+    "paw_shop": "paw shop",
+    "address": "address",
+    "choose": "choose",
+    "loading_data": "loading data",
     "please_login_to_access_this_page": "please log in to access this page",
     "please_login_as_a_seller_to_access_this_page": "please log in as a seller (Paw Shop) to access this page"
+  },
+  "address": {
+    "index": {
+      "my_addresses": "my addresses",
+      "add_new_address": "add new address",
+      "edit_address": "edit address",
+      "no_address_found": "no address found",
+      "set_as_default": "set as default",
+      "default": "default",
+      "shop_pickup": "shop pickup"
+    },
+    "form": {
+      "address_title": "address label",
+      "address_title_hint": "e.g., home, office",
+      "recipient_name": "recipient name",
+      "recipient_name_hint": "enter recipient name",
+      "phone_number": "phone number",
+      "phone_number_hint": "enter active phone number",
+      "full_address": "full address",
+      "full_address_hint": "street name, house number, etc.",
+      "province": "province",
+      "province_hint": "select province",
+      "shop_contact_name": "shop contact name",
+      "city": "city/regency",
+      "city_hint": "select city/regency",
+      "district": "district",
+      "subdistrict": "sub-district",
+      "postal_code": "postal code",
+      "postal_code_hint": "enter postal code",
+      "save_address": "save address",
+      "delete_address": "delete address",
+      "are_you_sure_you_want_to_delete_this_address": "are you sure you want to delete this address?"
+    }
   },
   "account": {
     "index": {
@@ -64,6 +106,26 @@
       "are_you_sure_you_want_to_change_the_language_to": "are you sure you want to change the language to $flag $language",
       "language_changed_to": "language changed to $language",
       "yes_change": "yes, change"
+    },
+    "create_shop": {
+      "confirmation": "create Paw Shop?",
+      "shop_profile": "shop profile",
+      "please_fill_in_all_fields": "please fill in all fields",
+      "shop_created_successfully": "shop created successfully!",
+      "open_pawshop_for_free": "open pawshop for free",
+      "start_your_journey_with_pawtastic": "start your journey with Pawtastic by filling in the following data",
+      "shop_name": "shop name",
+      "store_slug": "store slug",
+      "store_slug_example": "(ex: meow-shop)",
+      "shop_description": "shop description",
+      "open_shop_now": "open shop now",
+      "an_error_occured" : "an error occured",
+      "please_try_different_store_slug" : "please try different store slug",
+      "cancel_creating_a_shop" : "cancel creating a shop?",
+      "please_fill_pickup_address_date" : "please fill pickup address data",
+      "shop_pickup_address": "shop pickup address",
+      "this_address_will_be_used_by_the_courier_to_pick_up_the_order": "this address will be used by the courier to pick up the order",
+      "make_sure_the_store_data_and_pickup_address_are_correct": "make sure the store data and pickup address are correct"
     }
   },
   "no_connection": {
@@ -274,7 +336,7 @@
         "product_list": "product list",
         "confirm": "confirm",
         "confirm_order_message": "are you sure you want to confirm this order?",
-        "cancel_order_message": "Are you sure you want to cancel this order??"
+        "cancel_order_message": "Are you sure you want to cancel this order?"
       },
       "cashier": {
         "title": "cashier",
@@ -284,6 +346,13 @@
         "shipping_cost": "shipping cost",
         "discount": "discount",
         "offline_form_placeholder": "offline transaction form placeholder"
+      },
+      "settings": {
+        "title": "shop settings",
+        "notifications": "notifications",
+        "pickup_address": "pickup address",
+        "manage_pickup_address": "manage pickup address",
+        "cant_reach_your_address": "cannot reach your address"
       }
   },
   "navigation": {
@@ -293,6 +362,15 @@
     "account": "account"
   },
   "errors": {
+    "common": {
+      "please_fill_in_all_fields": "please fill in all fields",
+      "unsaved_data_will_be_lost": "unsaved data will be lost",
+      "any_data_you_have_filled_will_be_lost": "any data you have filled will be lost",
+      "required_field": "required field",
+      "required_fields": "required fields",
+      "failed_to_load_data": "failed to load $dataName data",
+      "please_try_again": "please try again"
+    },
     "auth": {
       "this_email_is_already_registered_please_use_another_email": "this email is already registered. please use another email.",
       "connection_problem_check_your_internet": "connection problem. check your internet.",

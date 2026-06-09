@@ -41,6 +41,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final TranslationsCommonEn common = TranslationsCommonEn.internal(_root);
+	late final TranslationsAddressEn address = TranslationsAddressEn.internal(_root);
 	late final TranslationsAccountEn account = TranslationsAccountEn.internal(_root);
 	late final TranslationsNoConnectionEn no_connection = TranslationsNoConnectionEn.internal(_root);
 	late final TranslationsAuthEn auth = TranslationsAuthEn.internal(_root);
@@ -74,6 +75,15 @@ class TranslationsCommonEn {
 
 	/// en: 'confirm'
 	String get confirm => 'confirm';
+
+	/// en: 'and'
+	String get and => 'and';
+
+	/// en: 'or'
+	String get or => 'or';
+
+	/// en: 'next'
+	String get next => 'next';
 
 	/// en: 'soon'
 	String get soon => 'soon';
@@ -141,11 +151,40 @@ class TranslationsCommonEn {
 	/// en: 'login required'
 	String get login_required => 'login required';
 
+	/// en: 'back'
+	String get back => 'back';
+
+	/// en: 'shop'
+	String get shop => 'shop';
+
+	/// en: 'paw shop'
+	String get paw_shop => 'paw shop';
+
+	/// en: 'address'
+	String get address => 'address';
+
+	/// en: 'choose'
+	String get choose => 'choose';
+
+	/// en: 'loading data'
+	String get loading_data => 'loading data';
+
 	/// en: 'please log in to access this page'
 	String get please_login_to_access_this_page => 'please log in to access this page';
 
 	/// en: 'please log in as a seller (Paw Shop) to access this page'
 	String get please_login_as_a_seller_to_access_this_page => 'please log in as a seller (Paw Shop) to access this page';
+}
+
+// Path: address
+class TranslationsAddressEn {
+	TranslationsAddressEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsAddressIndexEn index = TranslationsAddressIndexEn.internal(_root);
+	late final TranslationsAddressFormEn form = TranslationsAddressFormEn.internal(_root);
 }
 
 // Path: account
@@ -159,6 +198,7 @@ class TranslationsAccountEn {
 	late final TranslationsAccountProfileEn profile = TranslationsAccountProfileEn.internal(_root);
 	late final TranslationsAccountChangePasswordEn change_password = TranslationsAccountChangePasswordEn.internal(_root);
 	late final TranslationsAccountOptionsEn options = TranslationsAccountOptionsEn.internal(_root);
+	late final TranslationsAccountCreateShopEn create_shop = TranslationsAccountCreateShopEn.internal(_root);
 }
 
 // Path: no_connection
@@ -323,6 +363,7 @@ class TranslationsSellerEn {
 	late final TranslationsSellerHomeEn home = TranslationsSellerHomeEn.internal(_root);
 	late final TranslationsSellerManageOrdersEn manage_orders = TranslationsSellerManageOrdersEn.internal(_root);
 	late final TranslationsSellerCashierEn cashier = TranslationsSellerCashierEn.internal(_root);
+	late final TranslationsSellerSettingsEn settings = TranslationsSellerSettingsEn.internal(_root);
 }
 
 // Path: navigation
@@ -353,8 +394,108 @@ class TranslationsErrorsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	late final TranslationsErrorsCommonEn common = TranslationsErrorsCommonEn.internal(_root);
 	late final TranslationsErrorsAuthEn auth = TranslationsErrorsAuthEn.internal(_root);
 	late final TranslationsErrorsShopEn shop = TranslationsErrorsShopEn.internal(_root);
+}
+
+// Path: address.index
+class TranslationsAddressIndexEn {
+	TranslationsAddressIndexEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'my addresses'
+	String get my_addresses => 'my addresses';
+
+	/// en: 'add new address'
+	String get add_new_address => 'add new address';
+
+	/// en: 'edit address'
+	String get edit_address => 'edit address';
+
+	/// en: 'no address found'
+	String get no_address_found => 'no address found';
+
+	/// en: 'set as default'
+	String get set_as_default => 'set as default';
+
+	/// en: 'default'
+	String get kDefault => 'default';
+
+	/// en: 'shop pickup'
+	String get shop_pickup => 'shop pickup';
+}
+
+// Path: address.form
+class TranslationsAddressFormEn {
+	TranslationsAddressFormEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'address label'
+	String get address_title => 'address label';
+
+	/// en: 'e.g., home, office'
+	String get address_title_hint => 'e.g., home, office';
+
+	/// en: 'recipient name'
+	String get recipient_name => 'recipient name';
+
+	/// en: 'enter recipient name'
+	String get recipient_name_hint => 'enter recipient name';
+
+	/// en: 'phone number'
+	String get phone_number => 'phone number';
+
+	/// en: 'enter active phone number'
+	String get phone_number_hint => 'enter active phone number';
+
+	/// en: 'full address'
+	String get full_address => 'full address';
+
+	/// en: 'street name, house number, etc.'
+	String get full_address_hint => 'street name, house number, etc.';
+
+	/// en: 'province'
+	String get province => 'province';
+
+	/// en: 'select province'
+	String get province_hint => 'select province';
+
+	/// en: 'shop contact name'
+	String get shop_contact_name => 'shop contact name';
+
+	/// en: 'city/regency'
+	String get city => 'city/regency';
+
+	/// en: 'select city/regency'
+	String get city_hint => 'select city/regency';
+
+	/// en: 'district'
+	String get district => 'district';
+
+	/// en: 'sub-district'
+	String get subdistrict => 'sub-district';
+
+	/// en: 'postal code'
+	String get postal_code => 'postal code';
+
+	/// en: 'enter postal code'
+	String get postal_code_hint => 'enter postal code';
+
+	/// en: 'save address'
+	String get save_address => 'save address';
+
+	/// en: 'delete address'
+	String get delete_address => 'delete address';
+
+	/// en: 'are you sure you want to delete this address?'
+	String get are_you_sure_you_want_to_delete_this_address => 'are you sure you want to delete this address?';
 }
 
 // Path: account.index
@@ -472,6 +613,69 @@ class TranslationsAccountOptionsEn {
 
 	/// en: 'yes, change'
 	String get yes_change => 'yes, change';
+}
+
+// Path: account.create_shop
+class TranslationsAccountCreateShopEn {
+	TranslationsAccountCreateShopEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'create Paw Shop?'
+	String get confirmation => 'create Paw Shop?';
+
+	/// en: 'shop profile'
+	String get shop_profile => 'shop profile';
+
+	/// en: 'please fill in all fields'
+	String get please_fill_in_all_fields => 'please fill in all fields';
+
+	/// en: 'shop created successfully!'
+	String get shop_created_successfully => 'shop created successfully!';
+
+	/// en: 'open pawshop for free'
+	String get open_pawshop_for_free => 'open pawshop for free';
+
+	/// en: 'start your journey with Pawtastic by filling in the following data'
+	String get start_your_journey_with_pawtastic => 'start your journey with Pawtastic by filling in the following data';
+
+	/// en: 'shop name'
+	String get shop_name => 'shop name';
+
+	/// en: 'store slug'
+	String get store_slug => 'store slug';
+
+	/// en: '(ex: meow-shop)'
+	String get store_slug_example => '(ex: meow-shop)';
+
+	/// en: 'shop description'
+	String get shop_description => 'shop description';
+
+	/// en: 'open shop now'
+	String get open_shop_now => 'open shop now';
+
+	/// en: 'an error occured'
+	String get an_error_occured => 'an error occured';
+
+	/// en: 'please try different store slug'
+	String get please_try_different_store_slug => 'please try different store slug';
+
+	/// en: 'cancel creating a shop?'
+	String get cancel_creating_a_shop => 'cancel creating a shop?';
+
+	/// en: 'please fill pickup address data'
+	String get please_fill_pickup_address_date => 'please fill pickup address data';
+
+	/// en: 'shop pickup address'
+	String get shop_pickup_address => 'shop pickup address';
+
+	/// en: 'this address will be used by the courier to pick up the order'
+	String get this_address_will_be_used_by_the_courier_to_pick_up_the_order => 'this address will be used by the courier to pick up the order';
+
+	/// en: 'make sure the store data and pickup address are correct'
+	String get make_sure_the_store_data_and_pickup_address_are_correct => 'make sure the store data and pickup address are correct';
 }
 
 // Path: auth.onboarding
@@ -982,8 +1186,8 @@ class TranslationsSellerManageOrdersEn {
 	/// en: 'are you sure you want to confirm this order?'
 	String get confirm_order_message => 'are you sure you want to confirm this order?';
 
-	/// en: 'Are you sure you want to cancel this order??'
-	String get cancel_order_message => 'Are you sure you want to cancel this order??';
+	/// en: 'Are you sure you want to cancel this order?'
+	String get cancel_order_message => 'Are you sure you want to cancel this order?';
 }
 
 // Path: seller.cashier
@@ -1014,6 +1218,60 @@ class TranslationsSellerCashierEn {
 
 	/// en: 'offline transaction form placeholder'
 	String get offline_form_placeholder => 'offline transaction form placeholder';
+}
+
+// Path: seller.settings
+class TranslationsSellerSettingsEn {
+	TranslationsSellerSettingsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'shop settings'
+	String get title => 'shop settings';
+
+	/// en: 'notifications'
+	String get notifications => 'notifications';
+
+	/// en: 'pickup address'
+	String get pickup_address => 'pickup address';
+
+	/// en: 'manage pickup address'
+	String get manage_pickup_address => 'manage pickup address';
+
+	/// en: 'cannot reach your address'
+	String get cant_reach_your_address => 'cannot reach your address';
+}
+
+// Path: errors.common
+class TranslationsErrorsCommonEn {
+	TranslationsErrorsCommonEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'please fill in all fields'
+	String get please_fill_in_all_fields => 'please fill in all fields';
+
+	/// en: 'unsaved data will be lost'
+	String get unsaved_data_will_be_lost => 'unsaved data will be lost';
+
+	/// en: 'any data you have filled will be lost'
+	String get any_data_you_have_filled_will_be_lost => 'any data you have filled will be lost';
+
+	/// en: 'required field'
+	String get required_field => 'required field';
+
+	/// en: 'required fields'
+	String get required_fields => 'required fields';
+
+	/// en: 'failed to load $dataName data'
+	String failed_to_load_data({required Object dataName}) => 'failed to load ${dataName} data';
+
+	/// en: 'please try again'
+	String get please_try_again => 'please try again';
 }
 
 // Path: errors.auth
@@ -1154,6 +1412,9 @@ extension on Translations {
 			'common.cancel' => 'cancel',
 			'common.yes' => 'yes',
 			'common.confirm' => 'confirm',
+			'common.and' => 'and',
+			'common.or' => 'or',
+			'common.next' => 'next',
 			'common.soon' => 'soon',
 			'common.now' => 'now',
 			'common.guest' => 'guest',
@@ -1176,8 +1437,41 @@ extension on Translations {
 			'common.edit' => 'edit',
 			'common.login' => 'login',
 			'common.login_required' => 'login required',
+			'common.back' => 'back',
+			'common.shop' => 'shop',
+			'common.paw_shop' => 'paw shop',
+			'common.address' => 'address',
+			'common.choose' => 'choose',
+			'common.loading_data' => 'loading data',
 			'common.please_login_to_access_this_page' => 'please log in to access this page',
 			'common.please_login_as_a_seller_to_access_this_page' => 'please log in as a seller (Paw Shop) to access this page',
+			'address.index.my_addresses' => 'my addresses',
+			'address.index.add_new_address' => 'add new address',
+			'address.index.edit_address' => 'edit address',
+			'address.index.no_address_found' => 'no address found',
+			'address.index.set_as_default' => 'set as default',
+			'address.index.kDefault' => 'default',
+			'address.index.shop_pickup' => 'shop pickup',
+			'address.form.address_title' => 'address label',
+			'address.form.address_title_hint' => 'e.g., home, office',
+			'address.form.recipient_name' => 'recipient name',
+			'address.form.recipient_name_hint' => 'enter recipient name',
+			'address.form.phone_number' => 'phone number',
+			'address.form.phone_number_hint' => 'enter active phone number',
+			'address.form.full_address' => 'full address',
+			'address.form.full_address_hint' => 'street name, house number, etc.',
+			'address.form.province' => 'province',
+			'address.form.province_hint' => 'select province',
+			'address.form.shop_contact_name' => 'shop contact name',
+			'address.form.city' => 'city/regency',
+			'address.form.city_hint' => 'select city/regency',
+			'address.form.district' => 'district',
+			'address.form.subdistrict' => 'sub-district',
+			'address.form.postal_code' => 'postal code',
+			'address.form.postal_code_hint' => 'enter postal code',
+			'address.form.save_address' => 'save address',
+			'address.form.delete_address' => 'delete address',
+			'address.form.are_you_sure_you_want_to_delete_this_address' => 'are you sure you want to delete this address?',
 			'account.index.account' => 'account',
 			'account.index.profile' => 'profile',
 			'account.index.options' => 'options',
@@ -1205,6 +1499,24 @@ extension on Translations {
 			'account.options.are_you_sure_you_want_to_change_the_language_to' => ({required Object flag, required Object language}) => 'are you sure you want to change the language to ${flag} ${language}',
 			'account.options.language_changed_to' => ({required Object language}) => 'language changed to ${language}',
 			'account.options.yes_change' => 'yes, change',
+			'account.create_shop.confirmation' => 'create Paw Shop?',
+			'account.create_shop.shop_profile' => 'shop profile',
+			'account.create_shop.please_fill_in_all_fields' => 'please fill in all fields',
+			'account.create_shop.shop_created_successfully' => 'shop created successfully!',
+			'account.create_shop.open_pawshop_for_free' => 'open pawshop for free',
+			'account.create_shop.start_your_journey_with_pawtastic' => 'start your journey with Pawtastic by filling in the following data',
+			'account.create_shop.shop_name' => 'shop name',
+			'account.create_shop.store_slug' => 'store slug',
+			'account.create_shop.store_slug_example' => '(ex: meow-shop)',
+			'account.create_shop.shop_description' => 'shop description',
+			'account.create_shop.open_shop_now' => 'open shop now',
+			'account.create_shop.an_error_occured' => 'an error occured',
+			'account.create_shop.please_try_different_store_slug' => 'please try different store slug',
+			'account.create_shop.cancel_creating_a_shop' => 'cancel creating a shop?',
+			'account.create_shop.please_fill_pickup_address_date' => 'please fill pickup address data',
+			'account.create_shop.shop_pickup_address' => 'shop pickup address',
+			'account.create_shop.this_address_will_be_used_by_the_courier_to_pick_up_the_order' => 'this address will be used by the courier to pick up the order',
+			'account.create_shop.make_sure_the_store_data_and_pickup_address_are_correct' => 'make sure the store data and pickup address are correct',
 			'no_connection.connection_failed' => 'connection failed',
 			'no_connection.we_could_not_reach_the_server_please_try_again_later' => 'we couldn\'t reach the server. please try again later.',
 			'no_connection.try_again' => 'try again',
@@ -1361,7 +1673,7 @@ extension on Translations {
 			'seller.manage_orders.product_list' => 'product list',
 			'seller.manage_orders.confirm' => 'confirm',
 			'seller.manage_orders.confirm_order_message' => 'are you sure you want to confirm this order?',
-			'seller.manage_orders.cancel_order_message' => 'Are you sure you want to cancel this order??',
+			'seller.manage_orders.cancel_order_message' => 'Are you sure you want to cancel this order?',
 			'seller.cashier.title' => 'cashier',
 			'seller.cashier.transaction_record' => 'transaction record',
 			'seller.cashier.add_offline_transaction' => 'add offline transaction',
@@ -1369,10 +1681,22 @@ extension on Translations {
 			'seller.cashier.shipping_cost' => 'shipping cost',
 			'seller.cashier.discount' => 'discount',
 			'seller.cashier.offline_form_placeholder' => 'offline transaction form placeholder',
+			'seller.settings.title' => 'shop settings',
+			'seller.settings.notifications' => 'notifications',
+			'seller.settings.pickup_address' => 'pickup address',
+			'seller.settings.manage_pickup_address' => 'manage pickup address',
+			'seller.settings.cant_reach_your_address' => 'cannot reach your address',
 			'navigation.home' => 'home',
 			'navigation.cart' => 'cart',
 			'navigation.my_orders' => 'my orders',
 			'navigation.account' => 'account',
+			'errors.common.please_fill_in_all_fields' => 'please fill in all fields',
+			'errors.common.unsaved_data_will_be_lost' => 'unsaved data will be lost',
+			'errors.common.any_data_you_have_filled_will_be_lost' => 'any data you have filled will be lost',
+			'errors.common.required_field' => 'required field',
+			'errors.common.required_fields' => 'required fields',
+			'errors.common.failed_to_load_data' => ({required Object dataName}) => 'failed to load ${dataName} data',
+			'errors.common.please_try_again' => 'please try again',
 			'errors.auth.this_email_is_already_registered_please_use_another_email' => 'this email is already registered. please use another email.',
 			'errors.auth.connection_problem_check_your_internet' => 'connection problem. check your internet.',
 			'errors.auth.failed_to_register_make_sure_the_data_is_correct_or_try_again_later' => 'failed to register. make sure the data is correct or try again later.',

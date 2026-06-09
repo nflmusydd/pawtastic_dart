@@ -1,4 +1,16 @@
 extension StringExtension on String {
+  
+  String ucfirstChar() {
+    if (isEmpty) return this;
+    for (int i = 0; i < length; i++) {
+      final code = codeUnitAt(i);
+      if (code >= 97 && code <= 122) {
+        return substring(0, i) + String.fromCharCode(code - 32) + substring(i + 1);
+      }
+    }
+    return this;
+  }
+
   // Hanya huruf pertama dari string yang kapital, reset setelah ada tanda titik
   // Contoh: "hello world" -> "Hello world"
   String ucfirst() {

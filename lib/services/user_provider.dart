@@ -81,6 +81,12 @@ class UserProvider extends ChangeNotifier {
     await _checkInitialSession();
   }
 
+  Future<void> refreshRole() async {
+    if (_user != null) {
+      await _fetchUserRole(_user!.id);
+    }
+  }
+
   Future<void> _fetchUserRole(String uid) async {
     // Hanya tampilkan loading screen jika ini adalah login pertama kali
     // (role belum ada). Ini mencegah layar kedap-kedip ke Splash saat token refresh atau re-login.

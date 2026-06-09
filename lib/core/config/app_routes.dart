@@ -20,7 +20,10 @@ class AppRoutes {
   static const String cashier         = '/cashier';
   static const String aboutUs         = '/about-us';
   static const String profile         = '/profile';
+  static const String addressList     = '/address-list';
+  static const String createShop      = '/create-shop';
   static const String changePassword  = '/change-password';
   static const String manageProduct   = '/manage-product';
+  static const String sellerSettings  = '/seller-settings';
   static const String chatbot         = '/chatbot';
 }

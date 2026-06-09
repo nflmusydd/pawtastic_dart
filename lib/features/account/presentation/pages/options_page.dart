@@ -38,115 +38,68 @@ class _OptionsPageState extends State<OptionsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 250, 250),
-      appBar: CustomAppBar.leftTitle(
-        context,
-        title: context.t.account.options.options.toTitleCase(),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.t.account.options.language.toTitleCase(),
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Montserrat',
+    return AuthGuard(
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 255, 250, 250),
+        appBar: CustomAppBar.leftTitle(
+          context,
+          title: context.t.account.options.options.toTitleCase(),
+        ),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 20,
+            bottom: 20 + MediaQuery.of(context).padding.bottom,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.t.account.options.language.toTitleCase(),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Montserrat',
+                ),
               ),
-            ),
-            const SizedBox(height: 15),
-            _buildLanguageCard('English', '🇺🇸', 'en', TranslationProvider.of(context).locale.languageCode == 'en', const Color.fromRGBO(252, 147, 3, 1.0)),
-            _buildLanguageCard('Indonesian', '🇮🇩', 'id', TranslationProvider.of(context).locale.languageCode == 'id', const Color.fromRGBO(252, 147, 3, 1.0)),
-            
-            const SizedBox(height: 30),
-            Text(
-              context.t.account.options.other_settings.toTitleCase(),
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Montserrat',
+              const SizedBox(height: 15),
+              GlobalSelectionItem(
+                title: 'English',
+                leading: const Text('🇺🇸', style: TextStyle(fontSize: 24)),
+                isSelected: TranslationProvider.of(context).locale.languageCode == 'en',
+                onTap: () => _showLanguageConfirmation('English', '🇺🇸', 'en'),
               ),
-            ),
-            const SizedBox(height: 15),
-            _buildToggleCard(context.t.account.options.notifications.toTitleCase(), true, const Color.fromRGBO(252, 147, 3, 1.0)),
-            _buildToggleCard(context.t.account.options.dark_mode.toTitleCase(), false, const Color.fromRGBO(252, 147, 3, 1.0), enabled: false),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLanguageCard(String language, String flag, String localeCode, bool isSelected, Color color) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+              GlobalSelectionItem(
+                title: 'Indonesian',
+                leading: const Text('🇮🇩', style: TextStyle(fontSize: 24)),
+                isSelected: TranslationProvider.of(context).locale.languageCode == 'id',
+                onTap: () => _showLanguageConfirmation('Indonesian', '🇮🇩', 'id'),
+              ),
+              
+              const SizedBox(height: 30),
+              Text(
+                context.t.account.options.other_settings.toTitleCase(),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Montserrat',
+                ),
+              ),
+              const SizedBox(height: 15),
+              GlobalToggleItem(
+                title: context.t.account.options.notifications.toTitleCase(),
+                value: true,
+                onChanged: (val) {},
+              ),
+              GlobalToggleItem(
+                title: context.t.account.options.dark_mode.toTitleCase(),
+                value: false,
+                enabled: false,
+                onChanged: (val) {},
+              ),
+            ],
           ),
-        ],
-        border: isSelected
-            ? Border.all(color: color, width: 2)
-            : Border.all(color: Colors.transparent, width: 2),
-      ),
-      child: ListTile(
-        onTap: () {
-          if (!isSelected) {
-            _showLanguageConfirmation(language, flag, localeCode);
-          }
-        },
-        leading: Text(
-          flag,
-          style: const TextStyle(fontSize: 24),
-        ),
-        title: Text(
-          language,
-          style: const TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        trailing: isSelected
-            ? Icon(Icons.check_circle, color: color)
-            : Icon(Icons.circle_outlined, color: Colors.grey.shade300),
-      ),
-    );
-  }
-
-  Widget _buildToggleCard(String title, bool value, Color color, {bool enabled = true}) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: ListTile(
-        title: Text(
-          title,
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w500,
-            color: enabled ? Colors.black : Colors.grey,
-          ),
-        ),
-        trailing: Switch(
-          value: value,
-          onChanged: enabled ? (val) {} : null,
-          activeColor: color,
         ),
       ),
     );
