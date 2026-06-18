@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pawtastic/core/auth/auth_guard.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
 import 'package:pawtastic/services/user_provider.dart';
 import 'package:pawtastic/shared/widgets/widgets.dart';
@@ -50,10 +51,10 @@ class _AccountPageState extends State<AccountPage> {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     return AuthGuard(
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: ListView(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: ListView(
             controller: _scrollController,
             padding: const EdgeInsets.only(bottom: 120, left: 20, right: 20),
             children: [
@@ -73,11 +74,13 @@ class _AccountPageState extends State<AccountPage> {
                     },
                   ),
                   const SizedBox(height: 10),
-                  // Profile Name                  
+                  // Profile Name
                   Consumer<UserProvider>(
                     builder: (context, userProvider, child) {
                       return Text(
-                        userProvider.fullName.isNotEmpty ? userProvider.fullName : context.t.common.guest.ucfirst(),
+                        userProvider.fullName.isNotEmpty
+                            ? userProvider.fullName
+                            : context.t.common.guest.ucfirst(),
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -118,6 +121,7 @@ class _AccountPageState extends State<AccountPage> {
                     text: context.t.account.index.paw_shop.toTitleCase(),
                     onTap: () {
                       if (userProvider.role == UserRole.seller) {
+                        userProvider.setLastSellerMode(true);
                         Navigator.pushNamedAndRemoveUntil(context, AppRoutes.sellerHome, (route) => false);
                       } else {
                         Navigator.pushNamed(context, AppRoutes.createShop);

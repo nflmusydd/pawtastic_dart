@@ -27,7 +27,8 @@ class AuthGuard extends StatelessWidget {
         }
 
         // Jika Guest diizinkan, langsung lolos untuk user null/none
-        if (allowGuest && (userProvider.user == null || userProvider.role == UserRole.none)) {
+        if (allowGuest &&
+            (userProvider.user == null || userProvider.role == UserRole.none)) {
           return child;
         }
 
@@ -53,4 +54,3 @@ class AuthGuard extends StatelessWidget {
     );
   }
 }
-

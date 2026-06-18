@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/services/user_provider.dart';
 import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/auth/auth_guard.dart';
 import 'package:pawtastic/core/utils/core_utils.dart';
 
 class SellerSettingsPage extends StatefulWidget {

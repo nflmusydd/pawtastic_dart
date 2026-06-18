@@ -18,7 +18,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
   final SupabaseAuthService _authService = SupabaseAuthService();
   bool _isLoading = false;
-  
+  final _formKey = GlobalKey<FormState>();
+
   // Timer variables
   Timer? _timer;
   int _secondsRemaining = 0;
@@ -42,9 +43,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     final prefs = await SharedPreferences.getInstance();
     final lastTimestamp = prefs.getInt(_cooldownKey) ?? 0;
     final currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-    
+
     final difference = (currentTimestamp - lastTimestamp) ~/ 1000;
-    
+
     if (difference < 60) {
       setState(() {
         _secondsRemaining = 60 - difference;
@@ -76,30 +77,38 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   Future<void> _handleResetPassword() async {
-    final email = _emailController.text.trim();
-    if (email.isEmpty) {
-      SnackBarUtils.show(context, context.t.auth.forgot_password.please_enter_your_email_address.ucfirst(), type: SnackBarType.error);
+    if (!_formKey.currentState!.validate()) {
+      SnackBarUtils.show(context,
+          context.t.errors.common.please_fill_in_all_data_validly.ucfirst(),
+          type: SnackBarType.error);
       return;
     }
+    final email = _emailController.text.trim();
 
     setState(() => _isLoading = true);
 
     try {
       await _authService.sendPasswordResetEmail(email);
-      
+
       // Simpan cooldown ke storage
       await _saveCooldown();
-      
+
       if (mounted) {
-        SnackBarUtils.show(context, context.t.auth.forgot_password.reset_link_has_been_sent_to_your_email.ucfirst(), type: SnackBarType.success);
-        
+        SnackBarUtils.show(
+            context,
+            context.t.auth.forgot_password.reset_link_has_been_sent_to_your_email.ucfirst(),
+            type: SnackBarType.success);
+
         // Langsung mulai timer lokal agar UI update sebelum navigasi
         setState(() => _secondsRemaining = 60);
         _startTimer();
       }
     } catch (e) {
       if (mounted) {
-        final String userMessage = e is String ? e : context.t.auth.login.an_unexpected_error_occurred_please_try_again.ucfirst();
+        final String userMessage = e is String
+            ? e
+            : context.t.auth.login.an_unexpected_error_occurred_please_try_again
+                .ucfirst();
         SnackBarUtils.show(context, userMessage, type: SnackBarType.error);
       }
     } finally {
@@ -113,17 +122,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar.actionOnly(context),
-      body: SafeArea(  
+      body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Container(
-              margin: const EdgeInsets.only(top: 20),
-              alignment: Alignment.topCenter,
+            padding: EdgeInsets.fromLTRB(20, 0, 20, MediaQuery.of(context).viewInsets.bottom),
+            child: Form(
+              key: _formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center, 
-                mainAxisSize: MainAxisSize.min, 
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 20),
                   Text(
                     context.t.auth.forgot_password.forgot_your_password.toTitleCase(),
                     textAlign: TextAlign.center,
@@ -134,59 +143,66 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       fontWeight: FontWeight.w700,
                       height: 47 / 36,
                     ),
-                  ),              
+                  ),
                   const SizedBox(height: 30),
-                  SizedBox(
-                    width: 350,
-                    child: TextFormField(
-                      controller: _emailController,
-                      decoration: CustomTextFieldDecoration(
-                        hintText: context.t.auth.forgot_password.enter_registered_email_address.toTitleCase(),
-                        prefixIcon: Icons.mail_lock_rounded,
-                      ).decoration,
-                      keyboardType: TextInputType.emailAddress,
-                    ),
+                  CustomTextField(
+                    controller: _emailController,
+                    hintText: context
+                        .t.auth.forgot_password.enter_registered_email_address
+                        .toTitleCase(),
+                    prefixIcon: Icons.mail_lock_rounded,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (val) {
+                      if (val == null || val.trim().isEmpty) {
+                        return context.t.errors.common.required_field
+                            .ucfirstChar();
+                      }
+                      final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                      if (!emailRegex.hasMatch(val.trim())) {
+                        return context.t.errors.common.invalid_email_format
+                            .ucfirstChar();
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 20),
-
                   SizedBox(
-                    width: 340,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: RichText(
-                        text: TextSpan(
-                          text: "*",  
-                          style: const TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Colors.red, 
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: " ${context.t.auth.forgot_password.we_will_send_you_a_message_to_set_or_reset_your_new_password.ucfirst()}",
-                              style: const TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Color.fromRGBO(87, 87, 87, 1.0),  
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      width: 340,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: RichText(
+                          text: TextSpan(
+                            text: "*",
+                            style: const TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Colors.red,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w500,
                             ),
-                          ],
+                            children: [
+                              TextSpan(
+                                text: " ${context.t.auth.forgot_password.we_will_send_you_a_message_to_set_or_reset_your_new_password.ucfirst()}",
+                                style: const TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Color.fromRGBO(87, 87, 87, 1.0),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  ),
-                  
+                      )),
                   const SizedBox(height: 50),
-                  
                   PrimaryButton(
-                    label: _secondsRemaining > 0 
-                        ? context.t.auth.forgot_password.wait(seconds: _secondsRemaining.toString()).toTitleCase()
+                    label: _secondsRemaining > 0
+                        ? context.t.auth.forgot_password
+                            .wait(seconds: _secondsRemaining.toString())
+                            .toTitleCase()
                         : context.t.auth.forgot_password.submit.toTitleCase(),
                     isLoading: _isLoading,
-                    backgroundColor: _secondsRemaining > 0 
-                        ? Colors.grey 
+                    backgroundColor: _secondsRemaining > 0
+                        ? Colors.grey
                         : const Color.fromRGBO(252, 147, 3, 1.0),
                     onPressed: _secondsRemaining > 0 ? null : _handleResetPassword,
                   ),

@@ -5,6 +5,7 @@ import 'package:pawtastic/services/user_provider.dart';
 import 'package:pawtastic/features/account/presentation/pages/address_form_page.dart';
 import 'package:pawtastic/features/seller/presentation/home/pages/seller_profile_shop_page.dart';
 import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/auth/auth_guard.dart';
 import 'package:pawtastic/core/utils/core_utils.dart';
 import 'package:pawtastic/services/supabase/shop_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

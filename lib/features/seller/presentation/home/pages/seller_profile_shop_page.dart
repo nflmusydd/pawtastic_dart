@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/models/shop_model.dart';
+import 'package:pawtastic/services/supabase/address_provider.dart';
 import 'package:pawtastic/services/supabase/shop_provider.dart';
+import 'package:pawtastic/services/user_provider.dart';
 import 'package:pawtastic/shared/utils/utils.dart';
 import 'package:pawtastic/shared/widgets/widgets.dart';
 import 'package:pawtastic/core/utils/core_utils.dart';
@@ -66,10 +68,11 @@ class _SellerProfileShopPageState extends State<SellerProfileShopPage> {
         updatedAt: DateTime.now(),
       );
 
-      final success =
-          await context.read<ShopProvider>().updateShop(shop.id, updated);
+      final success = await context.read<ShopProvider>().updateShop(shop.id, updated);
 
       if (success && mounted) {
+        context.read<AddressProvider>().updatePickupAddressTitle(_shopNameController.text.trim());
+        context.read<UserProvider>().refreshShopName(_shopNameController.text.trim());    // agar home page bisa menampilkan shopName terbaru
         SnackBarUtils.show(
           context,
           context.t.seller.settings.successfully_saved_shop_profile.ucfirst(),
@@ -108,9 +111,7 @@ class _SellerProfileShopPageState extends State<SellerProfileShopPage> {
     DialogUtils.showConfirmationDialog(
       context: context,
       title: "${context.t.seller.settings.save_shop_profile.toTitleCase()}?",
-      message: context.t.common
-          .make_sure_all_the_data_you_have_filled_in_is_correct
-          .ucfirst(),
+      message: context.t.common.make_sure_all_the_data_you_have_filled_in_is_correct.ucfirst(),
       onConfirm: _saveShop,
     );
   }
@@ -120,8 +121,7 @@ class _SellerProfileShopPageState extends State<SellerProfileShopPage> {
       context: context,
       title:
           "${context.t.common.cancel.ucfirst()} ${context.t.seller.settings.manage_shop_profile.toTitleCase()}?",
-      message: context.t.errors.common
-          .any_data_you_have_filled_will_be_lost
+      message: context.t.errors.common.any_data_you_have_filled_will_be_lost
           .ucfirst(),
       confirmText: context.t.common.cancel.ucfirstChar(),
       cancelText: context.t.common.back.ucfirstChar(),
@@ -176,7 +176,7 @@ class _SellerProfileShopPageState extends State<SellerProfileShopPage> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                CustomTextFieldRow(
+                CustomTextField(
                   controller: _shopNameController,
                   hintText: t.shop_name.toTitleCase(),
                   prefixIcon: Icons.store_rounded,
@@ -194,7 +194,7 @@ class _SellerProfileShopPageState extends State<SellerProfileShopPage> {
                   },
                 ),
                 const SizedBox(height: 16),
-                CustomTextFieldRow(
+                CustomTextField(
                   controller: _slugController,
                   hintText:
                       "${t.store_slug.toTitleCase()} (${context.t.seller.settings.store_slug_hint})",
@@ -223,25 +223,25 @@ class _SellerProfileShopPageState extends State<SellerProfileShopPage> {
                   },
                 ),
                 const SizedBox(height: 16),
-                CustomTextFieldRow(
-                  controller: _descriptionController,
-                  maxLines: 3,
-                  maxLength: 1000,
-                  hintText: t.description.toTitleCase(),
-                  prefixIcon: Icons.description_rounded,
-                  validator: (val) {
-                    if (val == null || val.trim().isEmpty) {
-                      return context.t.errors.common.required_field
-                          .ucfirstChar();
+                CustomTextField(
+                    controller: _descriptionController,
+                    maxLines: 3,
+                    maxLength: 1000,
+                    hintText: t.description.toTitleCase(),
+                    prefixIcon: Icons.description_rounded,
+                    validator: (val) {
+                      if (val == null || val.trim().isEmpty) {
+                        return context.t.errors.common.required_field
+                            .ucfirstChar();
+                      }
+                      if (val.trim().length > 1000) {
+                        return context.t.errors.common
+                            .maximum_character(number: 1000)
+                            .ucfirst();
+                      }
+                      return null;
                     }
-                    if (val.trim().length > 1000) {
-                      return context.t.errors.common
-                          .maximum_character(number: 1000)
-                          .ucfirst();
-                    }
-                    return null;
-                  }
-                ),
+                  ),
                 const SizedBox(height: 30),
                 PrimaryButton(
                   label: t.save_shop_profile.toTitleCase(),

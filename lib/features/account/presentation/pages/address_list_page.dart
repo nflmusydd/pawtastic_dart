@@ -4,6 +4,7 @@ import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/models/address_model.dart';
 import 'package:pawtastic/services/supabase/address_provider.dart';
 import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/auth/auth_guard.dart';
 import 'package:pawtastic/core/utils/core_utils.dart';
 import 'package:provider/provider.dart';
 

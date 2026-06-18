@@ -26,16 +26,14 @@ import 'package:pawtastic/features/account/presentation/pages/account_page.dart'
 import 'package:pawtastic/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:pawtastic/features/home/presentation/pages/home_page.dart';
 import 'package:pawtastic/features/auth/presentation/pages/login_page.dart';
-import 'package:pawtastic/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:pawtastic/features/auth/presentation/pages/signup_page.dart';
-import 'package:pawtastic/features/auth/presentation/pages/splash_page.dart';
 import 'package:pawtastic/features/auth/presentation/pages/splash_seller_page.dart';
-import 'package:pawtastic/features/common/presentation/pages/no_connection_page.dart';
 import 'package:pawtastic/features/auth/presentation/pages/reset_password_page.dart';
 // import 'package:pawtastic/features/common/presentation/pages/test_page.dart';
 import 'package:pawtastic/services/gemini_service.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:pawtastic/shared/widgets/layout/auth_guard.dart';
+import 'package:pawtastic/core/auth/auth_guard.dart';
+import 'package:pawtastic/core/auth/auth_wrapper.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -62,7 +60,7 @@ void main() async {
   } catch (e) {
     if (kDebugMode) debugPrint("Dotenv load failed: $e");
   }
-  
+
   // belum di migrate semua
   try {
     await Firebase.initializeApp(
@@ -80,7 +78,7 @@ void main() async {
   } catch (e) {
     if (kDebugMode) debugPrint("Supabase initialization failed: $e");
   }
-  
+
   runApp(
     TranslationProvider(
       child: MultiProvider(
@@ -115,7 +113,7 @@ class _MyAppState extends State<MyApp> {
     _authSubscription = Supabase.instance.client.auth.onAuthStateChange.listen((data) {
       final AuthChangeEvent event = data.event;
       if (event == AuthChangeEvent.passwordRecovery) {
-        // Jika user datang dari link reset password di email, 
+        // Jika user datang dari link reset password di email,
         // arahkan otomatis ke halaman Reset Password.
         _navigatorKey.currentState?.pushNamed(AppRoutes.resetPassword);
       }
@@ -189,38 +187,5 @@ class _MyAppState extends State<MyApp> {
         );
       },
     );
-  }
-}
-
-class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-    
-    if (kDebugMode) debugPrint("AUTH_DEBUG: Role=${userProvider.role}, User=${userProvider.user}, Loading=${userProvider.isLoading}, Error=${userProvider.hasConnectionError}");
-    
-    if (userProvider.hasConnectionError) {
-      return const NoConnectionPage();
-    }
-
-    // Jika masih loading, tampilkan Splash
-    if (userProvider.isLoading) {
-      return const SplashPage();
-    }
-
-    // Jika belum login atau session tidak valid (ghost session)
-    if (userProvider.user == null || userProvider.role == UserRole.none) {
-      return const OnboardingPage();
-    }
-
-    // Jika Role Seller, ke HomePage Seller
-    if (userProvider.role == UserRole.seller) {
-      return const SellerHomePage();
-    }
-
-    // Default: Ke HomePage Buyer
-    return const ToHomePage();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:pawtastic/core/auth/auth_guard.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
 import 'package:pawtastic/services/user_provider.dart';
 import 'package:provider/provider.dart';

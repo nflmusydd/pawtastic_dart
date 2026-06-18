@@ -71,12 +71,28 @@ class AddressProvider extends ChangeNotifier {
       //   'deleted_at': DateTime.now().toIso8601String(),
       // }).eq('id', id);
       await _supabase.rpc('soft_delete_address', params: {'address_id': id});
-      
+
       await fetchAddresses();
       return true;
     } catch (e) {
       if (kDebugMode) debugPrint("Error deleting address: $e");
       return false;
+    }
+  }
+
+  Future<void> updatePickupAddressTitle(String title) async {
+    try {
+      final userId = _supabase.auth.currentUser?.id;
+      if (userId == null) return;
+
+      await _supabase
+          .from('addresses')
+          .update({'title': title})
+          .eq('profile_id', userId)
+          .eq('is_shop_pickup', true)
+          .filter('deleted_at', 'is', null);
+    } catch (e) {
+      if (kDebugMode) debugPrint("Error updating pickup address title: $e");
     }
   }
 
@@ -86,7 +102,7 @@ class AddressProvider extends ChangeNotifier {
       await _supabase.from('addresses').update({
         'is_default_shipping': true,
       }).eq('id', id);
-      
+
       await fetchAddresses();
     } catch (e) {
       if (kDebugMode) debugPrint("Error setting default address: $e");

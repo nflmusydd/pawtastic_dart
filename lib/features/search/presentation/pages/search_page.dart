@@ -4,6 +4,7 @@ import 'package:pawtastic/core/config/app_routes.dart';
 import 'package:pawtastic/features/product/presentation/pages/product_details_page.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/auth/auth_guard.dart';
 import 'package:pawtastic/core/utils/core_utils.dart';
 
 import 'package:pawtastic/services/bottom_bar_provider.dart';

@@ -5,6 +5,7 @@ import 'package:pawtastic/features/my_orders/presentation/widgets/processing_ord
 import 'package:pawtastic/features/my_orders/presentation/widgets/cancelled_orders_tab.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/auth/auth_guard.dart';
 import 'package:pawtastic/core/utils/core_utils.dart';
 import 'package:pawtastic/services/bottom_bar_provider.dart';
 import 'package:flutter/rendering.dart';

@@ -4,6 +4,7 @@ import 'package:pawtastic/shared/utils/snackbar_utils.dart';
 import 'package:pawtastic/services/locale_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
+import 'package:pawtastic/core/auth/auth_guard.dart';
 import 'package:pawtastic/core/utils/core_utils.dart';
 import 'package:pawtastic/shared/widgets/widgets.dart';
 

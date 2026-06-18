@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum UserRole { buyer, seller, none }
@@ -70,7 +71,7 @@ class UserProvider extends ChangeNotifier {
       }
     } catch (e) {
       if (kDebugMode) debugPrint("INITIAL_SESSION_ERROR: $e");
-      
+
       if (e.toString().contains("SocketException") || e.toString().contains("Connection refused")) {
         _hasConnectionError = true;
       }
@@ -118,7 +119,7 @@ class UserProvider extends ChangeNotifier {
             .select('id, full_name')
             .eq('id', uid)
             .maybeSingle();
-        
+
         if (profileData != null) {
           _role = UserRole.buyer;
           _fullName = profileData['full_name'];
@@ -126,7 +127,7 @@ class UserProvider extends ChangeNotifier {
           _role = UserRole.none;
         }
       }
-      
+
       // If it's a seller, we might still want their full_name from profiles
       if (_role == UserRole.seller) {
         final profileData = await _supabase
@@ -141,7 +142,7 @@ class UserProvider extends ChangeNotifier {
       _hasConnectionError = false;
     } catch (e) {
       if (kDebugMode) debugPrint("Error fetching role: $e");
-      
+
       if (e.toString().contains("SocketException") || e.toString().contains("Connection refused")) {
         _hasConnectionError = true;
       } else {
@@ -155,9 +156,28 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  // Function void dibawah untuk refresh ulang setelah di-update
   void setRole(UserRole newRole) {
     _role = newRole;
     notifyListeners();
+  }
+
+  void refreshShopName(String name) {
+    _shopName = name;
+    notifyListeners();
+  }
+
+  static const String _sellerModeKey = 'last_seller_mode_active';
+
+  Future<bool> getLastSellerMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_sellerModeKey) ?? true;
+  }
+
+  Future<void> setLastSellerMode(bool active) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_sellerModeKey, active);
   }
 
   Future<void> logout() async {
@@ -166,6 +186,8 @@ class UserProvider extends ChangeNotifier {
     } catch (e) {
       if (kDebugMode) debugPrint("Logout error: $e");
     }
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_sellerModeKey);
     _role = UserRole.none;
     _user = null;
     _fullName = null;
@@ -173,4 +195,3 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
-

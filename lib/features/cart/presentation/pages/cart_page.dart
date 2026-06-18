@@ -7,6 +7,7 @@ import 'package:pawtastic/features/cart/presentation/pages/cart_detail_page.dart
 // import 'package:pawtastic/features/my_orders/presentation/pages/checkout_page.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
 import 'package:pawtastic/shared/widgets/widgets.dart';
+import 'package:pawtastic/core/auth/auth_guard.dart';
 import 'package:pawtastic/core/utils/core_utils.dart';
 
 import 'package:pawtastic/services/bottom_bar_provider.dart';

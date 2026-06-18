@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pawtastic/core/auth/auth_guard.dart';
 import 'package:pawtastic/core/config/app_routes.dart';
 import 'package:pawtastic/core/utils/core_utils.dart';
 import 'package:pawtastic/i10n/strings.g.dart';

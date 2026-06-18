@@ -397,6 +397,7 @@
       "unsaved_data_will_be_lost": "unsaved data will be lost",
       "any_data_you_have_filled_will_be_lost": "any data you have filled will be lost",
       "required_field": "required field",
+      "invalid_email_format": "invalid email format",
       "required_fields": "required fields",
       "failed_to_load_data": "failed to load $dataName data",
       "please_try_again": "please try again",

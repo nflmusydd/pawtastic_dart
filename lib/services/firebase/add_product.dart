@@ -17,6 +17,7 @@ class _AddProductState extends State<AddProduct> {
   final TextEditingController _productSoldController = TextEditingController();
   final TextEditingController _ratingController = TextEditingController();
   final TextEditingController _stockController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -25,7 +26,14 @@ class _AddProductState extends State<AddProduct> {
   List<String> _selectedCategories = []; // Stores selected animal categories
 
   // List of predefined animal categories
-  final List<String> _animalCategories = ['Dogs', 'Cats', 'Birds', 'Fish', 'Hamster', 'Rabbits'];
+  final List<String> _animalCategories = [
+    'Dogs',
+    'Cats',
+    'Birds',
+    'Fish',
+    'Hamster',
+    'Rabbits'
+  ];
 
   @override
   void initState() {
@@ -41,7 +49,8 @@ class _AddProductState extends State<AddProduct> {
         _sellers = snapshot.docs.map((doc) {
           return {
             'id': doc.id,
-            'shop_name': doc['shop_name'], // Assuming 'shop_name' exists in the seller document
+            'shop_name': doc[
+                'shop_name'], // Assuming 'shop_name' exists in the seller document
           };
         }).toList();
       });
@@ -62,13 +71,7 @@ class _AddProductState extends State<AddProduct> {
       return;
     }
 
-    if (_descriptionController.text.isEmpty ||
-        _imageUrlController.text.isEmpty ||
-        _priceController.text.isEmpty ||
-        _productNameController.text.isEmpty ||
-        _productSoldController.text.isEmpty ||
-        _ratingController.text.isEmpty ||
-        _stockController.text.isEmpty) {
+    if (!_formKey.currentState!.validate()) {
       _showSnackBar("All fields are required!", Colors.red);
       return;
     }
@@ -121,7 +124,9 @@ class _AddProductState extends State<AddProduct> {
         content: Row(
           children: [
             Icon(
-              backgroundColor == Colors.red ? Icons.error_outline : Icons.check_circle_outline,
+              backgroundColor == Colors.red
+                  ? Icons.error_outline
+                  : Icons.check_circle_outline,
               color: Colors.white,
             ),
             const SizedBox(width: 10),
@@ -159,116 +164,119 @@ class _AddProductState extends State<AddProduct> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                DropdownButtonFormField<String>(
-                  value: _selectedSellerId,
-                  items: _sellers
-                      .map((seller) => DropdownMenuItem<String>(
-                            value: seller['id'],
-                            child: Text(seller['shop_name']),
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedSellerId = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    labelText: "Select Seller",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  DropdownButtonFormField<String>(
+                    value: _selectedSellerId,
+                    items: _sellers
+                        .map((seller) => DropdownMenuItem<String>(
+                              value: seller['id'],
+                              child: Text(seller['shop_name']),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedSellerId = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Select Seller",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Wrap(
-                  spacing: 8.0,
-                  runSpacing: 4.0,
-                  children: _animalCategories.map((category) {
-                    return FilterChip(
-                      label: Text(category),
-                      selected: _selectedCategories.contains(category),
-                      onSelected: (isSelected) {
-                        setState(() {
-                          if (isSelected) {
-                            _selectedCategories.add(category);
-                          } else {
-                            _selectedCategories.remove(category);
-                          }
-                        });
-                      },
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _productNameController,
-                  decoration: CustomTextFieldDecoration(
+                  const SizedBox(height: 20),
+                  Wrap(
+                    spacing: 8.0,
+                    runSpacing: 4.0,
+                    children: _animalCategories.map((category) {
+                      return FilterChip(
+                        label: Text(category),
+                        selected: _selectedCategories.contains(category),
+                        onSelected: (isSelected) {
+                          setState(() {
+                            if (isSelected) {
+                              _selectedCategories.add(category);
+                            } else {
+                              _selectedCategories.remove(category);
+                            }
+                          });
+                        },
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 20),
+                  CustomTextField(
+                    controller: _productNameController,
                     hintText: 'Product Name',
                     prefixIcon: Icons.label,
-                  ).decoration,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _descriptionController,
-                  decoration: CustomTextFieldDecoration(
+                    validator: (val) =>
+                        val == null || val.trim().isEmpty ? 'Required' : null,
+                  ),
+                  const SizedBox(height: 20),
+                  CustomTextField(
+                    controller: _descriptionController,
                     hintText: 'Description',
                     prefixIcon: Icons.description,
-                  ).decoration,
-                  maxLines: 3,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _imageUrlController,
-                  decoration: CustomTextFieldDecoration(
+                    maxLines: 3,
+                    validator: (val) =>
+                        val == null || val.trim().isEmpty ? 'Required' : null,
+                  ),
+                  const SizedBox(height: 20),
+                  CustomTextField(
+                    controller: _imageUrlController,
                     hintText: 'Image URL',
                     prefixIcon: Icons.image,
-                  ).decoration,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _priceController,
-                  decoration: CustomTextFieldDecoration(
+                    validator: (val) =>
+                        val == null || val.trim().isEmpty ? 'Required' : null,
+                  ),
+                  const SizedBox(height: 20),
+                  CustomTextField(
+                    controller: _priceController,
                     hintText: 'Price',
                     prefixIcon: Icons.attach_money,
-                  ).decoration,
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _productSoldController,
-                  decoration: CustomTextFieldDecoration(
+                    keyboardType: TextInputType.number,
+                    validator: (val) =>
+                        val == null || val.trim().isEmpty ? 'Required' : null,
+                  ),
+                  const SizedBox(height: 20),
+                  CustomTextField(
+                    controller: _productSoldController,
                     hintText: 'Product Sold',
                     prefixIcon: Icons.shopping_cart,
-                  ).decoration,
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _stockController,
-                  decoration: CustomTextFieldDecoration(
+                    keyboardType: TextInputType.number,
+                    validator: (val) =>
+                        val == null || val.trim().isEmpty ? 'Required' : null,
+                  ),
+                  const SizedBox(height: 20),
+                  CustomTextField(
+                    controller: _stockController,
                     hintText: 'Stock',
                     prefixIcon: Icons.inventory,
-                  ).decoration,
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _ratingController,
-                  decoration: CustomTextFieldDecoration(
+                    keyboardType: TextInputType.number,
+                    validator: (val) =>
+                        val == null || val.trim().isEmpty ? 'Required' : null,
+                  ),
+                  const SizedBox(height: 20),
+                  CustomTextField(
+                    controller: _ratingController,
                     hintText: 'Rating',
                     prefixIcon: Icons.star_rate,
-                  ).decoration,
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 30),
-                PrimaryButton(
-                  label: "Add Product",
-                  onPressed: _submitProduct,
-                ),
-              ],
+                    keyboardType: TextInputType.number,
+                    validator: (val) =>
+                        val == null || val.trim().isEmpty ? 'Required' : null,
+                  ),
+                  const SizedBox(height: 30),
+                  PrimaryButton(
+                    label: "Add Product",
+                    onPressed: _submitProduct,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -276,4 +284,3 @@ class _AddProductState extends State<AddProduct> {
     );
   }
 }
-

@@ -95,6 +95,9 @@ CREATE UNIQUE INDEX IF NOT EXISTS uniq_shop_owner_active
 -- =====================
 -- ADDRESSES
 -- =====================
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE EXTENSION IF NOT EXISTS postgis;
+
 CREATE TABLE public.addresses (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     
@@ -417,17 +420,23 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trg_normalize_profiles_case
     BEFORE INSERT OR UPDATE ON public.profiles
     FOR EACH ROW
-    EXECUTE FUNCTION public.lowercase_fields('username');
+    EXECUTE FUNCTION public.normalize_case_fields('lower:username');
 
 CREATE TRIGGER trg_normalize_shops_case
     BEFORE INSERT OR UPDATE ON public.shops
     FOR EACH ROW
-    EXECUTE FUNCTION public.lowercase_fields('store_slug');
+    EXECUTE FUNCTION public.normalize_case_fields('lower:store_slug');
 
 CREATE TRIGGER trg_normalize_addresses_case
     BEFORE INSERT OR UPDATE ON public.addresses
     FOR EACH ROW
-    EXECUTE FUNCTION public.uppercase_fields('recipient_name', 'zip_code');
+    EXECUTE FUNCTION public.normalize_case_fields(
+        'upper:recipient_name',
+        'upper:province_name',
+        'upper:city_name',
+        'upper:district_name',
+        'upper:subdistrict_name'
+    );
 
 
 -- ===============================
@@ -494,11 +503,11 @@ CREATE TRIGGER trg_single_default_address
     EXECUTE FUNCTION public.ensure_single_default_address();
 
 -- =========================================
--- Function to soft delete address 
+-- Function to soft delete address (dibuat karena RLS soft delete nge-bug)
 -- =========================================
 CREATE OR REPLACE FUNCTION public.soft_delete_address(address_id UUID)
 RETURNS void
-SECURITY DEFINER            -- sementara pakai ini karena bug aneh
+SECURITY DEFINER            -- tetep aman karena WHERE ketat
 SET search_path = public
 AS $$
 BEGIN
@@ -507,10 +516,13 @@ BEGIN
         updated_at = NOW(),
         updated_by = auth.uid()
     WHERE id = address_id
-      AND profile_id = auth.uid();
+      AND profile_id = auth.uid()
+      AND is_shop_pickup = false
+      AND deleted_at IS NULL
+      AND is_default_shipping = false;
     
     IF NOT FOUND THEN
-        RAISE EXCEPTION 'Address not found or not owned by user';
+        RAISE EXCEPTION 'Failed deleting address';
     END IF;
 END;
 $$ LANGUAGE plpgsql;

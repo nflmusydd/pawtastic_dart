@@ -190,9 +190,9 @@
       "an_unexpected_error_occurred_please_try_again": "terjadi kesalahan tak terduga. silakan coba lagi."
     },
     "forgot_password": {
-      "forgot_your_password": "lupa kata sandi anda?",
+      "forgot_your_password": "lupa kata sandi?",
       "enter_registered_email_address": "masukkan alamat email yang terdaftar",
-      "we_will_send_you_a_message_to_set_or_reset_your_new_password": "kami akan mengirimkan pesan untuk mengatur atau mengatur ulang kata sandi baru anda",
+      "we_will_send_you_a_message_to_set_or_reset_your_new_password": "kami akan mengirimkan email untuk mengatur atau mengatur ulang kata sandi baru anda",
       "please_enter_your_email_address": "harap masukkan alamat email anda",
       "reset_link_has_been_sent_to_your_email": "tautan atur ulang sandi telah dikirim ke email anda!",
       "wait": "tunggu $seconds dtk",
@@ -397,6 +397,7 @@
       "unsaved_data_will_be_lost": "data yang belum disimpan akan hilang",
       "any_data_you_have_filled_will_be_lost": "data yang sudah kamu isi akan hilang",
       "required_field": "wajib diisi",
+      "invalid_email_format": "format email tidak valid",
       "required_fields": "wajib diisi",
       "failed_to_load_data": "gagal memuat data $dataName",
       "please_try_again": "silakan coba lagi",

@@ -1354,6 +1354,9 @@ class TranslationsErrorsCommonEn {
 	/// en: 'required field'
 	String get required_field => 'required field';
 
+	/// en: 'invalid email format'
+	String get invalid_email_format => 'invalid email format';
+
 	/// en: 'required fields'
 	String get required_fields => 'required fields';
 
@@ -1832,6 +1835,7 @@ extension on Translations {
 			'errors.common.unsaved_data_will_be_lost' => 'unsaved data will be lost',
 			'errors.common.any_data_you_have_filled_will_be_lost' => 'any data you have filled will be lost',
 			'errors.common.required_field' => 'required field',
+			'errors.common.invalid_email_format' => 'invalid email format',
 			'errors.common.required_fields' => 'required fields',
 			'errors.common.failed_to_load_data' => ({required Object dataName}) => 'failed to load ${dataName} data',
 			'errors.common.please_try_again' => 'please try again',

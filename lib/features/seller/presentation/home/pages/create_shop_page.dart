@@ -9,6 +9,7 @@ import 'package:pawtastic/models/address_model.dart';
 import 'package:pawtastic/shared/utils/utils.dart';
 import 'package:pawtastic/shared/widgets/widgets.dart';
 import 'package:pawtastic/i10n/strings.g.dart';
+import 'package:pawtastic/core/auth/auth_guard.dart';
 import 'package:pawtastic/core/utils/core_utils.dart';
 import 'package:pawtastic/core/utils/lowercase_input_formatters.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ class _CreateShopPageState extends State<CreateShopPage> {
   final _pageController = PageController();
   final _formKey0 = GlobalKey<FormState>(); // Form Step 0 (Shop Info)
   final _formKey1 = GlobalKey<FormState>(); // Form Step 1 (Address Info)
-  
+
   int _currentStep = 0;
   bool _isLoading = false;
 
@@ -38,13 +39,13 @@ class _CreateShopPageState extends State<CreateShopPage> {
   final _phoneController = TextEditingController();
   final _fullAddressController = TextEditingController();
   final _postalController = TextEditingController();
-  
+
   final _rajaOngkir = RajaOngkirService();
   List<Map<String, dynamic>> _provinces = [];
   List<Map<String, dynamic>> _cities = [];
   List<Map<String, dynamic>> _districts = [];
   List<Map<String, dynamic>> _subdistricts = [];
-  
+
   int? _selectedProvinceId;
   String? _selectedProvinceName;
   int? _selectedCityId;
@@ -54,7 +55,7 @@ class _CreateShopPageState extends State<CreateShopPage> {
   int? _selectedSubdistrictId;
   String? _selectedSubdistrictName;
   String? _dataSourceApi;
-  
+
   bool _isLoadingLocations = false;
 
   final _authService = SupabaseAuthService();
@@ -95,7 +96,12 @@ class _CreateShopPageState extends State<CreateShopPage> {
         }
       });
       if (provinces.isEmpty && mounted) {
-        SnackBarUtils.show(context, "${context.t.errors.common.failed_to_load_data(dataName: context.t.address.form.province,)}. ${context.t.errors.common.please_try_again.ucfirst()}", type: SnackBarType.error);
+        SnackBarUtils.show(
+            context,
+            "${context.t.errors.common.failed_to_load_data(
+              dataName: context.t.address.form.province,
+            )}. ${context.t.errors.common.please_try_again.ucfirst()}",
+            type: SnackBarType.error);
       }
     } catch (e) {
       setState(() => _isLoadingLocations = false);
@@ -116,7 +122,12 @@ class _CreateShopPageState extends State<CreateShopPage> {
         _isLoadingLocations = false;
       });
       if (cities.isEmpty && mounted) {
-        SnackBarUtils.show(context, "${context.t.errors.common.failed_to_load_data(dataName: context.t.address.form.city,)}. ${context.t.errors.common.please_try_again.ucfirst()}", type: SnackBarType.error);
+        SnackBarUtils.show(
+            context,
+            "${context.t.errors.common.failed_to_load_data(
+              dataName: context.t.address.form.city,
+            )}. ${context.t.errors.common.please_try_again.ucfirst()}",
+            type: SnackBarType.error);
       }
     } catch (e) {
       setState(() => _isLoadingLocations = false);
@@ -137,7 +148,12 @@ class _CreateShopPageState extends State<CreateShopPage> {
         _isLoadingLocations = false;
       });
       if (districts.isEmpty && mounted) {
-        SnackBarUtils.show(context, "${context.t.errors.common.failed_to_load_data(dataName: context.t.address.form.district,)}. ${context.t.errors.common.please_try_again.ucfirst()}", type: SnackBarType.error);
+        SnackBarUtils.show(
+            context,
+            "${context.t.errors.common.failed_to_load_data(
+              dataName: context.t.address.form.district,
+            )}. ${context.t.errors.common.please_try_again.ucfirst()}",
+            type: SnackBarType.error);
       }
     } catch (e) {
       setState(() => _isLoadingLocations = false);
@@ -158,7 +174,12 @@ class _CreateShopPageState extends State<CreateShopPage> {
         _isLoadingLocations = false;
       });
       if (subdistricts.isEmpty && mounted) {
-        SnackBarUtils.show(context, "${context.t.errors.common.failed_to_load_data(dataName: context.t.address.form.subdistrict,)}. ${context.t.errors.common.please_try_again.ucfirst()}", type: SnackBarType.error);
+        SnackBarUtils.show(
+            context,
+            "${context.t.errors.common.failed_to_load_data(
+              dataName: context.t.address.form.subdistrict,
+            )}. ${context.t.errors.common.please_try_again.ucfirst()}",
+            type: SnackBarType.error);
       }
     } catch (e) {
       setState(() => _isLoadingLocations = false);
@@ -168,7 +189,10 @@ class _CreateShopPageState extends State<CreateShopPage> {
   void _nextStep() {
     if (_currentStep == 0) {
       if (!_formKey0.currentState!.validate()) {
-        SnackBarUtils.show(context, context.t.errors.common.please_fill_in_all_data_validly.ucfirst(), type: SnackBarType.error);
+        SnackBarUtils.show(
+            context,
+            context.t.errors.common.please_fill_in_all_data_validly.ucfirst(),
+            type: SnackBarType.error);
         return;
       }
       _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
@@ -196,7 +220,9 @@ class _CreateShopPageState extends State<CreateShopPage> {
 
   void _showFinishConfirmation() {
     if (!_formKey1.currentState!.validate()) {
-      SnackBarUtils.show(context, context.t.errors.common.please_fill_in_all_data_validly.ucfirst(), type: SnackBarType.error);
+      SnackBarUtils.show(context,
+          context.t.errors.common.please_fill_in_all_data_validly.ucfirst(),
+          type: SnackBarType.error);
       return;
     }
 
@@ -219,8 +245,8 @@ class _CreateShopPageState extends State<CreateShopPage> {
       );
 
       final addressData = AddressModel(
-        id: '', 
-        profileId: '', 
+        id: '',
+        profileId: '',
         title: _shopNameController.text.trim(),
         recipientName: _recipientNameController.text.trim(),
         phoneNumber: _phoneController.text.trim(),
@@ -246,16 +272,19 @@ class _CreateShopPageState extends State<CreateShopPage> {
       if (addressSuccess && mounted) {
         await context.read<UserProvider>().refreshRole();
         if (mounted) {
-          SnackBarUtils.show(context, context.t.account.create_shop.shop_created_successfully.ucfirst(), type: SnackBarType.success);
-          Navigator.pushNamedAndRemoveUntil(context, AppRoutes.sellerHome, (route) => false);
+          SnackBarUtils.show(context,
+              context.t.account.create_shop.shop_created_successfully.ucfirst(),
+              type: SnackBarType.success);
+          Navigator.pushNamedAndRemoveUntil(
+              context, AppRoutes.sellerHome, (route) => false);
         }
       }
       // else
     } catch (e) {
       if (mounted) {
-        final errorMsg = e.toString().contains("PostgrestException") 
+        final errorMsg = e.toString().contains("PostgrestException")
             ? "${context.t.account.create_shop.an_error_occured.ucfirst()}. ${context.t.account.create_shop.please_try_different_store_slug.ucfirst()}"
-            : context.t.errors.shop.failed_to_create_shop_please_try_again.ucfirst(); 
+            : context.t.errors.shop.failed_to_create_shop_please_try_again.ucfirst();
         SnackBarUtils.show(context, errorMsg, type: SnackBarType.error);
       }
     } finally {
@@ -275,7 +304,7 @@ class _CreateShopPageState extends State<CreateShopPage> {
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: CustomAppBar.centerTitle(
-            context, 
+            context,
             blackTitle: context.t.common.paw_shop.toTitleCase(),
             onBack: _showCancelConfirmation,
           ),
@@ -294,7 +323,7 @@ class _CreateShopPageState extends State<CreateShopPage> {
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
                             height: 2,
-                            width: _currentStep >= 1 ? 500 : 0, 
+                            width: _currentStep >= 1 ? 500 : 0,
                             color: Colors.orange,
                           ),
                         ],
@@ -319,11 +348,11 @@ class _CreateShopPageState extends State<CreateShopPage> {
           ),
           bottomNavigationBar: Padding(
             padding: EdgeInsets.only(
-              left: 20, 
-              right: 20, 
-              top: 10, 
-              bottom: 20 + MediaQuery.of(context).padding.bottom
-            ),
+                left: 20,
+                right: 20,
+                top: 10,
+                bottom: 20 + MediaQuery.of(context).padding.bottom
+              ),
             child: Row(
               children: [
                 if (_currentStep == 1) ...[
@@ -337,9 +366,12 @@ class _CreateShopPageState extends State<CreateShopPage> {
                 ],
                 Expanded(
                   child: PrimaryButton(
-                    label: _currentStep == 0 ? context.t.common.next.ucfirstChar() : context.t.common.confirm.ucfirstChar(),
+                    label: _currentStep == 0
+                        ? context.t.common.next.ucfirstChar()
+                        : context.t.common.confirm.ucfirstChar(),
                     isLoading: _isLoading,
-                    onPressed: _currentStep == 0 ? _nextStep : _showFinishConfirmation,
+                    onPressed:
+                        _currentStep == 0 ? _nextStep : _showFinishConfirmation,
                   ),
                 ),
               ],
@@ -369,23 +401,23 @@ class _CreateShopPageState extends State<CreateShopPage> {
             ),
           ),
           child: Center(
-            child: isCompleted 
-              ? const Icon(Icons.check, color: Colors.white, size: 20)
-              : Text(
-                  "${step + 1}", 
-                  style: TextStyle(
-                    color: isActive ? Colors.white : Colors.grey[400], 
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Montserrat',
+            child: isCompleted
+                ? const Icon(Icons.check, color: Colors.white, size: 20)
+                : Text(
+                    "${step + 1}",
+                    style: TextStyle(
+                      color: isActive ? Colors.white : Colors.grey[400],
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Montserrat',
+                    ),
                   ),
-                ),
           ),
         ),
         const SizedBox(height: 4),
         Text(
-          label, 
+          label,
           style: TextStyle(
-            fontSize: 12, 
+            fontSize: 12,
             fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
             color: isActive ? Colors.orange : Colors.grey,
             fontFamily: 'Montserrat',
@@ -405,21 +437,26 @@ class _CreateShopPageState extends State<CreateShopPage> {
           children: [
             Text(
               context.t.account.create_shop.shop_profile.toTitleCase(),
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Montserrat'),
             ),
             Text(
               context.t.account.create_shop.start_your_journey_with_pawtastic.ucfirst(),
               style: const TextStyle(fontSize: 13, color: Colors.grey),
             ),
             const SizedBox(height: 30),
-            CustomTextFieldRow(
+            CustomTextField(
               controller: _shopNameController,
               hintText: context.t.account.create_shop.shop_name.toTitleCase(),
               prefixIcon: Icons.store_rounded,
-              validator: (val) => val == null || val.trim().isEmpty ? context.t.errors.common.required_field.ucfirstChar() : null,
+              validator: (val) => val == null || val.trim().isEmpty
+                  ? context.t.errors.common.required_field.ucfirstChar()
+                  : null,
             ),
             const SizedBox(height: 16),
-            CustomTextFieldRow(
+            CustomTextField(
               controller: _slugController,
               hintText: "${context.t.account.create_shop.store_slug.toTitleCase()} ${context.t.account.create_shop.store_slug_example}",
               prefixIcon: Icons.link_rounded,
@@ -429,18 +466,35 @@ class _CreateShopPageState extends State<CreateShopPage> {
                 LowerCaseTextFormatter(),
               ],
               validator: (val) {
-                if (val == null || val.trim().isEmpty) return context.t.errors.common.required_field.ucfirstChar();
-                if (val.trim().length < 3) return context.t.errors.common.minimum_character(number: 3).ucfirst();
+                if (val == null || val.trim().isEmpty)
+                  return context.t.errors.common.required_field.ucfirstChar();
+                if (val.trim().length < 3)
+                  return context.t.errors.common
+                      .minimum_character(number: 3)
+                      .ucfirst();
                 return null;
               },
             ),
             const SizedBox(height: 16),
-            CustomTextFieldRow(
+            CustomTextField(
               controller: _descriptionController,
               maxLines: 3,
-              hintText: context.t.account.create_shop.shop_description.toTitleCase(),
+              maxLength: 1000,
+              hintText:
+                  context.t.account.create_shop.shop_description.toTitleCase(),
               prefixIcon: Icons.description_rounded,
-              validator: (val) => val == null || val.trim().isEmpty ? context.t.errors.common.required_field.ucfirstChar() : null,
+              validator: (val) {
+                if (val == null || val.trim().isEmpty) {
+                  return context.t.errors.common.required_field
+                      .ucfirstChar();
+                }
+                if (val.trim().length > 1000) {
+                  return context.t.errors.common
+                      .maximum_character(number: 1000)
+                      .ucfirst();
+                }
+                return null;
+              },
             ),
           ],
         ),
@@ -459,57 +513,68 @@ class _CreateShopPageState extends State<CreateShopPage> {
           children: [
             Text(
               context.t.account.create_shop.shop_pickup_address.toTitleCase(),
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Montserrat'),
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Montserrat'),
             ),
             Text(
               context.t.account.create_shop.this_address_will_be_used_by_the_courier_to_pick_up_the_order.ucfirst(),
               style: const TextStyle(fontSize: 13, color: Colors.grey),
             ),
             const SizedBox(height: 20),
-            CustomTextFieldRow(
+            CustomTextField(
               controller: _recipientNameController,
               hintText: t.shop_contact_name.toTitleCase(),
               prefixIcon: Icons.person_outline,
-              validator: (val) => val == null || val.trim().isEmpty ? context.t.errors.common.required_field.ucfirstChar() : null,
+              validator: (val) => val == null || val.trim().isEmpty
+                  ? context.t.errors.common.required_field.ucfirstChar()
+                  : null,
             ),
             const SizedBox(height: 16),
-            CustomTextFieldRow(
+            CustomTextField(
               controller: _phoneController,
               hintText: t.phone_number.toTitleCase(),
               prefixIcon: Icons.phone_outlined,
               keyboardType: TextInputType.phone,
               validator: (val) {
-                if (val == null || val.trim().isEmpty) return context.t.errors.common.required_field.ucfirstChar();
+                if (val == null || val.trim().isEmpty)
+                  return context.t.errors.common.required_field.ucfirstChar();
                 final phoneRegex = RegExp(r'^(\+62|62|0)[0-9]{8,15}$');
-                if (!phoneRegex.hasMatch(val.trim())) return t.invalid_phone_number_format.ucfirstChar();
+                if (!phoneRegex.hasMatch(val.trim()))
+                  return t.invalid_phone_number_format.ucfirstChar();
                 return null;
               },
             ),
             const SizedBox(height: 16),
-            CustomTextFieldRow(
+            CustomTextField(
               controller: _fullAddressController,
               hintText: t.full_address.toTitleCase(),
               prefixIcon: Icons.home_outlined,
               maxLines: 3,
-              validator: (val) => val == null || val.trim().isEmpty ? context.t.errors.common.required_field.ucfirstChar() : null,
+              validator: (val) => val == null || val.trim().isEmpty
+                  ? context.t.errors.common.required_field.ucfirstChar()
+                  : null,
             ),
             const SizedBox(height: 16),
-            
-          CustomDropdown.regular(
-            hintText: t.province.toTitleCase(),
+            CustomDropdown.regular(
+              hintText: t.province.toTitleCase(),
               value: _selectedProvinceId,
               isLoading: _isLoadingLocations && _provinces.isEmpty,
               items: _provinces.map((p) {
                 final idStr = p['province_id']?.toString() ?? p['id']?.toString() ?? '0';
                 return DropdownMenuItem<int>(
                   value: int.tryParse(idStr) ?? 0,
-                  child: Text((p['province'] ?? p['name']).toString(), style: const TextStyle(fontFamily: 'Montserrat')),
+                  child: Text((p['province'] ?? p['name']).toString(),
+                  style: const TextStyle(fontFamily: 'Montserrat')),
                 );
               }).toList(),
               onChanged: (val) {
                 if (val == null) return;
                 final province = _provinces.firstWhere((p) {
-                  final idStr = p['province_id']?.toString() ?? p['id']?.toString() ?? '0';
+                  final idStr = p['province_id']?.toString() ??
+                      p['id']?.toString() ??
+                      '0';
                   return (int.tryParse(idStr) ?? 0) == val;
                 });
                 setState(() {
@@ -527,19 +592,22 @@ class _CreateShopPageState extends State<CreateShopPage> {
                 });
                 _loadCities(val);
               },
-              validator: (val) => val == null ? context.t.errors.common.required_field.ucfirstChar() : null,
+              validator: (val) => val == null
+                  ? context.t.errors.common.required_field.ucfirstChar()
+                  : null,
             ),
             const SizedBox(height: 16),
-  
-          CustomDropdown.regular(
-            hintText: t.city.toTitleCase(),
+            CustomDropdown.regular(
+              hintText: t.city.toTitleCase(),
               value: _selectedCityId,
               isLoading: _isLoadingLocations && _cities.isEmpty && _selectedProvinceId != null,
               items: _cities.map((c) {
                 final idStr = c['city_id']?.toString() ?? c['id']?.toString() ?? '0';
                 return DropdownMenuItem<int>(
                   value: int.tryParse(idStr) ?? 0,
-                  child: Text("${c['type'] ?? ''} ${c['city_name'] ?? c['name']}".trim(), style: const TextStyle(fontFamily: 'Montserrat')),
+                  child: Text(
+                      "${c['type'] ?? ''} ${c['city_name'] ?? c['name']}".trim(),
+                      style: const TextStyle(fontFamily: 'Montserrat')),
                 );
               }).toList(),
               onChanged: (val) {
@@ -560,25 +628,29 @@ class _CreateShopPageState extends State<CreateShopPage> {
                 });
                 _loadDistricts(val);
               },
-              validator: (val) => val == null ? context.t.errors.common.required_field.ucfirstChar() : null,
+              validator: (val) => val == null
+                  ? context.t.errors.common.required_field.ucfirstChar()
+                  : null,
             ),
             const SizedBox(height: 16),
-  
-          CustomDropdown.regular(
-            hintText: t.district.toTitleCase(),
+            CustomDropdown.regular(
+              hintText: t.district.toTitleCase(),
               value: _selectedDistrictId,
               isLoading: _isLoadingLocations && _districts.isEmpty && _selectedCityId != null,
               items: _districts.map((d) {
                 final idStr = d['district_id']?.toString() ?? d['id']?.toString() ?? '0';
                 return DropdownMenuItem<int>(
                   value: int.tryParse(idStr) ?? 0,
-                  child: Text((d['district_name'] ?? d['name']).toString(), style: const TextStyle(fontFamily: 'Montserrat')),
+                  child: Text((d['district_name'] ?? d['name']).toString(),
+                  style: const TextStyle(fontFamily: 'Montserrat')),
                 );
               }).toList(),
               onChanged: (val) {
                 if (val == null) return;
                 final district = _districts.firstWhere((d) {
-                  final idStr = d['district_id']?.toString() ?? d['id']?.toString() ?? '0';
+                  final idStr = d['district_id']?.toString() ??
+                      d['id']?.toString() ??
+                      '0';
                   return (int.tryParse(idStr) ?? 0) == val;
                 });
                 setState(() {
@@ -590,25 +662,31 @@ class _CreateShopPageState extends State<CreateShopPage> {
                 });
                 _loadSubdistricts(val);
               },
-              validator: (val) => val == null ? context.t.errors.common.required_field.ucfirstChar() : null,
+              validator: (val) => val == null
+                  ? context.t.errors.common.required_field.ucfirstChar()
+                  : null,
             ),
             const SizedBox(height: 16),
-  
-          CustomDropdown.regular(
-            hintText: t.subdistrict.toTitleCase(),
+            CustomDropdown.regular(
+              hintText: t.subdistrict.toTitleCase(),
               value: _selectedSubdistrictId,
               isLoading: _isLoadingLocations && _subdistricts.isEmpty && _selectedDistrictId != null,
               items: _subdistricts.map((s) {
-                final idStr = s['subdistrict_id']?.toString() ?? s['id']?.toString() ?? '0';
+                final idStr = s['subdistrict_id']?.toString() ??
+                    s['id']?.toString() ??
+                    '0';
                 return DropdownMenuItem<int>(
                   value: int.tryParse(idStr) ?? 0,
-                  child: Text((s['subdistrict_name'] ?? s['name']).toString(), style: const TextStyle(fontFamily: 'Montserrat')),
+                  child: Text((s['subdistrict_name'] ?? s['name']).toString(),
+                      style: const TextStyle(fontFamily: 'Montserrat')),
                 );
               }).toList(),
               onChanged: (val) {
                 if (val == null) return;
                 final subdistrict = _subdistricts.firstWhere((s) {
-                  final idStr = s['subdistrict_id']?.toString() ?? s['id']?.toString() ?? '0';
+                  final idStr = s['subdistrict_id']?.toString() ??
+                      s['id']?.toString() ??
+                      '0';
                   return (int.tryParse(idStr) ?? 0) == val;
                 });
                 setState(() {
@@ -616,19 +694,23 @@ class _CreateShopPageState extends State<CreateShopPage> {
                   _selectedSubdistrictName = (subdistrict['subdistrict_name'] ?? subdistrict['name']).toString();
                 });
               },
-              validator: (val) => val == null ? context.t.errors.common.required_field.ucfirstChar() : null,
+              validator: (val) => val == null
+                  ? context.t.errors.common.required_field.ucfirstChar()
+                  : null,
             ),
             const SizedBox(height: 16),
-  
-            CustomTextFieldRow(
+            CustomTextField(
               controller: _postalController,
               hintText: t.postal_code.toTitleCase(),
               prefixIcon: Icons.mark_as_unread_outlined,
               keyboardType: TextInputType.number,
               validator: (val) {
-                if (val == null || val.trim().isEmpty) return context.t.errors.common.required_field.ucfirstChar();
-                if (!RegExp(r'^[0-9]+$').hasMatch(val.trim())) return t.number_only.ucfirstChar();
-                if (val.trim().length < 5 || val.trim().length > 15) return t.k5To15Character.ucfirstChar();
+                if (val == null || val.trim().isEmpty)
+                  return context.t.errors.common.required_field.ucfirstChar();
+                if (!RegExp(r'^[0-9]+$').hasMatch(val.trim()))
+                  return t.number_only.ucfirstChar();
+                if (val.trim().length < 5 || val.trim().length > 15)
+                  return t.k5To15Character.ucfirstChar();
                 return null;
               },
             ),

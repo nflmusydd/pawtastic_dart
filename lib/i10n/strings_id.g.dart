@@ -490,9 +490,9 @@ class _TranslationsAuthForgotPasswordId extends TranslationsAuthForgotPasswordEn
 	final TranslationsId _root; // ignore: unused_field
 
 	// Translations
-	@override String get forgot_your_password => 'lupa kata sandi anda?';
+	@override String get forgot_your_password => 'lupa kata sandi?';
 	@override String get enter_registered_email_address => 'masukkan alamat email yang terdaftar';
-	@override String get we_will_send_you_a_message_to_set_or_reset_your_new_password => 'kami akan mengirimkan pesan untuk mengatur atau mengatur ulang kata sandi baru anda';
+	@override String get we_will_send_you_a_message_to_set_or_reset_your_new_password => 'kami akan mengirimkan email untuk mengatur atau mengatur ulang kata sandi baru anda';
 	@override String get please_enter_your_email_address => 'harap masukkan alamat email anda';
 	@override String get reset_link_has_been_sent_to_your_email => 'tautan atur ulang sandi telah dikirim ke email anda!';
 	@override String wait({required Object seconds}) => 'tunggu ${seconds} dtk';
@@ -746,6 +746,7 @@ class _TranslationsErrorsCommonId extends TranslationsErrorsCommonEn {
 	@override String get unsaved_data_will_be_lost => 'data yang belum disimpan akan hilang';
 	@override String get any_data_you_have_filled_will_be_lost => 'data yang sudah kamu isi akan hilang';
 	@override String get required_field => 'wajib diisi';
+	@override String get invalid_email_format => 'format email tidak valid';
 	@override String get required_fields => 'wajib diisi';
 	@override String failed_to_load_data({required Object dataName}) => 'gagal memuat data ${dataName}';
 	@override String get please_try_again => 'silakan coba lagi';
@@ -992,9 +993,9 @@ extension on TranslationsId {
 			'auth.signup.password_must_be_at_least_6_characters' => 'kata sandi minimal harus 6 karakter',
 			'auth.signup.account_created_successfully_please_check_your_email_for_verification' => 'akun berhasil dibuat! silakan periksa email anda untuk verifikasi.',
 			'auth.signup.an_unexpected_error_occurred_please_try_again' => 'terjadi kesalahan tak terduga. silakan coba lagi.',
-			'auth.forgot_password.forgot_your_password' => 'lupa kata sandi anda?',
+			'auth.forgot_password.forgot_your_password' => 'lupa kata sandi?',
 			'auth.forgot_password.enter_registered_email_address' => 'masukkan alamat email yang terdaftar',
-			'auth.forgot_password.we_will_send_you_a_message_to_set_or_reset_your_new_password' => 'kami akan mengirimkan pesan untuk mengatur atau mengatur ulang kata sandi baru anda',
+			'auth.forgot_password.we_will_send_you_a_message_to_set_or_reset_your_new_password' => 'kami akan mengirimkan email untuk mengatur atau mengatur ulang kata sandi baru anda',
 			'auth.forgot_password.please_enter_your_email_address' => 'harap masukkan alamat email anda',
 			'auth.forgot_password.reset_link_has_been_sent_to_your_email' => 'tautan atur ulang sandi telah dikirim ke email anda!',
 			'auth.forgot_password.wait' => ({required Object seconds}) => 'tunggu ${seconds} dtk',
@@ -1147,6 +1148,7 @@ extension on TranslationsId {
 			'errors.common.unsaved_data_will_be_lost' => 'data yang belum disimpan akan hilang',
 			'errors.common.any_data_you_have_filled_will_be_lost' => 'data yang sudah kamu isi akan hilang',
 			'errors.common.required_field' => 'wajib diisi',
+			'errors.common.invalid_email_format' => 'format email tidak valid',
 			'errors.common.required_fields' => 'wajib diisi',
 			'errors.common.failed_to_load_data' => ({required Object dataName}) => 'gagal memuat data ${dataName}',
 			'errors.common.please_try_again' => 'silakan coba lagi',

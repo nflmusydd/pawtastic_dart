@@ -22,9 +22,9 @@ class SellerHomePage extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.settings, color: Colors.orange),
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoutes.sellerSettings);
-            },
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.sellerSettings);
+          },
         ),
         actions: [
           IconButton(
@@ -98,7 +98,10 @@ class SellerHomePage extends StatelessWidget {
               CustomTextButton(
                 text: context.t.seller.home.to_buyer_mode.toTitleCase(),
                 onPressed: () async {
-                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+                  await context.read<UserProvider>().setLastSellerMode(false);
+                  if (context.mounted) {
+                    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+                  }
                 },
                 textStyle: const TextStyle(
                   fontSize: 16,
