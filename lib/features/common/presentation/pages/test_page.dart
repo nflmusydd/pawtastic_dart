@@ -28,7 +28,7 @@ class TestPage extends StatelessWidget {
               label: "Tembak Dashboard Seller (Named Route)",
               onPressed: () {
                 // Ini memanggil rute yang sudah dibungkus AuthGuard di main.dart
-                Navigator.pushNamed(context, AppRoutes.homeSeller);
+                Navigator.pushNamed(context, AppRoutes.sellerHome);
               },
             ),
             

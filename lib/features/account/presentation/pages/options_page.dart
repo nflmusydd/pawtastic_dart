@@ -71,10 +71,10 @@ class _OptionsPageState extends State<OptionsPage> {
                 onTap: () => _showLanguageConfirmation('English', '🇺🇸', 'en'),
               ),
               GlobalSelectionItem(
-                title: 'Indonesian',
+                title: 'Bahasa Indonesia',
                 leading: const Text('🇮🇩', style: TextStyle(fontSize: 24)),
                 isSelected: TranslationProvider.of(context).locale.languageCode == 'id',
-                onTap: () => _showLanguageConfirmation('Indonesian', '🇮🇩', 'id'),
+                onTap: () => _showLanguageConfirmation('Bahasa Indonesia', '🇮🇩', 'id'),
               ),
               
               const SizedBox(height: 30),

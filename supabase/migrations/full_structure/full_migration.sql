@@ -100,8 +100,8 @@ CREATE TABLE public.addresses (
     
     profile_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
     
-    title TEXT NOT NULL,            -- e.g., "Home", "Office", "Main Warehouse"
-    recipient_name TEXT NOT NULL, 
+    title TEXT NOT NULL,            -- e.g., "Home", "Office", "Main Warehouse", kalau seller = nama toko
+    recipient_name TEXT NOT NULL,   -- seller = seller/contact name
     phone_number TEXT NOT NULL,
     full_address TEXT NOT NULL,
     province_id INT,                -- ID from Shipping API 
@@ -427,7 +427,7 @@ CREATE TRIGGER trg_normalize_shops_case
 CREATE TRIGGER trg_normalize_addresses_case
     BEFORE INSERT OR UPDATE ON public.addresses
     FOR EACH ROW
-    EXECUTE FUNCTION public.uppercase_fields('recipient_name');
+    EXECUTE FUNCTION public.uppercase_fields('recipient_name', 'zip_code');
 
 
 -- ===============================
@@ -493,6 +493,27 @@ CREATE TRIGGER trg_single_default_address
     FOR EACH ROW
     EXECUTE FUNCTION public.ensure_single_default_address();
 
+-- =========================================
+-- Function to soft delete address 
+-- =========================================
+CREATE OR REPLACE FUNCTION public.soft_delete_address(address_id UUID)
+RETURNS void
+SECURITY DEFINER            -- sementara pakai ini karena bug aneh
+SET search_path = public
+AS $$
+BEGIN
+    UPDATE public.addresses
+    SET deleted_at = NOW(),
+        updated_at = NOW(),
+        updated_by = auth.uid()
+    WHERE id = address_id
+      AND profile_id = auth.uid();
+    
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Address not found or not owned by user';
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
 
 
 --                                      ===============================================================================
@@ -570,7 +591,21 @@ USING (
 CREATE POLICY "Users can insert own addresses"
 ON public.addresses
 FOR INSERT
-WITH CHECK (profile_id = auth.uid());
+WITH CHECK (
+    profile_id = auth.uid()
+    AND (
+        is_shop_pickup = false
+        OR (
+            is_shop_pickup = true
+            AND NOT EXISTS (
+                SELECT 1 FROM public.addresses
+                WHERE profile_id = auth.uid()
+                  AND is_shop_pickup = true
+                  AND deleted_at IS NULL
+            )
+        )
+    )
+);
 
 CREATE POLICY "Users can update and soft delete own addresses"
 ON public.addresses
@@ -579,7 +614,13 @@ USING (
     profile_id = auth.uid()
     AND deleted_at IS NULL
 )
-WITH CHECK (profile_id = auth.uid());
+WITH CHECK (
+    profile_id = auth.uid()
+    AND (
+        deleted_at IS NULL
+        OR is_shop_pickup = false
+    )
+);
 
 
 

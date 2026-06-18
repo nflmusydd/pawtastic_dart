@@ -11,8 +11,9 @@ class DialogUtils {
     String? confirmText,
     String? cancelText,
     required VoidCallback onConfirm,
+    bool isDanger = false,
   }) async {
-    const primaryColor = Color.fromRGBO(252, 147, 3, 1.0);
+    final primaryColor = isDanger ? Colors.redAccent : const Color.fromRGBO(252, 147, 3, 1.0);
     
     // Default values using translations (runtime)
     final effectiveTitleText = title ?? context.t.common.confirm.toTitleCase();
@@ -27,9 +28,10 @@ class DialogUtils {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
             effectiveTitleText,
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.bold,
+              color: isDanger ? Colors.red.shade900 : Colors.black,
             ),
           ),
           content: Text(
@@ -41,8 +43,8 @@ class DialogUtils {
               onPressed: () => Navigator.pop(context),
               child: Text(
                 effectiveCancelText,
-                style: const TextStyle(
-                  color: primaryColor,
+                style: TextStyle(
+                  color: isDanger ? Colors.grey : Color.fromRGBO(252, 147, 3, 1.0),
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Montserrat',
                 ),

@@ -19,6 +19,7 @@ class CustomTextFieldRow extends StatefulWidget {
   final VoidCallback? onTap;
   final int maxLines;
   final List<TextInputFormatter>? inputFormatters;
+  final int? maxLength;
 
   const CustomTextFieldRow({
     super.key,
@@ -39,6 +40,7 @@ class CustomTextFieldRow extends StatefulWidget {
     this.onTap,
     this.maxLines = 1,
     this.inputFormatters,
+    this.maxLength,
   });
 
   @override
@@ -47,6 +49,7 @@ class CustomTextFieldRow extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextFieldRow> {
   late FocusNode _focusNode;
+  int _charLength = 0;
 
   @override
   void initState() {
@@ -54,6 +57,17 @@ class _CustomTextFieldState extends State<CustomTextFieldRow> {
     _focusNode = FocusNode();
     _focusNode.addListener(_onFocusChange);
     widget.controller?.addListener(_onFocusChange);
+    if (widget.controller != null) {
+      _charLength = widget.controller!.text.length;
+      widget.controller!.addListener(_updateCharLength);
+    }
+  }
+
+  void _updateCharLength() {
+    final newLength = widget.controller?.text.length ?? 0;
+    if (newLength != _charLength) {
+      setState(() => _charLength = newLength);
+    }
   }
 
   void _onFocusChange() {
@@ -65,6 +79,7 @@ class _CustomTextFieldState extends State<CustomTextFieldRow> {
     _focusNode.removeListener(_onFocusChange);
     _focusNode.dispose();
     widget.controller?.removeListener(_onFocusChange);
+    widget.controller?.removeListener(_updateCharLength);
     super.dispose();
   }
 
@@ -76,129 +91,158 @@ class _CustomTextFieldState extends State<CustomTextFieldRow> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (widget.label != null) ...[
-          Text(
-            widget.label!,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Montserrat',
-            ),
-          ),
-          const SizedBox(height: 8),
-        ],
-        Container(
-          width: widget.width,
-          decoration: BoxDecoration(
-            color: widget.backgroundColor,
-            borderRadius: BorderRadius.circular(10.0),
-            border: _focusNode.hasFocus
-                ? Border.all(
-                    color: const Color.fromRGBO(252, 148, 3, 0.605),
-                    width: 2.0,
-                  )
-                : Border.all(
-                    color: Colors.transparent, // Mencegah layout bergeser/kedip saat border muncul
-                    width: 2.0,
-                  ),
-          ),
-          child: Row(
-            crossAxisAlignment: widget.maxLines > 1
-                ? CrossAxisAlignment.start  // Multiline merapat ke atas
-                : CrossAxisAlignment.center,
-            children: [
-              // if (widget.maxLines > 1)   //DIMATIKAN SEMENTARA karena hintText masih tidak sejajar dengan icon
-              //   AnimatedPadding(
-              //     duration: const Duration(milliseconds: 200),
-              //     curve: Curves.easeInOut,
-              //     padding: EdgeInsets.only(
-              //       left: 12.0,
-              //       top: _isLabelFloating ? 28.0 : 22.0, 
-              //       right: 12.0,
-              //     ),
-              //     child: Icon(
-              //       widget.prefixIcon,
-              //       color: Colors.grey.shade700,
-              //       size: 24,
-              //     ),
-              //   )
-              // else  
-                Padding(
-                  padding: widget.maxLines > 1
-                    ? const EdgeInsets.only(left: 12.0, top: 26.0, right: 12.0,)
-                    : const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Icon(
-                    widget.prefixIcon,
-                    color: Colors.grey.shade700,
-                    size: 24,
-                  ),
-                ),
-
-              Expanded(
-                child: TextFormField(
-                  controller: widget.controller,
-                  focusNode: _focusNode,
-                  obscureText: widget.obscureText,
-                  keyboardType: widget.keyboardType,
-                  textCapitalization: widget.textCapitalization ?? TextCapitalization.sentences,
-                  validator: widget.validator,
-                  onChanged: widget.onChanged,
-                  readOnly: widget.readOnly,
-                  onTap: widget.onTap,
-                  maxLines: widget.maxLines,
-                  inputFormatters: widget.inputFormatters,
-                  style: const TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 16.0,
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    alignLabelWithHint: widget.maxLines > 1,
-                    labelText: (widget.hintTextToLabelText ?? widget.hintText != null)  // hintText sebagai labelText secara default
-                              ? widget.hintText
-                              : null,
-                    
-                    // styling posisi belum fokus atau ada teks
-                    labelStyle: const TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Color.fromRGBO(163, 163, 163, 1.0),
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-
-                    // styling saat fokus
-                    floatingLabelStyle: const TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: Color.fromRGBO(252, 148, 3, 0.8), 
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w700,
-                    ),
-
-                    // hapus/comment hintText biar teks gak dobel
-                    // hintText: widget.hintText, 
-
-                    filled: false,
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    contentPadding: const EdgeInsets.only(
-                      top: 12.0, 
-                      bottom: 12.0,
-                      right: 12.0,
-                    ),
-                    suffixIcon: widget.suffixIcon,
-                  ),
+    return FormField<String>(
+      validator: widget.validator,
+      initialValue: widget.controller?.text,
+      builder: (FormFieldState<String> state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (widget.label != null) ...[
+              Text(
+                widget.label!,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Montserrat',
                 ),
               ),
+              const SizedBox(height: 8),
             ],
-          ),
-        ),
-      ],
+            Container(
+              width: widget.width,
+              decoration: BoxDecoration(
+                color: widget.backgroundColor,
+                borderRadius: BorderRadius.circular(10.0),
+                border: _focusNode.hasFocus
+                    ? Border.all(
+                        color: const Color.fromRGBO(252, 148, 3, 0.605),
+                        width: 2.0,
+                      )
+                    : (state.hasError 
+                        ? Border.all(color: Colors.redAccent, width: 2.0)
+                        : Border.all(color: Colors.transparent, width: 2.0)),
+              ),
+              child: Row(
+                crossAxisAlignment: widget.maxLines > 1
+                    ? CrossAxisAlignment.start
+                    : CrossAxisAlignment.center,
+                children: [
+                  // if (widget.maxLines > 1)   //DIMATIKAN SEMENTARA karena hintText masih tidak sejajar dengan icon
+                  //   AnimatedPadding(
+                  //     duration: const Duration(milliseconds: 200),
+                  //     curve: Curves.easeInOut,
+                  //     padding: EdgeInsets.only(
+                  //       left: 12.0,
+                  //       top: _isLabelFloating ? 28.0 : 22.0, 
+                  //       right: 12.0,
+                  //     ),
+                  //     child: Icon(
+                  //       widget.prefixIcon,
+                  //       color: Colors.grey.shade700,
+                  //       size: 24,
+                  //     ),
+                  //   )
+                  // else  
+                  Padding(
+                    padding: widget.maxLines > 1
+                        ? const EdgeInsets.only(left: 12.0, top: 26.0, right: 12.0)
+                        : const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Icon(
+                      widget.prefixIcon,
+                      color: Colors.grey.shade700,
+                      size: 24,
+                    ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: widget.controller,
+                      focusNode: _focusNode,
+                      obscureText: widget.obscureText,
+                      keyboardType: widget.keyboardType,
+                      textCapitalization: widget.textCapitalization ?? TextCapitalization.sentences,
+                      onChanged: (val) {
+                        state.didChange(val);
+                        if (widget.onChanged != null) widget.onChanged!(val);
+                      },
+                      readOnly: widget.readOnly,
+                      onTap: widget.onTap,
+                      maxLines: widget.maxLines,
+                      inputFormatters: widget.inputFormatters,
+                      style: const TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 16.0,
+                        color: Colors.black,
+                      ),
+                      decoration: InputDecoration(
+                        alignLabelWithHint: widget.maxLines > 1,
+                        labelText: (widget.hintTextToLabelText ?? widget.hintText != null)
+                            ? widget.hintText
+                            : null,
+                        labelStyle: const TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Color.fromRGBO(163, 163, 163, 1.0),
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        floatingLabelStyle: const TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: Color.fromRGBO(252, 148, 3, 0.8),
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        filled: false,
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        contentPadding: const EdgeInsets.only(
+                          top: 12.0,
+                          bottom: 12.0,
+                          right: 12.0,
+                        ),
+                        suffixIcon: widget.suffixIcon,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (state.hasError || widget.maxLength != null) ...[
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  Expanded(
+                    child: state.hasError
+                        ? Text(
+                            state.errorText!,
+                            style: const TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 12,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                        : const SizedBox(),
+                  ),
+                  if (widget.maxLength != null)
+                    Text(
+                      "$_charLength/${widget.maxLength}",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: _charLength > widget.maxLength!
+                            ? Colors.red
+                            : Colors.grey,
+                        fontFamily: 'Montserrat',
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ],
+        );
+      },
     );
   }
 }

@@ -35,6 +35,10 @@
     "address": "address",
     "choose": "choose",
     "loading_data": "loading data",
+    "loading_data_name": "loading $data",
+    "seller_mode": "seller mode",
+    "buyer_mode": "buyer mode",
+    "make_sure_all_the_data_you_have_filled_in_is_correct": "make sure all the data you have filled in is correct",
     "please_login_to_access_this_page": "please log in to access this page",
     "please_login_as_a_seller_to_access_this_page": "please log in as a seller (Paw Shop) to access this page"
   },
@@ -51,6 +55,7 @@
     "form": {
       "address_title": "address label",
       "address_title_hint": "e.g., home, office",
+      "seller_name": "seller name",
       "recipient_name": "recipient name",
       "recipient_name_hint": "enter recipient name",
       "phone_number": "phone number",
@@ -68,7 +73,18 @@
       "postal_code_hint": "enter postal code",
       "save_address": "save address",
       "delete_address": "delete address",
-      "are_you_sure_you_want_to_delete_this_address": "are you sure you want to delete this address?"
+      "add_address": "add address",
+      "change_address": "change address",
+      "change_shop_address": "change shop address",
+      "are_you_sure_you_want_to_delete_this_address": "are you sure you want to delete this address?",
+      "successfully_saved_address_data": "successfully saved address",
+      "successfully_deleted_address_data": "successfully deleted address",
+      "failed_to_save_address_data": "failed to save address data",
+      "failed_to_delete_address_data": "failed to delete address data",
+      "cannot_delete_default_address": "cannot delete the main address. set another address as main first",
+      "invalid_phone_number_format": "invalid phone number format (08xxx atau +62xxx)",
+      "5_to_15_character": "5-15 character",
+      "number_only": "number_only"
     }
   },
   "account": {
@@ -99,6 +115,8 @@
     "options": {
       "options": "options",
       "language": "language",
+      "english_language": "english",
+      "indonesia_language": "bahasa indonesia",
       "other_settings": "other settings",
       "notifications": "notifications",
       "dark_mode": "dark mode",
@@ -125,7 +143,9 @@
       "please_fill_pickup_address_date" : "please fill pickup address data",
       "shop_pickup_address": "shop pickup address",
       "this_address_will_be_used_by_the_courier_to_pick_up_the_order": "this address will be used by the courier to pick up the order",
-      "make_sure_the_store_data_and_pickup_address_are_correct": "make sure the store data and pickup address are correct"
+      "make_sure_the_shop_data_and_pickup_address_are_correct": "make sure the shop data and pickup address are correct",
+      "successfully_saved_shop_data": "successfully saved shop data",
+      "failed_to_save_shop_data": "failed to save shop data"
     }
   },
   "no_connection": {
@@ -325,7 +345,7 @@
         "manage_products": "manage products",
         "manage_orders": "manage orders",
         "cashier": "cashier",
-        "sign_out": "sign out"
+        "to_buyer_mode": "to buyer mode"
       },
       "manage_orders": {
         "title": "manage orders",
@@ -352,6 +372,16 @@
         "notifications": "notifications",
         "pickup_address": "pickup address",
         "manage_pickup_address": "manage pickup address",
+        "manage_shop_profile": "manage shop profile",
+        "shop_name": "shop name",
+        "store_slug": "store slug",
+        "store_slug_hint": "ex: meow-shop",
+        "description": "description",
+        "verified": "verified",
+        "not_verified": "not verified",
+        "save_shop_profile": "save shop profile",
+        "successfully_saved_shop_profile": "shop profile updated successfully",
+        "failed_to_save_shop_profile": "failed to update shop profile",
         "cant_reach_your_address": "cannot reach your address"
       }
   },
@@ -369,7 +399,13 @@
       "required_field": "required field",
       "required_fields": "required fields",
       "failed_to_load_data": "failed to load $dataName data",
-      "please_try_again": "please try again"
+      "please_try_again": "please try again",
+      "please_fill_in_all_data_validly": "please fill in all data validly",
+      "an_error_occured" : "an error occured",
+      "while_saving_data" : "while saving data",
+      "please_check_the_data_you_have_filled_in" : "please check the data you have filled in",
+      "minimum_character" : "$number minimum charater",
+      "maximum_character" : "maximum $number characters"
     },
     "auth": {
       "this_email_is_already_registered_please_use_another_email": "this email is already registered. please use another email.",

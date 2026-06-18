@@ -9,12 +9,14 @@ class UserProvider extends ChangeNotifier {
   bool _hasConnectionError = false;
   User? _user;
   String? _fullName;
+  String? _shopName;
 
   UserRole get role => _role;
   bool get isLoading => _isLoading;
   bool get hasConnectionError => _hasConnectionError;
   User? get user => _user;
   String get fullName => _fullName ?? "";
+  String get shopName => _shopName ?? "";
 
   final _supabase = Supabase.instance.client;
 
@@ -102,12 +104,13 @@ class UserProvider extends ChangeNotifier {
       // Check if user has a shop (is a seller)
       final shopData = await _supabase
           .from('shops')
-          .select('id')
+          .select('id, shop_name')
           .eq('owner_id', uid)
           .maybeSingle();
 
       if (shopData != null) {
         _role = UserRole.seller;
+        _shopName = shopData['shop_name'];
       } else {
         // If profile exists but no shop, they are a buyer
         final profileData = await _supabase
@@ -166,6 +169,7 @@ class UserProvider extends ChangeNotifier {
     _role = UserRole.none;
     _user = null;
     _fullName = null;
+    _shopName = null;
     notifyListeners();
   }
 }

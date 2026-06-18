@@ -17,4 +17,5 @@ export 'cards/global_toggle_item.dart';
 export 'cards/global_selection_item.dart';
 export 'buttons/primary_button.dart';
 export 'buttons/secondary_button.dart';
+export 'buttons/danger_button.dart';
 export 'buttons/custom_text_button.dart';

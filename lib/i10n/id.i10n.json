@@ -35,6 +35,10 @@
     "address": "alamat",
     "choose": "pilih",
     "loading_data": "memuat data",
+    "loading_data_name": "memuat $data",
+    "seller_mode": "mode penjual",
+    "buyer_mode": "mode pembeli",
+    "make_sure_all_the_data_you_have_filled_in_is_correct": "pastikan semua data yang telah diisi benar",
     "please_login_to_access_this_page": "silahkan login dahulu untuk mengakses halaman ini",
     "please_login_as_a_seller_to_access_this_page": "silahkan login sebagai penjual (Paw Shop) untuk mengakses halaman ini"
   },
@@ -44,13 +48,14 @@
       "add_new_address": "tambah alamat baru",
       "edit_address": "ubah alamat",
       "no_address_found": "alamat tidak ditemukan",
-      "set_as_default": "set sebagai alamat utama",
+      "set_as_default": "jadikan sebagai alamat utama",
       "default": "utama",
       "shop_pickup": "titik jemput toko"
     },
     "form": {
       "address_title": "label alamat",
       "address_title_hint": "misal: rumah, kantor",
+      "seller_name": "nama penjual",
       "recipient_name": "nama penerima",
       "recipient_name_hint": "masukkan nama penerima",
       "phone_number": "nomor telepon",
@@ -68,7 +73,18 @@
       "postal_code_hint": "masukkan kode pos",
       "save_address": "simpan alamat",
       "delete_address": "hapus alamat",
-      "are_you_sure_you_want_to_delete_this_address": "apakah Anda yakin ingin menghapus alamat ini?"
+      "add_address": "tambah alamat",
+      "change_address": "ubah alamat",
+      "change_shop_address": "ubah alamat toko",
+      "are_you_sure_you_want_to_delete_this_address": "apakah Anda yakin ingin menghapus alamat ini?",
+      "successfully_saved_address_data": "berhasil menyimpan alamat",
+      "successfully_deleted_address_data": "berhasil menghapus alamat",
+      "failed_to_save_address_data": "gagal menyimpan alamat",
+      "failed_to_delete_address_data": "gagal menghapus data",
+      "cannot_delete_default_address": "tidak dapat menghapus alamat utama. jadikan alamat lain sebagai utama terlebih dahulu",
+      "invalid_phone_number_format": "format nomor tidak valid (08xxx atau +62xxx)",
+      "5_to_15_character": "5 digit",
+      "number_only": "hanya angka"
     }
   },
   "account": {
@@ -99,6 +115,8 @@
     "options": {
       "options": "opsi",
       "language": "bahasa",
+      "english_language": "inggris",
+      "indonesia_language": "indonesia",
       "other_settings": "pengaturan lainnya",
       "notifications": "notifikasi",
       "dark_mode": "mode gelap",
@@ -123,9 +141,11 @@
       "please_try_different_store_slug" : "coba ganti nama unik toko",
       "cancel_creating_a_shop" : "batal buat toko?",
       "please_fill_pickup_address_date" : "mohon lengkapi data alamat penjemputan",
-      "make_sure_the_store_data_and_pickup_address_are_correct": "pastikan data toko dan alamat penjemputan sudah benar",
+      "make_sure_the_shop_data_and_pickup_address_are_correct": "pastikan data toko dan alamat penjemputan sudah benar",
       "shop_pickup_address": "alamat penjemputan toko",
-      "this_address_will_be_used_by_the_courier_to_pick_up_the_order": "alamat ini akan digunakan kurir untuk menjemput paket pesanan Anda"
+      "this_address_will_be_used_by_the_courier_to_pick_up_the_order": "alamat ini akan digunakan kurir untuk menjemput paket pesanan Anda",
+      "successfully_saved_shop_data": "berhasil menyimpan data toko",
+      "failed_to_save_shop_data": "gagal menyimpan data toko"
     }
   },
   "no_connection": {
@@ -325,7 +345,7 @@
         "manage_products": "kelola produk",
         "manage_orders": "kelola pesanan",
         "cashier": "kasir",
-        "sign_out": "keluar"
+        "to_buyer_mode": "ke mode pembeli"
       },
       "manage_orders": {
         "title": "kelola pesanan",
@@ -352,6 +372,16 @@
         "notifications": "notifikasi",
         "pickup_address": "alamat penjemputan",
         "manage_pickup_address": "atur alamat penjemputan",
+        "manage_shop_profile": "atur profil toko",
+        "shop_name": "nama toko",
+        "store_slug": "nama unik toko",
+        "store_slug_hint": "cth: meow-shop",
+        "description": "deskripsi",
+        "verified": "terverifikasi",
+        "not_verified": "belum terverifikasi",
+        "save_shop_profile": "simpan profil toko",
+        "successfully_saved_shop_profile": "profil toko berhasil diperbarui",
+        "failed_to_save_shop_profile": "gagal memperbarui profil toko",
         "cant_reach_your_address": "tidak dapat mengakses alamat"
       }
   },
@@ -369,7 +399,13 @@
       "required_field": "wajib diisi",
       "required_fields": "wajib diisi",
       "failed_to_load_data": "gagal memuat data $dataName",
-      "please_try_again": "silakan coba lagi"
+      "please_try_again": "silakan coba lagi",
+      "please_fill_in_all_data_validly": "harap lengkapi semua data dengan valid",
+      "an_error_occured" : "terjadi kesalahan",
+      "while_saving_data" : "saat menyimpan data",
+      "please_check_the_data_you_have_filled_in" : "mohon periksa data yang telah diisi",
+      "minimum_character" : "minimal $number karakter",
+      "maximum_character" : "maksimal $number karakter"
     },
     "auth": {
       "this_email_is_already_registered_please_use_another_email": "email ini sudah terdaftar. silakan gunakan email lain.",

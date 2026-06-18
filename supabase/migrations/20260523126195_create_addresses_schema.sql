@@ -110,6 +110,27 @@ CREATE TRIGGER set_addresses_audit
     BEFORE INSERT OR UPDATE ON public.addresses
     FOR EACH ROW EXECUTE FUNCTION public.set_audit_fields();
 
+CREATE OR REPLACE FUNCTION public.soft_delete_address(address_id UUID)
+RETURNS void
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+    UPDATE public.addresses
+    SET deleted_at = NOW(),
+        updated_at = NOW(),
+        updated_by = auth.uid()
+    WHERE id = address_id
+      AND profile_id = auth.uid()
+      AND is_shop_pickup = false
+      AND deleted_at IS NULL
+      AND is_default_shipping = false;
+    
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Failed deleting address';
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
 
 -- RLS & Policies
 ALTER TABLE public.addresses ENABLE ROW LEVEL SECURITY;
@@ -125,7 +146,21 @@ USING (
 CREATE POLICY "Users can insert own addresses"
 ON public.addresses
 FOR INSERT
-WITH CHECK (profile_id = auth.uid());
+WITH CHECK (
+    profile_id = auth.uid()
+    AND (
+        is_shop_pickup = false
+        OR (
+            is_shop_pickup = true
+            AND NOT EXISTS (
+                SELECT 1 FROM public.addresses
+                WHERE profile_id = auth.uid()
+                  AND is_shop_pickup = true
+                  AND deleted_at IS NULL
+            )
+        )
+    )
+);
 
 CREATE POLICY "Users can update and soft delete own addresses"
 ON public.addresses
@@ -134,7 +169,13 @@ USING (
     profile_id = auth.uid()
     AND deleted_at IS NULL
 )
-WITH CHECK (profile_id = auth.uid());
+WITH CHECK (
+    profile_id = auth.uid()
+    AND (
+        (is_shop_pickup = false)
+        OR (is_shop_pickup = true AND deleted_at IS NULL)
+    )
+);
 
 
 -- VIEW

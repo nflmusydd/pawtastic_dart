@@ -9,7 +9,6 @@ class CustomDropdown extends StatefulWidget {
   final String? labelText;
   final String? hintText;
   final bool? hintTextToLabelText;
-  final Color? backgroundColor;
   final int? value;
   final List<DropdownMenuItem<int>> items;
   final ValueChanged<int?> onChanged;
@@ -24,7 +23,6 @@ class CustomDropdown extends StatefulWidget {
     this.labelText,
     this.hintText,
     this.hintTextToLabelText,
-    this.backgroundColor,
     required this.value,
     required this.items,
     required this.onChanged,
@@ -34,14 +32,13 @@ class CustomDropdown extends StatefulWidget {
     this.validator,
   });
 
-  /// Style biasa 
+  /// Style biasa (mirip CustomTextFieldRow)
   factory CustomDropdown.regular({
     Key? key,
     String? label,
     String? labelText,
     String? hintText,
     bool? hintTextToLabelText,
-    Color? backgroundColor,
     required int? value,
     required List<DropdownMenuItem<int>> items,
     required ValueChanged<int?> onChanged,
@@ -55,8 +52,6 @@ class CustomDropdown extends StatefulWidget {
       labelText: labelText,
       hintText: hintText,
       hintTextToLabelText: hintTextToLabelText,
-      backgroundColor: backgroundColor,
-      
       value: value,
       items: items,
       onChanged: onChanged,
@@ -67,14 +62,13 @@ class CustomDropdown extends StatefulWidget {
     );
   }
 
-  /// Style besar dan modern 
+  /// Style besar dan modern (seperti di CreateShopPage)
   factory CustomDropdown.large({
     Key? key,
     String? label,
     String? labelText,
     String? hintText,
     bool? hintTextToLabelText,
-    Color? backgroundColor,
     required int? value,
     required List<DropdownMenuItem<int>> items,
     required ValueChanged<int?> onChanged,
@@ -116,12 +110,8 @@ class _CustomDropdownState extends State<CustomDropdown> {
   void didUpdateWidget(CustomDropdown oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.value != widget.value) {
-      // post frame callback untuk menghindari error "setState() called during build"
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          _fieldKey.currentState?.didChange(widget.value);
-        }
-      });
+      // Sinkronisasi nilai internal FormField jika nilai dari parent berubah
+      _fieldKey.currentState?.didChange(widget.value);
     }
   }
 
@@ -166,7 +156,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: widget.backgroundColor ?? const Color.fromRGBO(228, 228, 228, 0.612),
+            color: const Color.fromRGBO(228, 228, 228, 0.612),
             borderRadius: BorderRadius.circular(10.0),
             border: _focusNode.hasFocus
                 ? Border.all(
@@ -326,7 +316,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                 // : 
                 Icon(widget.prefixIcon, color: Colors.orange, size: 20),
             filled: true,
-            fillColor: widget.backgroundColor ?? const Color.fromRGBO(228, 228, 228, 0.612),
+            fillColor: Colors.grey[50],
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             errorStyle: const TextStyle(height: 0, fontSize: 0),
             border: OutlineInputBorder(

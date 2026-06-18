@@ -99,7 +99,7 @@ class _AccountPageState extends State<AccountPage> {
               ),
               GlobalMenuItem(
                 icon: Icons.location_on,
-                text: context.t.address.index.my_addresses.toTitleCase(),
+                text: context.t.common.address.toTitleCase(),
                 onTap: () {
                   Navigator.pushNamed(context, AppRoutes.addressList);
                 },
@@ -118,7 +118,7 @@ class _AccountPageState extends State<AccountPage> {
                     text: context.t.account.index.paw_shop.toTitleCase(),
                     onTap: () {
                       if (userProvider.role == UserRole.seller) {
-                        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.homeSeller, (route) => false);
+                        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.sellerHome, (route) => false);
                       } else {
                         Navigator.pushNamed(context, AppRoutes.createShop);
                       }

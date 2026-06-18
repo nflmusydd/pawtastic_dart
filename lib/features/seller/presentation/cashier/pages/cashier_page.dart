@@ -14,7 +14,7 @@ class CashierPage extends StatelessWidget {
         context,
         title: context.t.seller.cashier.title.toTitleCase(),
         onBack: () {
-          Navigator.pushNamed(context, AppRoutes.homeSeller);
+          Navigator.pushNamed(context, AppRoutes.sellerHome);
         },
       ),
       body: CustomTabLayout(

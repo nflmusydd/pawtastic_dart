@@ -97,6 +97,10 @@ class _TranslationsCommonId extends TranslationsCommonEn {
 	@override String get address => 'alamat';
 	@override String get choose => 'pilih';
 	@override String get loading_data => 'memuat data';
+	@override String loading_data_name({required Object data}) => 'memuat ${data}';
+	@override String get seller_mode => 'mode penjual';
+	@override String get buyer_mode => 'mode pembeli';
+	@override String get make_sure_all_the_data_you_have_filled_in_is_correct => 'pastikan semua data yang telah diisi benar';
 	@override String get please_login_to_access_this_page => 'silahkan login dahulu untuk mengakses halaman ini';
 	@override String get please_login_as_a_seller_to_access_this_page => 'silahkan login sebagai penjual (Paw Shop) untuk mengakses halaman ini';
 }
@@ -283,7 +287,7 @@ class _TranslationsAddressIndexId extends TranslationsAddressIndexEn {
 	@override String get add_new_address => 'tambah alamat baru';
 	@override String get edit_address => 'ubah alamat';
 	@override String get no_address_found => 'alamat tidak ditemukan';
-	@override String get set_as_default => 'set sebagai alamat utama';
+	@override String get set_as_default => 'jadikan sebagai alamat utama';
 	@override String get kDefault => 'utama';
 	@override String get shop_pickup => 'titik jemput toko';
 }
@@ -297,6 +301,7 @@ class _TranslationsAddressFormId extends TranslationsAddressFormEn {
 	// Translations
 	@override String get address_title => 'label alamat';
 	@override String get address_title_hint => 'misal: rumah, kantor';
+	@override String get seller_name => 'nama penjual';
 	@override String get recipient_name => 'nama penerima';
 	@override String get recipient_name_hint => 'masukkan nama penerima';
 	@override String get phone_number => 'nomor telepon';
@@ -314,7 +319,18 @@ class _TranslationsAddressFormId extends TranslationsAddressFormEn {
 	@override String get postal_code_hint => 'masukkan kode pos';
 	@override String get save_address => 'simpan alamat';
 	@override String get delete_address => 'hapus alamat';
+	@override String get add_address => 'tambah alamat';
+	@override String get change_address => 'ubah alamat';
+	@override String get change_shop_address => 'ubah alamat toko';
 	@override String get are_you_sure_you_want_to_delete_this_address => 'apakah Anda yakin ingin menghapus alamat ini?';
+	@override String get successfully_saved_address_data => 'berhasil menyimpan alamat';
+	@override String get successfully_deleted_address_data => 'berhasil menghapus alamat';
+	@override String get failed_to_save_address_data => 'gagal menyimpan alamat';
+	@override String get failed_to_delete_address_data => 'gagal menghapus data';
+	@override String get cannot_delete_default_address => 'tidak dapat menghapus alamat utama. jadikan alamat lain sebagai utama terlebih dahulu';
+	@override String get invalid_phone_number_format => 'format nomor tidak valid (08xxx atau +62xxx)';
+	@override String get k5To15Character => '5 digit';
+	@override String get number_only => 'hanya angka';
 }
 
 // Path: account.index
@@ -371,6 +387,8 @@ class _TranslationsAccountOptionsId extends TranslationsAccountOptionsEn {
 	// Translations
 	@override String get options => 'opsi';
 	@override String get language => 'bahasa';
+	@override String get english_language => 'inggris';
+	@override String get indonesia_language => 'indonesia';
 	@override String get other_settings => 'pengaturan lainnya';
 	@override String get notifications => 'notifikasi';
 	@override String get dark_mode => 'mode gelap';
@@ -402,9 +420,11 @@ class _TranslationsAccountCreateShopId extends TranslationsAccountCreateShopEn {
 	@override String get please_try_different_store_slug => 'coba ganti nama unik toko';
 	@override String get cancel_creating_a_shop => 'batal buat toko?';
 	@override String get please_fill_pickup_address_date => 'mohon lengkapi data alamat penjemputan';
-	@override String get make_sure_the_store_data_and_pickup_address_are_correct => 'pastikan data toko dan alamat penjemputan sudah benar';
+	@override String get make_sure_the_shop_data_and_pickup_address_are_correct => 'pastikan data toko dan alamat penjemputan sudah benar';
 	@override String get shop_pickup_address => 'alamat penjemputan toko';
 	@override String get this_address_will_be_used_by_the_courier_to_pick_up_the_order => 'alamat ini akan digunakan kurir untuk menjemput paket pesanan Anda';
+	@override String get successfully_saved_shop_data => 'berhasil menyimpan data toko';
+	@override String get failed_to_save_shop_data => 'gagal menyimpan data toko';
 }
 
 // Path: auth.onboarding
@@ -654,7 +674,7 @@ class _TranslationsSellerHomeId extends TranslationsSellerHomeEn {
 	@override String get manage_products => 'kelola produk';
 	@override String get manage_orders => 'kelola pesanan';
 	@override String get cashier => 'kasir';
-	@override String get sign_out => 'keluar';
+	@override String get to_buyer_mode => 'ke mode pembeli';
 }
 
 // Path: seller.manage_orders
@@ -702,6 +722,16 @@ class _TranslationsSellerSettingsId extends TranslationsSellerSettingsEn {
 	@override String get notifications => 'notifikasi';
 	@override String get pickup_address => 'alamat penjemputan';
 	@override String get manage_pickup_address => 'atur alamat penjemputan';
+	@override String get manage_shop_profile => 'atur profil toko';
+	@override String get shop_name => 'nama toko';
+	@override String get store_slug => 'nama unik toko';
+	@override String get store_slug_hint => 'cth: meow-shop';
+	@override String get description => 'deskripsi';
+	@override String get verified => 'terverifikasi';
+	@override String get not_verified => 'belum terverifikasi';
+	@override String get save_shop_profile => 'simpan profil toko';
+	@override String get successfully_saved_shop_profile => 'profil toko berhasil diperbarui';
+	@override String get failed_to_save_shop_profile => 'gagal memperbarui profil toko';
 	@override String get cant_reach_your_address => 'tidak dapat mengakses alamat';
 }
 
@@ -719,6 +749,12 @@ class _TranslationsErrorsCommonId extends TranslationsErrorsCommonEn {
 	@override String get required_fields => 'wajib diisi';
 	@override String failed_to_load_data({required Object dataName}) => 'gagal memuat data ${dataName}';
 	@override String get please_try_again => 'silakan coba lagi';
+	@override String get please_fill_in_all_data_validly => 'harap lengkapi semua data dengan valid';
+	@override String get an_error_occured => 'terjadi kesalahan';
+	@override String get while_saving_data => 'saat menyimpan data';
+	@override String get please_check_the_data_you_have_filled_in => 'mohon periksa data yang telah diisi';
+	@override String minimum_character({required Object number}) => 'minimal ${number} karakter';
+	@override String maximum_character({required Object number}) => 'maksimal ${number} karakter';
 }
 
 // Path: errors.auth
@@ -830,17 +866,22 @@ extension on TranslationsId {
 			'common.address' => 'alamat',
 			'common.choose' => 'pilih',
 			'common.loading_data' => 'memuat data',
+			'common.loading_data_name' => ({required Object data}) => 'memuat ${data}',
+			'common.seller_mode' => 'mode penjual',
+			'common.buyer_mode' => 'mode pembeli',
+			'common.make_sure_all_the_data_you_have_filled_in_is_correct' => 'pastikan semua data yang telah diisi benar',
 			'common.please_login_to_access_this_page' => 'silahkan login dahulu untuk mengakses halaman ini',
 			'common.please_login_as_a_seller_to_access_this_page' => 'silahkan login sebagai penjual (Paw Shop) untuk mengakses halaman ini',
 			'address.index.my_addresses' => 'alamat saya',
 			'address.index.add_new_address' => 'tambah alamat baru',
 			'address.index.edit_address' => 'ubah alamat',
 			'address.index.no_address_found' => 'alamat tidak ditemukan',
-			'address.index.set_as_default' => 'set sebagai alamat utama',
+			'address.index.set_as_default' => 'jadikan sebagai alamat utama',
 			'address.index.kDefault' => 'utama',
 			'address.index.shop_pickup' => 'titik jemput toko',
 			'address.form.address_title' => 'label alamat',
 			'address.form.address_title_hint' => 'misal: rumah, kantor',
+			'address.form.seller_name' => 'nama penjual',
 			'address.form.recipient_name' => 'nama penerima',
 			'address.form.recipient_name_hint' => 'masukkan nama penerima',
 			'address.form.phone_number' => 'nomor telepon',
@@ -858,7 +899,18 @@ extension on TranslationsId {
 			'address.form.postal_code_hint' => 'masukkan kode pos',
 			'address.form.save_address' => 'simpan alamat',
 			'address.form.delete_address' => 'hapus alamat',
+			'address.form.add_address' => 'tambah alamat',
+			'address.form.change_address' => 'ubah alamat',
+			'address.form.change_shop_address' => 'ubah alamat toko',
 			'address.form.are_you_sure_you_want_to_delete_this_address' => 'apakah Anda yakin ingin menghapus alamat ini?',
+			'address.form.successfully_saved_address_data' => 'berhasil menyimpan alamat',
+			'address.form.successfully_deleted_address_data' => 'berhasil menghapus alamat',
+			'address.form.failed_to_save_address_data' => 'gagal menyimpan alamat',
+			'address.form.failed_to_delete_address_data' => 'gagal menghapus data',
+			'address.form.cannot_delete_default_address' => 'tidak dapat menghapus alamat utama. jadikan alamat lain sebagai utama terlebih dahulu',
+			'address.form.invalid_phone_number_format' => 'format nomor tidak valid (08xxx atau +62xxx)',
+			'address.form.k5To15Character' => '5 digit',
+			'address.form.number_only' => 'hanya angka',
 			'account.index.account' => 'akun',
 			'account.index.profile' => 'profil',
 			'account.index.options' => 'opsi',
@@ -879,6 +931,8 @@ extension on TranslationsId {
 			'account.change_password.current_password' => 'kata sandi lama',
 			'account.options.options' => 'opsi',
 			'account.options.language' => 'bahasa',
+			'account.options.english_language' => 'inggris',
+			'account.options.indonesia_language' => 'indonesia',
 			'account.options.other_settings' => 'pengaturan lainnya',
 			'account.options.notifications' => 'notifikasi',
 			'account.options.dark_mode' => 'mode gelap',
@@ -901,9 +955,11 @@ extension on TranslationsId {
 			'account.create_shop.please_try_different_store_slug' => 'coba ganti nama unik toko',
 			'account.create_shop.cancel_creating_a_shop' => 'batal buat toko?',
 			'account.create_shop.please_fill_pickup_address_date' => 'mohon lengkapi data alamat penjemputan',
-			'account.create_shop.make_sure_the_store_data_and_pickup_address_are_correct' => 'pastikan data toko dan alamat penjemputan sudah benar',
+			'account.create_shop.make_sure_the_shop_data_and_pickup_address_are_correct' => 'pastikan data toko dan alamat penjemputan sudah benar',
 			'account.create_shop.shop_pickup_address' => 'alamat penjemputan toko',
 			'account.create_shop.this_address_will_be_used_by_the_courier_to_pick_up_the_order' => 'alamat ini akan digunakan kurir untuk menjemput paket pesanan Anda',
+			'account.create_shop.successfully_saved_shop_data' => 'berhasil menyimpan data toko',
+			'account.create_shop.failed_to_save_shop_data' => 'gagal menyimpan data toko',
 			'no_connection.connection_failed' => 'koneksi gagal',
 			'no_connection.we_could_not_reach_the_server_please_try_again_later' => 'kami tidak dapat terhubung ke server. silakan coba lagi nanti.',
 			'no_connection.try_again' => 'coba lagi',
@@ -1051,7 +1107,7 @@ extension on TranslationsId {
 			'seller.home.manage_products' => 'kelola produk',
 			'seller.home.manage_orders' => 'kelola pesanan',
 			'seller.home.cashier' => 'kasir',
-			'seller.home.sign_out' => 'keluar',
+			'seller.home.to_buyer_mode' => 'ke mode pembeli',
 			'seller.manage_orders.title' => 'kelola pesanan',
 			'seller.manage_orders.pending' => 'menunggu',
 			'seller.manage_orders.delivered' => 'terkirim',
@@ -1072,6 +1128,16 @@ extension on TranslationsId {
 			'seller.settings.notifications' => 'notifikasi',
 			'seller.settings.pickup_address' => 'alamat penjemputan',
 			'seller.settings.manage_pickup_address' => 'atur alamat penjemputan',
+			'seller.settings.manage_shop_profile' => 'atur profil toko',
+			'seller.settings.shop_name' => 'nama toko',
+			'seller.settings.store_slug' => 'nama unik toko',
+			'seller.settings.store_slug_hint' => 'cth: meow-shop',
+			'seller.settings.description' => 'deskripsi',
+			'seller.settings.verified' => 'terverifikasi',
+			'seller.settings.not_verified' => 'belum terverifikasi',
+			'seller.settings.save_shop_profile' => 'simpan profil toko',
+			'seller.settings.successfully_saved_shop_profile' => 'profil toko berhasil diperbarui',
+			'seller.settings.failed_to_save_shop_profile' => 'gagal memperbarui profil toko',
 			'seller.settings.cant_reach_your_address' => 'tidak dapat mengakses alamat',
 			'navigation.home' => 'beranda',
 			'navigation.cart' => 'keranjang',
@@ -1084,6 +1150,12 @@ extension on TranslationsId {
 			'errors.common.required_fields' => 'wajib diisi',
 			'errors.common.failed_to_load_data' => ({required Object dataName}) => 'gagal memuat data ${dataName}',
 			'errors.common.please_try_again' => 'silakan coba lagi',
+			'errors.common.please_fill_in_all_data_validly' => 'harap lengkapi semua data dengan valid',
+			'errors.common.an_error_occured' => 'terjadi kesalahan',
+			'errors.common.while_saving_data' => 'saat menyimpan data',
+			'errors.common.please_check_the_data_you_have_filled_in' => 'mohon periksa data yang telah diisi',
+			'errors.common.minimum_character' => ({required Object number}) => 'minimal ${number} karakter',
+			'errors.common.maximum_character' => ({required Object number}) => 'maksimal ${number} karakter',
 			'errors.auth.this_email_is_already_registered_please_use_another_email' => 'email ini sudah terdaftar. silakan gunakan email lain.',
 			'errors.auth.connection_problem_check_your_internet' => 'masalah koneksi. periksa internet Anda.',
 			'errors.auth.failed_to_register_make_sure_the_data_is_correct_or_try_again_later' => 'gagal mendaftar. pastikan data benar atau coba lagi nanti.',

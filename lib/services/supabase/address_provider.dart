@@ -67,9 +67,10 @@ class AddressProvider extends ChangeNotifier {
   Future<bool> deleteAddress(String id) async {
     try {
       // Soft delete
-      await _supabase.from('addresses').update({
-        'deleted_at': DateTime.now().toIso8601String(),
-      }).eq('id', id);
+      // await _supabase.from('addresses').update({         // tidak bisa pakai RLS biasa entah kenapa
+      //   'deleted_at': DateTime.now().toIso8601String(),
+      // }).eq('id', id);
+      await _supabase.rpc('soft_delete_address', params: {'address_id': id});
       
       await fetchAddresses();
       return true;

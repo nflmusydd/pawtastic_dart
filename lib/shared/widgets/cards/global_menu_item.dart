@@ -4,12 +4,14 @@ class GlobalMenuItem extends StatelessWidget {
   final IconData icon;
   final String text;
   final VoidCallback onTap;
+  final Color backgroundColor;
 
   const GlobalMenuItem({
     super.key,
     required this.icon,
     required this.text,
     required this.onTap,
+    this.backgroundColor = const Color.fromARGB(255, 245, 245, 245),
   });
 
   @override
@@ -24,8 +26,15 @@ class GlobalMenuItem extends StatelessWidget {
           child: Ink(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 245, 245, 245),
+              color: backgroundColor,
               borderRadius: BorderRadius.circular(15),
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Colors.black.withOpacity(0.05),
+              //     blurRadius: 10,
+              //     offset: const Offset(0, 4),
+              //   ),
+              // ],
             ),
             child: Row(
               children: [

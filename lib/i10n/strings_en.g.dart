@@ -169,6 +169,18 @@ class TranslationsCommonEn {
 	/// en: 'loading data'
 	String get loading_data => 'loading data';
 
+	/// en: 'loading $data'
+	String loading_data_name({required Object data}) => 'loading ${data}';
+
+	/// en: 'seller mode'
+	String get seller_mode => 'seller mode';
+
+	/// en: 'buyer mode'
+	String get buyer_mode => 'buyer mode';
+
+	/// en: 'make sure all the data you have filled in is correct'
+	String get make_sure_all_the_data_you_have_filled_in_is_correct => 'make sure all the data you have filled in is correct';
+
 	/// en: 'please log in to access this page'
 	String get please_login_to_access_this_page => 'please log in to access this page';
 
@@ -443,6 +455,9 @@ class TranslationsAddressFormEn {
 	/// en: 'e.g., home, office'
 	String get address_title_hint => 'e.g., home, office';
 
+	/// en: 'seller name'
+	String get seller_name => 'seller name';
+
 	/// en: 'recipient name'
 	String get recipient_name => 'recipient name';
 
@@ -494,8 +509,41 @@ class TranslationsAddressFormEn {
 	/// en: 'delete address'
 	String get delete_address => 'delete address';
 
+	/// en: 'add address'
+	String get add_address => 'add address';
+
+	/// en: 'change address'
+	String get change_address => 'change address';
+
+	/// en: 'change shop address'
+	String get change_shop_address => 'change shop address';
+
 	/// en: 'are you sure you want to delete this address?'
 	String get are_you_sure_you_want_to_delete_this_address => 'are you sure you want to delete this address?';
+
+	/// en: 'successfully saved address'
+	String get successfully_saved_address_data => 'successfully saved address';
+
+	/// en: 'successfully deleted address'
+	String get successfully_deleted_address_data => 'successfully deleted address';
+
+	/// en: 'failed to save address data'
+	String get failed_to_save_address_data => 'failed to save address data';
+
+	/// en: 'failed to delete address data'
+	String get failed_to_delete_address_data => 'failed to delete address data';
+
+	/// en: 'cannot delete the main address. set another address as main first'
+	String get cannot_delete_default_address => 'cannot delete the main address. set another address as main first';
+
+	/// en: 'invalid phone number format (08xxx atau +62xxx)'
+	String get invalid_phone_number_format => 'invalid phone number format (08xxx atau +62xxx)';
+
+	/// en: '5-15 character'
+	String get k5To15Character => '5-15 character';
+
+	/// en: 'number_only'
+	String get number_only => 'number_only';
 }
 
 // Path: account.index
@@ -593,6 +641,12 @@ class TranslationsAccountOptionsEn {
 	/// en: 'language'
 	String get language => 'language';
 
+	/// en: 'english'
+	String get english_language => 'english';
+
+	/// en: 'bahasa indonesia'
+	String get indonesia_language => 'bahasa indonesia';
+
 	/// en: 'other settings'
 	String get other_settings => 'other settings';
 
@@ -674,8 +728,14 @@ class TranslationsAccountCreateShopEn {
 	/// en: 'this address will be used by the courier to pick up the order'
 	String get this_address_will_be_used_by_the_courier_to_pick_up_the_order => 'this address will be used by the courier to pick up the order';
 
-	/// en: 'make sure the store data and pickup address are correct'
-	String get make_sure_the_store_data_and_pickup_address_are_correct => 'make sure the store data and pickup address are correct';
+	/// en: 'make sure the shop data and pickup address are correct'
+	String get make_sure_the_shop_data_and_pickup_address_are_correct => 'make sure the shop data and pickup address are correct';
+
+	/// en: 'successfully saved shop data'
+	String get successfully_saved_shop_data => 'successfully saved shop data';
+
+	/// en: 'failed to save shop data'
+	String get failed_to_save_shop_data => 'failed to save shop data';
 }
 
 // Path: auth.onboarding
@@ -1150,8 +1210,8 @@ class TranslationsSellerHomeEn {
 	/// en: 'cashier'
 	String get cashier => 'cashier';
 
-	/// en: 'sign out'
-	String get sign_out => 'sign out';
+	/// en: 'to buyer mode'
+	String get to_buyer_mode => 'to buyer mode';
 }
 
 // Path: seller.manage_orders
@@ -1240,6 +1300,36 @@ class TranslationsSellerSettingsEn {
 	/// en: 'manage pickup address'
 	String get manage_pickup_address => 'manage pickup address';
 
+	/// en: 'manage shop profile'
+	String get manage_shop_profile => 'manage shop profile';
+
+	/// en: 'shop name'
+	String get shop_name => 'shop name';
+
+	/// en: 'store slug'
+	String get store_slug => 'store slug';
+
+	/// en: 'ex: meow-shop'
+	String get store_slug_hint => 'ex: meow-shop';
+
+	/// en: 'description'
+	String get description => 'description';
+
+	/// en: 'verified'
+	String get verified => 'verified';
+
+	/// en: 'not verified'
+	String get not_verified => 'not verified';
+
+	/// en: 'save shop profile'
+	String get save_shop_profile => 'save shop profile';
+
+	/// en: 'shop profile updated successfully'
+	String get successfully_saved_shop_profile => 'shop profile updated successfully';
+
+	/// en: 'failed to update shop profile'
+	String get failed_to_save_shop_profile => 'failed to update shop profile';
+
 	/// en: 'cannot reach your address'
 	String get cant_reach_your_address => 'cannot reach your address';
 }
@@ -1272,6 +1362,24 @@ class TranslationsErrorsCommonEn {
 
 	/// en: 'please try again'
 	String get please_try_again => 'please try again';
+
+	/// en: 'please fill in all data validly'
+	String get please_fill_in_all_data_validly => 'please fill in all data validly';
+
+	/// en: 'an error occured'
+	String get an_error_occured => 'an error occured';
+
+	/// en: 'while saving data'
+	String get while_saving_data => 'while saving data';
+
+	/// en: 'please check the data you have filled in'
+	String get please_check_the_data_you_have_filled_in => 'please check the data you have filled in';
+
+	/// en: '$number minimum charater'
+	String minimum_character({required Object number}) => '${number} minimum charater';
+
+	/// en: 'maximum $number characters'
+	String maximum_character({required Object number}) => 'maximum ${number} characters';
 }
 
 // Path: errors.auth
@@ -1443,6 +1551,10 @@ extension on Translations {
 			'common.address' => 'address',
 			'common.choose' => 'choose',
 			'common.loading_data' => 'loading data',
+			'common.loading_data_name' => ({required Object data}) => 'loading ${data}',
+			'common.seller_mode' => 'seller mode',
+			'common.buyer_mode' => 'buyer mode',
+			'common.make_sure_all_the_data_you_have_filled_in_is_correct' => 'make sure all the data you have filled in is correct',
 			'common.please_login_to_access_this_page' => 'please log in to access this page',
 			'common.please_login_as_a_seller_to_access_this_page' => 'please log in as a seller (Paw Shop) to access this page',
 			'address.index.my_addresses' => 'my addresses',
@@ -1454,6 +1566,7 @@ extension on Translations {
 			'address.index.shop_pickup' => 'shop pickup',
 			'address.form.address_title' => 'address label',
 			'address.form.address_title_hint' => 'e.g., home, office',
+			'address.form.seller_name' => 'seller name',
 			'address.form.recipient_name' => 'recipient name',
 			'address.form.recipient_name_hint' => 'enter recipient name',
 			'address.form.phone_number' => 'phone number',
@@ -1471,7 +1584,18 @@ extension on Translations {
 			'address.form.postal_code_hint' => 'enter postal code',
 			'address.form.save_address' => 'save address',
 			'address.form.delete_address' => 'delete address',
+			'address.form.add_address' => 'add address',
+			'address.form.change_address' => 'change address',
+			'address.form.change_shop_address' => 'change shop address',
 			'address.form.are_you_sure_you_want_to_delete_this_address' => 'are you sure you want to delete this address?',
+			'address.form.successfully_saved_address_data' => 'successfully saved address',
+			'address.form.successfully_deleted_address_data' => 'successfully deleted address',
+			'address.form.failed_to_save_address_data' => 'failed to save address data',
+			'address.form.failed_to_delete_address_data' => 'failed to delete address data',
+			'address.form.cannot_delete_default_address' => 'cannot delete the main address. set another address as main first',
+			'address.form.invalid_phone_number_format' => 'invalid phone number format (08xxx atau +62xxx)',
+			'address.form.k5To15Character' => '5-15 character',
+			'address.form.number_only' => 'number_only',
 			'account.index.account' => 'account',
 			'account.index.profile' => 'profile',
 			'account.index.options' => 'options',
@@ -1492,6 +1616,8 @@ extension on Translations {
 			'account.change_password.current_password' => 'current password',
 			'account.options.options' => 'options',
 			'account.options.language' => 'language',
+			'account.options.english_language' => 'english',
+			'account.options.indonesia_language' => 'bahasa indonesia',
 			'account.options.other_settings' => 'other settings',
 			'account.options.notifications' => 'notifications',
 			'account.options.dark_mode' => 'dark mode',
@@ -1516,7 +1642,9 @@ extension on Translations {
 			'account.create_shop.please_fill_pickup_address_date' => 'please fill pickup address data',
 			'account.create_shop.shop_pickup_address' => 'shop pickup address',
 			'account.create_shop.this_address_will_be_used_by_the_courier_to_pick_up_the_order' => 'this address will be used by the courier to pick up the order',
-			'account.create_shop.make_sure_the_store_data_and_pickup_address_are_correct' => 'make sure the store data and pickup address are correct',
+			'account.create_shop.make_sure_the_shop_data_and_pickup_address_are_correct' => 'make sure the shop data and pickup address are correct',
+			'account.create_shop.successfully_saved_shop_data' => 'successfully saved shop data',
+			'account.create_shop.failed_to_save_shop_data' => 'failed to save shop data',
 			'no_connection.connection_failed' => 'connection failed',
 			'no_connection.we_could_not_reach_the_server_please_try_again_later' => 'we couldn\'t reach the server. please try again later.',
 			'no_connection.try_again' => 'try again',
@@ -1664,7 +1792,7 @@ extension on Translations {
 			'seller.home.manage_products' => 'manage products',
 			'seller.home.manage_orders' => 'manage orders',
 			'seller.home.cashier' => 'cashier',
-			'seller.home.sign_out' => 'sign out',
+			'seller.home.to_buyer_mode' => 'to buyer mode',
 			'seller.manage_orders.title' => 'manage orders',
 			'seller.manage_orders.pending' => 'pending',
 			'seller.manage_orders.delivered' => 'delivered',
@@ -1685,6 +1813,16 @@ extension on Translations {
 			'seller.settings.notifications' => 'notifications',
 			'seller.settings.pickup_address' => 'pickup address',
 			'seller.settings.manage_pickup_address' => 'manage pickup address',
+			'seller.settings.manage_shop_profile' => 'manage shop profile',
+			'seller.settings.shop_name' => 'shop name',
+			'seller.settings.store_slug' => 'store slug',
+			'seller.settings.store_slug_hint' => 'ex: meow-shop',
+			'seller.settings.description' => 'description',
+			'seller.settings.verified' => 'verified',
+			'seller.settings.not_verified' => 'not verified',
+			'seller.settings.save_shop_profile' => 'save shop profile',
+			'seller.settings.successfully_saved_shop_profile' => 'shop profile updated successfully',
+			'seller.settings.failed_to_save_shop_profile' => 'failed to update shop profile',
 			'seller.settings.cant_reach_your_address' => 'cannot reach your address',
 			'navigation.home' => 'home',
 			'navigation.cart' => 'cart',
@@ -1697,6 +1835,12 @@ extension on Translations {
 			'errors.common.required_fields' => 'required fields',
 			'errors.common.failed_to_load_data' => ({required Object dataName}) => 'failed to load ${dataName} data',
 			'errors.common.please_try_again' => 'please try again',
+			'errors.common.please_fill_in_all_data_validly' => 'please fill in all data validly',
+			'errors.common.an_error_occured' => 'an error occured',
+			'errors.common.while_saving_data' => 'while saving data',
+			'errors.common.please_check_the_data_you_have_filled_in' => 'please check the data you have filled in',
+			'errors.common.minimum_character' => ({required Object number}) => '${number} minimum charater',
+			'errors.common.maximum_character' => ({required Object number}) => 'maximum ${number} characters',
 			'errors.auth.this_email_is_already_registered_please_use_another_email' => 'this email is already registered. please use another email.',
 			'errors.auth.connection_problem_check_your_internet' => 'connection problem. check your internet.',
 			'errors.auth.failed_to_register_make_sure_the_data_is_correct_or_try_again_later' => 'failed to register. make sure the data is correct or try again later.',

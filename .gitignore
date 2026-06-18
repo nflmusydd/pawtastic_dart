@@ -49,6 +49,7 @@ app.*.map.json
 /.env.old*
 /.env.copy*
 supabase/functions/.env*
+supabase/data_backup/
 
 # temporary solution
 /images/

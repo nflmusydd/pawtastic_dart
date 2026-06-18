@@ -14,9 +14,9 @@ serve(async (req) => {
   }
 
   try {
-    const apiKey = Deno.env.get('RAJAONGKIR_API_KEY')
+    const apiKey = Deno.env.get('RAJAONGKIR_SHIPPING_API_KEY')
     if (!apiKey) {
-      throw new Error("RAJAONGKIR_API_KEY not found")
+      throw new Error("RAJAONGKIR_SHIPPING_API_KEY not found")
     }
 
     const body = await req.json()
